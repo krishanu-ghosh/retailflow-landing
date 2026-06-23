@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RetailFlow — Complete Retail Management Platform for India</title>
+  <meta name="description" content="RetailFlow is the complete operating system for Indian retail shops. POS billing, inventory, GST compliance, accounting, and analytics — all in one platform.">
+  <meta property="og:title" content="RetailFlow — Complete Retail Management Platform">
+  <meta property="og:description" content="POS billing, inventory, GST compliance, accounting, and analytics — all in one platform.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ──────────────────────────────────────────── */
+    :root {
+      --ground:     #0D0B1E;
+      --surface:    #171430;
+      --surface-2:  #1F1C3D;
+      --border:     #2B2750;
+      --text:       #EEE9FF;
+      --muted:      #9692C0;
+      --accent:     #F5A523;
+      --accent-dim: rgba(245,165,35,0.10);
+      --brand:      #7C6FFF;
+      --brand-dim:  rgba(124,111,255,0.12);
+      --green:      #4ADE80;
+      --green-dim:  rgba(74,222,128,0.10);
+      --red:        #F87171;
+      --mono:       'JetBrains Mono', monospace;
+      --body:       'Inter', system-ui, sans-serif;
+      --r:          10px;
+    }
+
+    /* ── RESET ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ground);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── LAYOUT ──────────────────────────────────────────── */
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 96px 0; }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,11,30,0.80);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.25s;
+    }
+    .nav.scrolled { border-bottom-color: var(--border); }
+    .nav-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; height: 58px;
+    }
+    .nav-logo {
+      font-family: var(--mono); font-weight: 800; font-size: 17px;
+      letter-spacing: -0.5px;
+    }
+    .nav-logo b { color: var(--brand); font-weight: 800; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--muted);
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links .nav-gh {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--brand); color: #fff;
+      font-size: 13px; font-weight: 600;
+      padding: 7px 16px; border-radius: 7px;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .nav-links .nav-gh:hover { opacity: 0.88; transform: translateY(-1px); }
+    @media (max-width: 860px) { .nav-links { display: none; } }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    .hero {
+      position: relative; padding: 108px 0 88px;
+      overflow: hidden;
+    }
+    /* barcode-stripe texture — vertical thin lines */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        repeating-linear-gradient(90deg,
+          transparent 0px, transparent 3px,
+          rgba(124,111,255,0.035) 3px, rgba(124,111,255,0.035) 4px,
+          transparent 4px, transparent 8px,
+          rgba(124,111,255,0.025) 8px, rgba(124,111,255,0.025) 10px,
+          transparent 10px, transparent 16px,
+          rgba(124,111,255,0.04) 16px, rgba(124,111,255,0.04) 17px,
+          transparent 17px, transparent 24px,
+          rgba(124,111,255,0.03) 24px, rgba(124,111,255,0.03) 26px,
+          transparent 26px, transparent 34px,
+          rgba(124,111,255,0.02) 34px, rgba(124,111,255,0.02) 35px,
+          transparent 35px, transparent 44px
+        );
+    }
+    /* bottom glow */
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; height: 500px;
+      background: radial-gradient(ellipse at center, rgba(124,111,255,0.15) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-family: var(--mono); font-size: 11px; font-weight: 400;
+      color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase;
+      margin-bottom: 30px;
+      opacity: 0; animation: up 0.5s 0.05s ease-out forwards;
+    }
+    .hero-hl {
+      font-family: var(--mono); font-weight: 800;
+      font-size: clamp(52px, 9.5vw, 100px);
+      line-height: 1.0; letter-spacing: -0.035em;
+      margin-bottom: 30px;
+    }
+    .hero-hl .ln {
+      display: block;
+      opacity: 0; transform: translateY(18px);
+    }
+    .hero-hl .ln:nth-child(1) { animation: up 0.45s 0.15s ease-out forwards; }
+    .hero-hl .ln:nth-child(2) { animation: up 0.45s 0.28s ease-out forwards; }
+    .hero-hl .ln:nth-child(3) { animation: up 0.45s 0.42s ease-out forwards; }
+    .hero-hl .kw { color: var(--accent); }
+    .hero-hl .cursor {
+      display: inline-block;
+      width: 0.52em; height: 0.82em;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      margin-left: 3px;
+      opacity: 0;
+      animation: blink 1s 0.9s step-end infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 1; } 50% { opacity: 0; }
+    }
+    .hero-sub {
+      max-width: 500px; color: var(--muted);
+      font-size: 18px; line-height: 1.68; margin-bottom: 40px;
+      opacity: 0; animation: up 0.45s 0.58s ease-out forwards;
+    }
+    .hero-sub strong { color: var(--text); font-weight: 600; }
+    .hero-actions {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      margin-bottom: 64px;
+      opacity: 0; animation: up 0.45s 0.72s ease-out forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 15px; font-weight: 600; border-radius: var(--r);
+      padding: 13px 26px; transition: opacity 0.15s, transform 0.15s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn--primary { background: var(--brand); color: #fff; }
+    .btn--primary:hover { opacity: 0.88; }
+    .btn--ghost {
+      background: transparent; color: var(--muted);
+      padding: 13px 0; font-weight: 500; border-radius: 0;
+      transition: color 0.15s;
+    }
+    .btn--ghost:hover { color: var(--text); transform: none; }
+
+    /* stat cards */
+    .stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+      opacity: 0; animation: up 0.45s 0.9s ease-out forwards;
+    }
+    .stat {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 18px 22px;
+    }
+    .stat-num {
+      font-family: var(--mono); font-size: 28px; font-weight: 700;
+      line-height: 1.1; margin-bottom: 4px;
+    }
+    .stat-num .cur { color: var(--accent); }
+    .stat-lbl { font-size: 13px; color: var(--muted); }
+    .stat-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      margin-top: 8px; font-size: 11px; font-family: var(--mono);
+      color: var(--green);
+      background: var(--green-dim); border: 1px solid rgba(74,222,128,0.2);
+      border-radius: 4px; padding: 2px 7px;
+    }
+    .stat-note {
+      margin-top: 14px; font-size: 12px; color: #4D4880;
+      font-family: var(--mono);
+      opacity: 0; animation: up 0.3s 1.4s ease-out forwards;
+    }
+
+    @keyframes up {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── DIVIDER ─────────────────────────────────────────── */
+    hr { border: none; border-top: 1px solid var(--border); }
+
+    /* ── SECTION HEADER ──────────────────────────────────── */
+    .eyebrow {
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.17em; text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .sh { font-size: clamp(30px, 5vw, 46px); font-weight: 700; line-height: 1.14; letter-spacing: -0.025em; margin-bottom: 14px; }
+    .sh em { font-style: normal; color: var(--brand); }
+    .sd { font-size: 17px; color: var(--muted); max-width: 540px; line-height: 1.68; }
+    .hdr { margin-bottom: 52px; }
+    .hdr--c { text-align: center; }
+    .hdr--c .sd { margin: 0 auto; }
+
+    /* ── FEATURES GRID ───────────────────────────────────── */
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+    .fcard {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 26px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .fcard:hover { border-color: var(--brand); background: var(--surface-2); }
+    .fcard:focus-within { outline: 2px solid var(--brand); outline-offset: 2px; }
+    .fcard-icon {
+      width: 42px; height: 42px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 18px;
+    }
+    .ic-brand { background: var(--brand-dim); }
+    .ic-accent { background: var(--accent-dim); }
+    .ic-green { background: var(--green-dim); }
+    .fcard h3 { font-size: 16px; font-weight: 700; margin-bottom: 9px; letter-spacing: -0.01em; }
+    .fcard p { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .tag {
+      font-family: var(--mono); font-size: 10.5px; color: var(--muted);
+      background: var(--ground); border: 1px solid var(--border);
+      border-radius: 4px; padding: 2px 7px;
+    }
+
+    /* ── FEATURE DETAIL ROWS ─────────────────────────────── */
+    .fd {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: center;
+    }
+    .fd--r { direction: rtl; }
+    .fd--r > * { direction: ltr; }
+    .fd .sh { font-size: clamp(26px, 4vw, 38px); }
+    .fd p { color: var(--muted); line-height: 1.72; margin-bottom: 26px; font-size: 15px; }
+    .checks { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .checks li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 14px; color: var(--text);
+    }
+    .checks li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 18px; height: 18px; margin-top: 2px;
+      border-radius: 50%;
+      background: var(--green-dim) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 5l2.5 2.5L8 3' stroke='%234ADE80' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center;
+      border: 1px solid rgba(74,222,128,0.25);
+    }
+
+    /* ── SCREEN MOCKS ────────────────────────────────────── */
+    .mock {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 28px 72px rgba(0,0,0,0.55), 0 0 0 1px rgba(124,111,255,0.07);
+    }
+    .mock-bar {
+      background: var(--surface-2); padding: 10px 14px;
+      display: flex; align-items: center; gap: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mock-body { padding: 18px 20px; }
+    .mock-label {
+      font-family: var(--mono); font-size: 10px; font-weight: 700;
+      color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    /* POS mock */
+    .pos-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 8px 0; border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .pos-row:last-of-type { border: none; }
+    .pos-row strong { font-weight: 600; }
+    .pos-row .dim { color: var(--muted); font-size: 12px; }
+    .pos-total {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding-top: 12px; font-family: var(--mono); font-weight: 700; font-size: 15px;
+    }
+    .pos-total .amt { color: var(--accent); }
+    .pmethods { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+    .pm {
+      font-family: var(--mono); font-size: 11px;
+      padding: 3px 10px; border-radius: 5px;
+      border: 1px solid var(--border); color: var(--muted);
+    }
+    .pm--on {
+      border-color: var(--brand); color: var(--brand);
+      background: var(--brand-dim);
+    }
+    .paid-row {
+      margin-top: 12px; display: flex;
+      align-items: center; justify-content: space-between;
+    }
+    .paid-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-family: var(--mono); font-size: 11px;
+      color: var(--green); background: var(--green-dim);
+      border: 1px solid rgba(74,222,128,0.25); border-radius: 4px;
+      padding: 3px 9px;
+    }
+
+    /* ── PHONE MOCK ──────────────────────────────────────── */
+    .phone-wrap {
+      display: flex; justify-content: center; align-items: flex-start;
+    }
+    .phone {
+      width: 260px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 36px; padding: 16px 12px 20px;
+      box-shadow: 0 28px 72px rgba(0,0,0,0.55), 0 0 0 1px rgba(124,111,255,0.07);
+    }
+    .phone::before {
+      content: ''; display: block;
+      width: 56px; height: 5px;
+      background: var(--border); border-radius: 3px;
+      margin: 0 auto 14px;
+    }
+    .phone-screen {
+      background: var(--ground); border-radius: 22px; overflow: hidden;
+    }
+    .phone-hd {
+      background: var(--surface-2); padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .phone-hd-label {
+      font-family: var(--mono); font-size: 10px; font-weight: 700;
+      color: var(--brand); letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .phone-body { padding: 14px 14px 16px; }
+    .phone-product { font-weight: 700; font-size: 15px; color: var(--text); margin-bottom: 2px; }
+    .phone-sku { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 12px; }
+    .phone-divider { height: 1px; background: var(--border); margin-bottom: 12px; }
+    .scan-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 12px; padding: 5px 0; border-bottom: 1px solid rgba(43,39,80,0.6);
+    }
+    .scan-row:last-of-type { border: none; }
+    .scan-row span:first-child { color: var(--muted); }
+    .scan-row span:last-child { font-weight: 600; color: var(--text); }
+    .scan-stock { color: var(--green) !important; }
+    .phone-alert {
+      margin-top: 12px; padding: 8px 10px; border-radius: 8px;
+      background: rgba(245,165,35,0.10); border: 1px solid rgba(245,165,35,0.25);
+      font-size: 11px; color: var(--accent);
+    }
+
+    /* inventory mock */
+    .inv-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+    }
+    .inv-row:last-of-type { border: none; }
+    .sbadge {
+      font-family: var(--mono); font-size: 10.5px;
+      padding: 2px 8px; border-radius: 4px;
+    }
+    .sb-ok { color: var(--green); background: var(--green-dim); border: 1px solid rgba(74,222,128,0.22); }
+    .sb-low { color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(245,165,35,0.25); }
+    .sb-crit { color: var(--red); background: rgba(248,113,113,0.10); border: 1px solid rgba(248,113,113,0.22); }
+    .inv-summary {
+      display: flex; gap: 14px; margin-top: 12px;
+      font-family: var(--mono); font-size: 11.5px;
+    }
+
+    /* dashboard/reports mock */
+    .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .dc {
+      background: var(--ground); border: 1px solid var(--border);
+      border-radius: 8px; padding: 13px 15px;
+    }
+    .dc-lbl { font-size: 11px; color: var(--muted); margin-bottom: 5px; }
+    .dc-val {
+      font-family: var(--mono); font-size: 21px; font-weight: 700;
+    }
+    .dc-val--a { color: var(--accent); }
+    .dc-val--b { color: var(--brand); }
+    .dc-val--g { color: var(--green); }
+    .dc-chg { font-size: 11px; color: var(--green); margin-top: 3px; }
+    .mini-chart {
+      margin-top: 12px; background: var(--ground); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+    }
+    .bars {
+      display: flex; align-items: flex-end; gap: 5px; height: 56px; margin-top: 8px;
+    }
+    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .bar-fill { width: 100%; border-radius: 3px 3px 0 0; }
+    .bar-lbl { font-size: 9px; color: var(--muted); font-family: var(--mono); }
+
+    /* command block */
+    .cmd {
+      background: #08071A; border: 1px solid var(--border);
+      border-radius: var(--r); padding: 26px 28px;
+      font-family: var(--mono); font-size: 13.5px; line-height: 1.95;
+    }
+    .c-comment { color: #3A3660; }
+    .c-prompt { color: var(--muted); }
+    .c-cmd { color: var(--accent); }
+    .c-flag { color: var(--brand); }
+    .c-ok { color: var(--green); }
+    .c-dim { color: var(--muted); }
+    .built-with {
+      margin-top: 14px; padding: 14px 18px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r);
+    }
+    .bw-lbl { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 9px; }
+
+    /* ── ROLES ───────────────────────────────────────────── */
+    .roles-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+    .rcard {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 26px;
+    }
+    .rtitle {
+      font-family: var(--mono); font-size: 12px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px;
+    }
+    .rt-o { color: var(--accent); }
+    .rt-m { color: var(--brand); }
+    .rt-c { color: var(--green); }
+    .rdesc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 18px; }
+    .perms { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .perms li {
+      font-family: var(--mono); font-size: 11.5px;
+      padding: 4px 0; border-bottom: 1px solid var(--border); color: var(--muted);
+    }
+    .perms li:last-child { border: none; }
+    .perms li.y { color: var(--text); }
+    .ck { color: var(--green); margin-right: 5px; }
+    .cx { color: #3A3660; margin-right: 5px; }
+
+    /* ── BADGES ──────────────────────────────────────────── */
+    .badge-stack { display: flex; flex-direction: column; gap: 9px; margin-top: 26px; }
+    .badge {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--muted);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 7px; padding: 9px 14px;
+    }
+    .badge .ico { font-size: 16px; }
+
+    /* ── CTA ─────────────────────────────────────────────── */
+    .cta-wrap {
+      padding: 112px 0; text-align: center; position: relative;
+    }
+    .cta-wrap::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 640px; height: 420px; pointer-events: none;
+      background: radial-gradient(ellipse, rgba(245,165,35,0.07) 0%, transparent 68%);
+    }
+    .cta-actions {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; flex-wrap: wrap; margin-top: 38px;
+    }
+    .cta-note { margin-top: 18px; font-size: 12.5px; color: #4D4880; font-family: var(--mono); }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    .footer { border-top: 1px solid var(--border); padding: 38px 0; }
+    .footer-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { font-family: var(--mono); font-weight: 800; font-size: 15px; }
+    .footer-logo b { color: var(--brand); }
+    .footer-copy { font-size: 13px; color: var(--muted); }
+    .footer-links { display: flex; gap: 22px; list-style: none; }
+    .footer-links a { font-size: 13px; color: var(--muted); transition: color 0.15s; }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── REVEAL ──────────────────────────────────────────── */
+    .rev {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+    }
+    .rev.on { opacity: 1; transform: translateY(0); }
+    .rev-d1 { transition-delay: 0.08s; }
+    .rev-d2 { transition-delay: 0.16s; }
+    .rev-d3 { transition-delay: 0.24s; }
+    .rev-d4 { transition-delay: 0.32s; }
+    .rev-d5 { transition-delay: 0.40s; }
+    .rev-d6 { transition-delay: 0.48s; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .grid-3 { grid-template-columns: repeat(2,1fr); }
+      .fd { grid-template-columns: 1fr; gap: 40px; }
+      .fd--r { direction: ltr; }
+      .roles-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .dash-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .grid-3 { grid-template-columns: 1fr; }
+      .section { padding: 64px 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Retail<b>Flow</b></a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#scan">Scan</a></li>
+        <li><a href="#pos">POS</a></li>
+        <li><a href="#inventory">Inventory</a></li>
+        <li><a href="#reports">Reports</a></li>
+        <li>
+          <a href="https://retailflow-c4hr.onrender.com/" class="nav-gh" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open App
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ HERO ══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="wrap">
+    <p class="hero-eyebrow">// retail operating system</p>
+    <h1 class="hero-hl" aria-label="Every sale. Every stock. Every rupee.">
+      <span class="ln">EVERY_<span class="kw">SALE.</span></span>
+      <span class="ln">EVERY_<span class="kw">STOCK.</span></span>
+      <span class="ln">EVERY_<span class="kw">RUPEE.</span><span class="cursor" aria-hidden="true"></span></span>
+    </h1>
+    <p class="hero-sub">
+      RetailFlow is the complete operating system for your shop.
+      <strong>POS billing, inventory, GST compliance, accounting, and analytics</strong> —
+      one app, built for Indian retail.
+    </p>
+    <div class="hero-actions">
+      <a href="https://retailflow-c4hr.onrender.com/" class="btn btn--primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        RetailFlow Web
+      </a>
+      <span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--text);background:var(--surface-2);border:1px solid var(--border);padding:6px 14px;border-radius:999px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="opacity:.85;flex-shrink:0"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke="#0D0B1E" stroke-width="2"/></svg>
+        Android — coming soon
+      </span>
+      <a href="#features" class="btn btn--ghost">See all features ↓</a>
+    </div>
+
+    <div class="stats" id="stats-ticker">
+      <div class="stat">
+        <div class="stat-num"><span class="cur">₹</span><span id="s-rev">0</span></div>
+        <div class="stat-lbl">Revenue tracked today</div>
+        <div class="stat-pill">↑ live &amp; GST-accurate</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span id="s-sales">0</span></div>
+        <div class="stat-lbl">Sales billed this month</div>
+        <div class="stat-pill">↑ multi-method payment</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span id="s-sku">0</span></div>
+        <div class="stat-lbl">SKUs tracked in real time</div>
+        <div class="stat-pill">↑ barcode + camera scan</div>
+      </div>
+    </div>
+    <p class="stat-note">// example data — your actual numbers, live</p>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══ FEATURES GRID ═════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="hdr hdr--c">
+      <p class="eyebrow rev"">// what's inside</p>
+      <h2 class="sh rev rev-d1">Everything a retail shop needs.<br><em>Nothing it doesn't.</em></h2>
+      <p class="sd rev rev-d2">Ten modules, one login. Built for shops that sell real things to real people.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="fcard rev rev-d1">
+        <div class="fcard-icon ic-brand" aria-hidden="true">🧾</div>
+        <h3>POS &amp; Billing</h3>
+        <p>Scan barcodes, build the cart, apply discounts, and hand the customer a GST invoice — in under 30 seconds. Keyboard-first: F1 to search, F4 to checkout.</p>
+        <div class="tags">
+          <span class="tag">barcode scan</span>
+          <span class="tag">multi-payment</span>
+          <span class="tag">warranty</span>
+          <span class="tag">GST invoice</span>
+        </div>
+      </div>
+
+      <div class="fcard rev rev-d2">
+        <div class="fcard-icon ic-accent" aria-hidden="true">📦</div>
+        <h3>Smart Inventory</h3>
+        <p>Real-time stock levels that update with every sale and purchase. Automated low-stock alerts, reorder suggestions, dead stock reports, and ABC analysis.</p>
+        <div class="tags">
+          <span class="tag">reorder alerts</span>
+          <span class="tag">ABC analysis</span>
+          <span class="tag">stock audit</span>
+        </div>
+      </div>
+
+      <div class="fcard rev rev-d3">
+        <div class="fcard-icon ic-green" aria-hidden="true">📊</div>
+        <h3>Analytics &amp; Reports</h3>
+        <p>Revenue trends across 30, 90, or 365 days. Category performance, top products, customer rankings, full P&amp;L, and inventory health — all built in.</p>
+        <div class="tags">
+          <span class="tag">revenue charts</span>
+          <span class="tag">P&amp;L</span>
+          <span class="tag">CSV export</span>
+        </div>
+      </div>
+
+      <div class="fcard rev rev-d1">
+        <div class="fcard-icon ic-brand" aria-hidden="true">👥</div>
+        <h3>Customers &amp; Credit</h3>
+        <p>Track every customer's purchase history, outstanding balance, and credit limit. Issue ledger statements. See who owes what — without chasing spreadsheets.</p>
+        <div class="tags">
+          <span class="tag">credit sales</span>
+          <span class="tag">ledger</span>
+          <span class="tag">statements</span>
+        </div>
+      </div>
+
+      <div class="fcard rev rev-d2">
+        <div class="fcard-icon ic-accent" aria-hidden="true">🧮</div>
+        <h3>GST Compliance</h3>
+        <p>Per-product GST rates, inclusive (MRP) and exclusive pricing, and tax-correct invoices — ready for filing without a single export to Excel.</p>
+        <div class="tags">
+          <span class="tag">GST rates</span>
+          <span class="tag">MRP pricing</span>
+          <span class="tag">tax invoices</span>
+        </div>
+      </div>
+
+      <div class="fcard rev rev-d3">
+        <div class="fcard-icon ic-green" aria-hidden="true">🔒</div>
+        <h3>Role-Based Access</h3>
+        <p>Owner, Manager, and Cashier roles with 26 granular permissions. Each staff member sees exactly what they need — nothing more, nothing less.</p>
+        <div class="tags">
+          <span class="tag">26 permissions</span>
+          <span class="tag">3 built-in roles</span>
+          <span class="tag">multi-user</span>
+        </div>
+      </div>
+
+      <div class="fcard rev rev-d1">
+        <div class="fcard-icon ic-brand" aria-hidden="true">🏪</div>
+        <h3>Suppliers &amp; Purchases</h3>
+        <p>Manage supplier contacts, raise purchase orders, and track payables. Your outstanding balance with every supplier is always current — no manual reconciliation.</p>
+        <div class="tags">
+          <span class="tag">purchase orders</span>
+          <span class="tag">payables</span>
+          <span class="tag">supplier ledger</span>
+        </div>
+      </div>
+
+      <div class="fcard rev rev-d2">
+        <div class="fcard-icon ic-accent" aria-hidden="true">💰</div>
+        <h3>Cashbook &amp; Accounting</h3>
+        <p>Daily cash position, opening and closing balances, receivables and payables at a glance. Track expenses by category and see the true cost of running your shop.</p>
+        <div class="tags">
+          <span class="tag">cash flow</span>
+          <span class="tag">expenses</span>
+          <span class="tag">daily close</span>
+        </div>
+      </div>
+
+      <div class="fcard rev rev-d3">
+        <div class="fcard-icon ic-green" aria-hidden="true">📱</div>
+        <h3>Scan Anywhere</h3>
+        <p>Point your phone camera at any barcode — at the shelf, in the warehouse, or at the counter — and instantly see stock levels, price, and product details. No PC needed.</p>
+        <div class="tags">
+          <span class="tag">phone camera</span>
+          <span class="tag">instant lookup</span>
+          <span class="tag">warehouse-ready</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══ FEATURE: SCAN ANYWHERE ════════════════════════════ -->
+<section class="section" id="scan">
+  <div class="wrap">
+    <div class="fd rev">
+      <div>
+        <p class="eyebrow">// scan anywhere</p>
+        <h2 class="sh">Your phone knows<br><em>every product in your shop.</em></h2>
+        <p>You're walking through the warehouse and spot a product. You want to know how many are left, what it sells for, whether you're running low. Just open RetailFlow on your phone and scan the barcode. The answer is right there — no walking back to the office, no waiting until you're near the register.</p>
+        <ul class="checks">
+          <li>Works on any Android or iOS phone — no app install, just your browser</li>
+          <li>Camera scanner supports EAN-13, EAN-8, UPC-A, Code128, and more</li>
+          <li>Shows stock level, price, MRP, category, and supplier in one view</li>
+          <li>Reorder warnings surface instantly if you're below minimum stock</li>
+          <li>Same scan works at billing — add to cart directly from the result</li>
+          <li>Connects over your shop's WiFi — any device on the same network</li>
+        </ul>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-hd">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brand)"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span class="phone-hd-label">Product Lookup</span>
+            </div>
+            <div class="phone-body">
+              <div class="phone-product">Bosch Drill 500W</div>
+              <div class="phone-sku">SKU: BOS-D500W &nbsp;·&nbsp; EAN: 4054596123</div>
+              <div class="phone-divider"></div>
+              <div class="scan-row">
+                <span>In Stock</span>
+                <span class="scan-stock">28 units</span>
+              </div>
+              <div class="scan-row">
+                <span>MRP</span>
+                <span>₹5,200</span>
+              </div>
+              <div class="scan-row">
+                <span>Selling Price</span>
+                <span>₹4,299</span>
+              </div>
+              <div class="scan-row">
+                <span>Category</span>
+                <span>Power Tools</span>
+              </div>
+              <div class="scan-row">
+                <span>Supplier</span>
+                <span>Bosch India</span>
+              </div>
+              <div class="phone-alert">
+                ⚠ Below reorder threshold — min stock: 30
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══ FEATURE: POS ══════════════════════════════════════ -->
+<section class="section" id="pos">
+  <div class="wrap">
+    <div class="fd rev">
+      <div>
+        <p class="eyebrow">// point of sale</p>
+        <h2 class="sh">Close a sale in<br><em>under 30 seconds.</em></h2>
+        <p>Open the billing screen, scan or search products, and hand the customer their receipt. Keyboard-first — F1 to search, F4 to checkout. Camera and USB barcode scanners work out of the box on any device.</p>
+        <ul class="checks">
+          <li>Camera and USB barcode scanner — 10 formats including EAN, UPC, Code128</li>
+          <li>Cash, UPI, card, and bank transfer — split across payment methods</li>
+          <li>Discounts in rupees or percentage, per order</li>
+          <li>Warranty months recorded and printed on the customer invoice</li>
+          <li>Credit sales with per-customer outstanding balance</li>
+          <li>GST-compliant invoice — printable on any printer</li>
+          <li>Void and refund with full audit trail</li>
+        </ul>
+      </div>
+      <div>
+        <div class="mock">
+          <div class="mock-bar">
+            <div class="dot" style="background:#F87171"></div>
+            <div class="dot" style="background:#FACC15"></div>
+            <div class="dot" style="background:#4ADE80"></div>
+          </div>
+          <div class="mock-body">
+            <div class="mock-label">Cart — Invoice #INV-2847</div>
+            <div class="pos-row">
+              <strong>Bosch Drill 500W</strong>
+              <span class="dim">×1 &nbsp; ₹4,299</span>
+            </div>
+            <div class="pos-row">
+              <strong>Makita Blade Set (5pc)</strong>
+              <span class="dim">×2 &nbsp; ₹890</span>
+            </div>
+            <div class="pos-row">
+              <strong>Safety Gloves L</strong>
+              <span class="dim">×3 &nbsp; ₹450</span>
+            </div>
+            <div class="pos-row">
+              <span class="dim">GST (18%)</span>
+              <span class="dim">₹997</span>
+            </div>
+            <div class="pos-row">
+              <span class="dim">Discount</span>
+              <span style="color:var(--green); font-size:12px;">–₹200</span>
+            </div>
+            <div class="pos-total">
+              <span>TOTAL</span>
+              <span class="amt">₹7,326</span>
+            </div>
+            <div class="pmethods">
+              <span class="pm pm--on">CASH</span>
+              <span class="pm">UPI</span>
+              <span class="pm">CARD</span>
+              <span class="pm">BANK</span>
+            </div>
+            <div class="paid-row">
+              <span class="paid-badge">✓ PAID</span>
+              <span style="font-family:var(--mono);font-size:12px;color:var(--muted);">Change: ₹174</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══ FEATURE: INVENTORY ════════════════════════════════ -->
+<section class="section" id="inventory">
+  <div class="wrap">
+    <div class="fd fd--r rev">
+      <div>
+        <p class="eyebrow">// inventory</p>
+        <h2 class="sh">Know what you have —<br><em>and what you're about to run out of.</em></h2>
+        <p>RetailFlow tracks stock in real time across every sale and purchase. When levels dip below your minimum, it shows up instantly. Configure lead times and safety stock thresholds, and let the system tell you what to order before the shelf empties.</p>
+        <ul class="checks">
+          <li>Real-time stock levels, updated on every sale and purchase receipt</li>
+          <li>Configurable minimum stock, lead time, and reorder quantity</li>
+          <li>Physical stock audit with discrepancy reconciliation</li>
+          <li>ABC analysis — identify your highest-value products</li>
+          <li>Dead stock report for slow-moving items eating shelf space</li>
+          <li>Product movement history and velocity trends</li>
+          <li>Inventory valuation report for accounting and tax</li>
+        </ul>
+      </div>
+      <div>
+        <div class="mock">
+          <div class="mock-bar">
+            <div class="dot" style="background:#F87171"></div>
+            <div class="dot" style="background:#FACC15"></div>
+            <div class="dot" style="background:#4ADE80"></div>
+          </div>
+          <div class="mock-body">
+            <div class="mock-label">Inventory Status · 55 products</div>
+            <div class="inv-row">
+              <span>Bosch Drill 500W</span>
+              <span class="sbadge sb-ok">12 units</span>
+            </div>
+            <div class="inv-row">
+              <span>Makita Blade Set</span>
+              <span class="sbadge sb-low">3 units ↓ reorder</span>
+            </div>
+            <div class="inv-row">
+              <span>AA Batteries 10-pk</span>
+              <span class="sbadge sb-crit">0 units — out</span>
+            </div>
+            <div class="inv-row">
+              <span>Safety Gloves L</span>
+              <span class="sbadge sb-ok">47 units</span>
+            </div>
+            <div class="inv-row">
+              <span>Extension Cord 5m</span>
+              <span class="sbadge sb-low">2 units ↓ reorder</span>
+            </div>
+            <div class="inv-summary">
+              <span style="color:var(--green)">✓ 38 OK</span>
+              <span style="color:var(--accent)">⚠ 14 low</span>
+              <span style="color:var(--red)">✕ 3 out</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══ FEATURE: REPORTS ══════════════════════════════════ -->
+<section class="section" id="reports">
+  <div class="wrap">
+    <div class="fd rev">
+      <div>
+        <p class="eyebrow">// analytics</p>
+        <h2 class="sh">Numbers that tell you<br><em>what to do next.</em></h2>
+        <p>Five report tabs cover everything from today's revenue to your full profit-and-loss. Revenue trends, category performance, top customers, dead stock — all built in, no third-party BI tool required.</p>
+        <ul class="checks">
+          <li>Revenue, orders, and average order value over 30, 90, or 365 days</li>
+          <li>Revenue and gross profit by category — bar chart, this month</li>
+          <li>Top customers by revenue and order count</li>
+          <li>Top products and supplier rankings</li>
+          <li>Full P&amp;L: revenue → COGS → gross profit → expenses → net profit</li>
+          <li>Inventory health: low stock, dead stock, ABC classification</li>
+          <li>Inventory valuation and CSV exports</li>
+        </ul>
+      </div>
+      <div>
+        <div class="mock">
+          <div class="mock-bar">
+            <div class="dot" style="background:#F87171"></div>
+            <div class="dot" style="background:#FACC15"></div>
+            <div class="dot" style="background:#4ADE80"></div>
+          </div>
+          <div class="mock-body">
+            <div class="dash-grid">
+              <div class="dc">
+                <div class="dc-lbl">Revenue · 30d</div>
+                <div class="dc-val dc-val--a">₹2.4L</div>
+                <div class="dc-chg">↑ 14% vs last month</div>
+              </div>
+              <div class="dc">
+                <div class="dc-lbl">Net Profit · 30d</div>
+                <div class="dc-val dc-val--g">₹38,450</div>
+                <div class="dc-chg">↑ 8% margin</div>
+              </div>
+              <div class="dc">
+                <div class="dc-lbl">Orders · 30d</div>
+                <div class="dc-val dc-val--b">847</div>
+                <div class="dc-chg">↑ 23 today</div>
+              </div>
+              <div class="dc">
+                <div class="dc-lbl">Avg Order Value</div>
+                <div class="dc-val">₹2,835</div>
+                <div class="dc-chg">→ stable</div>
+              </div>
+            </div>
+            <div class="mini-chart">
+              <div class="mock-label" style="margin-bottom:0">Revenue by category · this month</div>
+              <div class="bars">
+                <div class="bar-col">
+                  <div class="bar-fill" style="height:52px;background:var(--brand);opacity:0.75;"></div>
+                  <div class="bar-lbl">Tools</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height:36px;background:var(--green);opacity:0.65;"></div>
+                  <div class="bar-lbl">Safety</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height:26px;background:var(--brand);opacity:0.75;"></div>
+                  <div class="bar-lbl">Elect.</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height:42px;background:var(--green);opacity:0.65;"></div>
+                  <div class="bar-lbl">Fittings</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height:18px;background:var(--brand);opacity:0.75;"></div>
+                  <div class="bar-lbl">Other</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══ ROLES ═════════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="hdr">
+      <p class="eyebrow rev">// access control</p>
+      <h2 class="sh rev rev-d1">The right access for<br><em>every person in your shop.</em></h2>
+      <p class="sd rev rev-d2">26 granular permissions. Three built-in roles. Add your team and control exactly what each person can see and do — with no IT department required.</p>
+    </div>
+    <div class="roles-grid">
+      <div class="rcard rev rev-d1">
+        <div class="rtitle rt-o">OWNER</div>
+        <p class="rdesc">Full access to every module — reports, settings, user management, financial data, and all operations.</p>
+        <ul class="perms">
+          <li class="y"><span class="ck">✓</span>All sales &amp; billing</li>
+          <li class="y"><span class="ck">✓</span>Profit &amp; financial reports</li>
+          <li class="y"><span class="ck">✓</span>User management</li>
+          <li class="y"><span class="ck">✓</span>Settings &amp; configuration</li>
+          <li class="y"><span class="ck">✓</span>Refunds &amp; voids</li>
+          <li class="y"><span class="ck">✓</span>Purchases &amp; expenses</li>
+        </ul>
+      </div>
+      <div class="rcard rev rev-d2">
+        <div class="rtitle rt-m">MANAGER</div>
+        <p class="rdesc">Operational access for day-to-day management — inventory, purchasing, and sales reporting — without the owner-only controls.</p>
+        <ul class="perms">
+          <li class="y"><span class="ck">✓</span>All sales &amp; billing</li>
+          <li class="y"><span class="ck">✓</span>Inventory &amp; audits</li>
+          <li class="y"><span class="ck">✓</span>Purchases &amp; suppliers</li>
+          <li class="y"><span class="ck">✓</span>Sales &amp; inventory reports</li>
+          <li><span class="cx">–</span>User management</li>
+          <li><span class="cx">–</span>Profit reports</li>
+        </ul>
+      </div>
+      <div class="rcard rev rev-d3">
+        <div class="rtitle rt-c">CASHIER</div>
+        <p class="rdesc">Billing counter access only. Create sales, look up products and customers — nothing beyond what's needed to close a transaction.</p>
+        <ul class="perms">
+          <li class="y"><span class="ck">✓</span>Create &amp; view sales</li>
+          <li class="y"><span class="ck">✓</span>View products</li>
+          <li class="y"><span class="ck">✓</span>View customers</li>
+          <li><span class="cx">–</span>Reports</li>
+          <li><span class="cx">–</span>Inventory adjustments</li>
+          <li><span class="cx">–</span>Refunds &amp; voids</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══ CTA ═══════════════════════════════════════════════ -->
+<div class="cta-wrap">
+  <div class="wrap">
+    <p class="eyebrow rev">// get started</p>
+    <h2 class="sh rev rev-d1">Your shop deserves<br><em>better software.</em></h2>
+    <p class="sd rev rev-d2" style="margin:0 auto;">Get started with RetailFlow in minutes — no sales call, no lengthy trial, no credit card required.</p>
+    <div class="cta-actions rev rev-d3">
+      <a href="#features" class="btn btn--primary" style="font-size:16px;padding:15px 32px;">Explore features ↑</a>
+      <a href="#contact" class="btn btn--ghost" style="font-size:15px;">Get in touch</a>
+    </div>
+    <p class="cta-note rev rev-d4">No vendor lock-in &nbsp;·&nbsp; No telemetry &nbsp;·&nbsp; Built for Indian retail</p>
+  </div>
+</div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <a href="#" class="footer-logo">Retail<b>Flow</b></a>
+      <p class="footer-copy">Built for Indian retail.</p>
+      <ul class="footer-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pos">POS</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll border
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 8);
+  }, { passive: true });
+
+  // Counter animation — ease-out cubic
+  function countUp(el, target, duration) {
+    const start = performance.now();
+    const fmt = (n) => Math.floor(n).toLocaleString('en-IN');
+    (function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      el.textContent = fmt(ease * target);
+      if (t < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+
+  // Fire counters when stats enter view
+  const statsEl = document.getElementById('stats-ticker');
+  let counted = false;
+  new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !counted) {
+      counted = true;
+      countUp(document.getElementById('s-rev'),   84320, 1800);
+      countUp(document.getElementById('s-sales'),  1247,  1600);
+      countUp(document.getElementById('s-sku'),     892,  1400);
+    }
+  }, { threshold: 0.4 }).observe(statsEl);
+
+  // Scroll reveal
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' })
+    .observe && document.querySelectorAll('.rev').forEach(el =>
+      new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) entries[0].target.classList.add('on');
+      }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' }).observe(el)
+    );
+</script>
+</body>
+</html>
