@@ -206,6 +206,9 @@
     @keyframes up {
       to { opacity: 1; transform: translateY(0); }
     }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
     /* ── DIVIDER ─────────────────────────────────────────── */
     hr { border: none; border-top: 1px solid var(--border); }
@@ -545,6 +548,74 @@
     }
     .cta-note { margin-top: 18px; font-size: 12.5px; color: #4D4880; font-family: var(--mono); }
 
+    /* ── CONTACT ─────────────────────────────────────────── */
+    .contact-form {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 36px;
+      max-width: 620px; margin: 0 auto;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+    .form-group:last-of-type { margin-bottom: 0; }
+    .form-label {
+      font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    }
+    .form-input, .form-textarea {
+      background: var(--ground); border: 1px solid var(--border);
+      border-radius: 7px; padding: 11px 14px;
+      font-family: var(--body); font-size: 14px; color: var(--text);
+      outline: none; transition: border-color 0.18s, box-shadow 0.18s;
+      width: 100%;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: #3A3660; }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(124,111,255,0.14);
+    }
+    .form-textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+    .form-submit {
+      width: 100%; margin-top: 22px;
+      padding: 13px 24px; border: none; cursor: pointer;
+      background: var(--brand); color: #fff;
+      font-family: var(--body); font-size: 15px; font-weight: 600;
+      border-radius: var(--r); transition: opacity 0.15s, transform 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .form-submit:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+    .form-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .form-status {
+      margin-top: 14px; padding: 11px 14px; border-radius: 7px;
+      font-size: 13.5px; text-align: center; display: none;
+    }
+    .form-status--ok {
+      display: block; color: var(--green);
+      background: var(--green-dim); border: 1px solid rgba(74,222,128,0.25);
+    }
+    .form-status--err {
+      display: block; color: var(--red);
+      background: rgba(248,113,113,0.10); border: 1px solid rgba(248,113,113,0.22);
+    }
+    .contact-info {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; max-width: 620px; margin: 32px auto 0;
+    }
+    .cinfo-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 20px 22px;
+    }
+    .cinfo-icon { font-size: 20px; margin-bottom: 8px; }
+    .cinfo-lbl {
+      font-family: var(--mono); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 5px;
+    }
+    .cinfo-val { font-size: 13px; color: var(--text); line-height: 1.6; }
+    @media (max-width: 900px) {
+      .form-row { grid-template-columns: 1fr; }
+      .contact-info { grid-template-columns: 1fr; }
+    }
+
     /* ── FOOTER ──────────────────────────────────────────── */
     .footer { border-top: 1px solid var(--border); padding: 38px 0; }
     .footer-inner {
@@ -602,6 +673,7 @@
         <li><a href="#pos">POS</a></li>
         <li><a href="#inventory">Inventory</a></li>
         <li><a href="#reports">Reports</a></li>
+        <li><a href="#contact">Contact Us</a></li>
         <li>
           <a href="https://retailflow-c4hr.onrender.com/" class="nav-gh" target="_blank" rel="noopener">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -1281,6 +1353,63 @@
   </div>
 </div>
 
+<hr>
+
+<!-- ══ CONTACT ═══════════════════════════════════════════ -->
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="hdr hdr--c">
+      <p class="eyebrow rev">// get in touch</p>
+      <h2 class="sh rev rev-d1">Talk to us.<br><em>We'll get back to you fast.</em></h2>
+      <p class="sd rev rev-d2">Have a question about RetailFlow, want a demo, or need help getting set up? Drop us a message and we'll respond within one business day.</p>
+    </div>
+    <div class="contact-form rev rev-d3">
+      <form id="contact-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="cf-name">Name</label>
+            <input class="form-input" type="text" id="cf-name" name="name" placeholder="Your name" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-phone">Phone</label>
+            <input class="form-input" type="tel" id="cf-phone" name="phone" placeholder="+91 98765 43210" required autocomplete="tel">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cf-altphone">Alternate Phone <span style="font-weight:400;opacity:0.6;">(optional)</span></label>
+          <input class="form-input" type="tel" id="cf-altphone" name="altPhone" placeholder="+91 91234 56789" autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cf-message">Message</label>
+          <textarea class="form-textarea" id="cf-message" name="message" placeholder="Tell us about your business or what you'd like to know…" required></textarea>
+        </div>
+        <button class="form-submit" type="submit" id="cf-submit">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Send Message
+        </button>
+        <div class="form-status" id="cf-status"></div>
+      </form>
+    </div>
+    <div class="contact-info">
+      <div class="cinfo-item rev rev-d4">
+        <div class="cinfo-icon">📍</div>
+        <div class="cinfo-lbl">Where we are</div>
+        <div class="cinfo-val">India — serving retail businesses nationwide</div>
+      </div>
+      <div class="cinfo-item rev rev-d5">
+        <div class="cinfo-icon">⚡</div>
+        <div class="cinfo-lbl">Response time</div>
+        <div class="cinfo-val">Within 1 business day. Usually faster.</div>
+      </div>
+      <div class="cinfo-item rev rev-d6">
+        <div class="cinfo-icon">🔒</div>
+        <div class="cinfo-lbl">Your data</div>
+        <div class="cinfo-val">No spam, no third-party sharing.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ══ FOOTER ════════════════════════════════════════════ -->
 <footer class="footer">
   <div class="wrap">
@@ -1290,6 +1419,7 @@
       <ul class="footer-links">
         <li><a href="#features">Features</a></li>
         <li><a href="#pos">POS</a></li>
+        <li><a href="#contact">Contact Us</a></li>
       </ul>
     </div>
   </div>
@@ -1325,6 +1455,45 @@
       countUp(document.getElementById('s-sku'),     892,  1400);
     }
   }, { threshold: 0.4 }).observe(statsEl);
+
+  // Contact form submission
+  const contactForm = document.getElementById('contact-form');
+  const cfSubmit    = document.getElementById('cf-submit');
+  const cfStatus    = document.getElementById('cf-status');
+  const APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbxkP34rnMkmx9lzefeQh6ngo39kTa_C52g9dzQy0CEyHxdvsRVJB2islV07HJmnV8zs/exec';
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name     = document.getElementById('cf-name').value.trim();
+    const phone    = document.getElementById('cf-phone').value.trim();
+    const altPhone = document.getElementById('cf-altphone').value.trim();
+    const message  = document.getElementById('cf-message').value.trim();
+
+    if (!name || !phone || !message) {
+      cfStatus.className = 'form-status form-status--err';
+      cfStatus.textContent = 'Please fill in your name, phone, and message.';
+      return;
+    }
+
+    cfSubmit.disabled = true;
+    cfSubmit.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 0.9s linear infinite"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Sending…';
+    cfStatus.className = 'form-status';
+    cfStatus.textContent = '';
+
+    const body = new URLSearchParams({ Name: name, Phone: phone, AltPhone: altPhone, Message: message });
+    try {
+      await fetch(APPS_SCRIPT, { method: 'POST', mode: 'no-cors', body });
+      cfStatus.className = 'form-status form-status--ok';
+      cfStatus.textContent = '✓ Message sent! We\'ll get back to you within one business day.';
+      contactForm.reset();
+    } catch {
+      cfStatus.className = 'form-status form-status--err';
+      cfStatus.textContent = 'Something went wrong. Please try again or reach out directly.';
+    } finally {
+      cfSubmit.disabled = false;
+      cfSubmit.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
+    }
+  });
 
   // Scroll reveal
   new IntersectionObserver((entries) => {
