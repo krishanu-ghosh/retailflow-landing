@@ -469,6 +469,65 @@
     }
     .badge .ico { font-size: 16px; }
 
+    /* ── VS EXCEL ───────────────────────────────────────────── */
+    .excel-vs {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    .evc { border-radius: var(--r); overflow: hidden; }
+    .evc-hdr { padding: 16px 22px; }
+    .evc--bad .evc-hdr {
+      background: rgba(248,113,113,0.07);
+      border: 1px solid rgba(248,113,113,0.20);
+      border-bottom: none;
+      border-radius: var(--r) var(--r) 0 0;
+    }
+    .evc--good .evc-hdr {
+      background: rgba(74,222,128,0.07);
+      border: 1px solid rgba(74,222,128,0.20);
+      border-bottom: none;
+      border-radius: var(--r) var(--r) 0 0;
+    }
+    .evc-title {
+      font-family: var(--mono); font-size: 12px; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+    }
+    .evc--bad .evc-title { color: var(--red); }
+    .evc--good .evc-title { color: var(--green); }
+    .evc-body { border-radius: 0 0 var(--r) var(--r); }
+    .evc--bad .evc-body {
+      background: rgba(248,113,113,0.03);
+      border: 1px solid rgba(248,113,113,0.12); border-top: none;
+    }
+    .evc--good .evc-body {
+      background: rgba(74,222,128,0.03);
+      border: 1px solid rgba(74,222,128,0.12); border-top: none;
+    }
+    .ev-row { padding: 14px 22px; border-bottom: 1px solid var(--border); }
+    .ev-row:last-child { border-bottom: none; }
+    .ev-lbl {
+      font-family: var(--mono); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 5px; color: var(--muted);
+    }
+    .evc--bad .ev-text { color: var(--muted); font-size: 13.5px; line-height: 1.58; }
+    .evc--good .ev-text { color: var(--text); font-size: 13.5px; line-height: 1.58; }
+    .ev-gains {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 14px; margin-top: 24px;
+      padding: 26px 32px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); text-align: center;
+    }
+    .ev-gain-num {
+      font-family: var(--mono); font-size: 26px; font-weight: 700;
+      color: var(--accent); line-height: 1.1; margin-bottom: 5px;
+    }
+    .ev-gain-lbl { font-size: 12.5px; color: var(--muted); }
+    @media (max-width: 900px) {
+      .excel-vs { grid-template-columns: 1fr; }
+      .ev-gains { grid-template-columns: repeat(2,1fr); }
+    }
+
     /* ── CTA ─────────────────────────────────────────────── */
     .cta-wrap {
       padding: 112px 0; text-align: center; position: relative;
@@ -713,6 +772,111 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══ VS EXCEL ══════════════════════════════════════════ -->
+<section class="section" id="why-retailflow">
+  <div class="wrap">
+    <div class="hdr hdr--c">
+      <p class="eyebrow rev">// why not excel</p>
+      <h2 class="sh rev rev-d1">Your business runs on spreadsheets.<br><em>It shouldn't have to.</em></h2>
+      <p class="sd rev rev-d2">Excel was built for analysis, not operations. RetailFlow replaces every patch-worked spreadsheet with a single system that keeps itself up to date.</p>
+    </div>
+
+    <div class="excel-vs rev rev-d3">
+      <div class="evc evc--bad">
+        <div class="evc-hdr">
+          <span class="evc-title">📊 &nbsp; The Spreadsheet Way</span>
+        </div>
+        <div class="evc-body">
+          <div class="ev-row">
+            <div class="ev-lbl">Inventory</div>
+            <div class="ev-text">Update stock counts manually after every sale. One missed entry or broken formula and your numbers are wrong for weeks.</div>
+          </div>
+          <div class="ev-row">
+            <div class="ev-lbl">Stock Alerts</div>
+            <div class="ev-text">You find out you're out of stock when a customer asks. Reorders happen after the damage is done.</div>
+          </div>
+          <div class="ev-row">
+            <div class="ev-lbl">GST Billing</div>
+            <div class="ev-text">Calculate tax by hand or with fragile formulas. Format the invoice yourself. Hope the rate hasn't changed.</div>
+          </div>
+          <div class="ev-row">
+            <div class="ev-lbl">Customer Credit</div>
+            <div class="ev-text">A separate ledger tab per customer. Balances drift, rows get deleted, and reconciliation eats your evening.</div>
+          </div>
+          <div class="ev-row">
+            <div class="ev-lbl">Reports</div>
+            <div class="ev-text">SUMIF formulas and pivot tables that break when you rename a column. Monthly P&amp;L is a half-day job.</div>
+          </div>
+          <div class="ev-row">
+            <div class="ev-lbl">Multi-user</div>
+            <div class="ev-text">Shared over WhatsApp or email. Two people edit and one overwrites the other — no access control, no audit trail.</div>
+          </div>
+          <div class="ev-row">
+            <div class="ev-lbl">Mobile</div>
+            <div class="ev-text">Pinch-zooming a 30-column sheet on your phone. Every lookup is a frustrating exercise.</div>
+          </div>
+        </div>
+      </div>
+      <div class="evc evc--good">
+        <div class="evc-hdr">
+          <span class="evc-title">⚡ &nbsp; With RetailFlow</span>
+        </div>
+        <div class="evc-body">
+          <div class="ev-row">
+            <div class="ev-lbl">Inventory</div>
+            <div class="ev-text">Stock updates automatically on every sale and purchase receipt. Numbers are always right — zero manual entry required.</div>
+          </div>
+          <div class="ev-row">
+            <div class="ev-lbl">Stock Alerts</div>
+            <div class="ev-text">Instant alert the moment stock dips below your minimum. Reorder quantity is suggested before the shelf empties.</div>
+          </div>
+          <div class="ev-row">
+            <div class="ev-lbl">GST Billing</div>
+            <div class="ev-text">Set the GST rate once per product. Every invoice is auto-calculated, formatted, and printer-ready in seconds.</div>
+          </div>
+          <div class="ev-row">
+            <div class="ev-lbl">Customer Credit</div>
+            <div class="ev-text">Built-in ledger per customer — current outstanding, full transaction history, and printable statements. Always current.</div>
+          </div>
+          <div class="ev-row">
+            <div class="ev-lbl">Reports</div>
+            <div class="ev-text">Revenue, P&amp;L, top products, category breakdown — live charts, no formulas. Your full financials in one click.</div>
+          </div>
+          <div class="ev-row">
+            <div class="ev-lbl">Multi-user</div>
+            <div class="ev-text">Owner, Manager, and Cashier roles. Each person has their own login — 26 granular permissions and a full audit trail.</div>
+          </div>
+          <div class="ev-row">
+            <div class="ev-lbl">Mobile</div>
+            <div class="ev-text">Purpose-built mobile UI. Scan barcodes with your phone camera, look up any product, and check stock from anywhere.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ev-gains rev rev-d4">
+      <div class="ev-gain">
+        <div class="ev-gain-num">0</div>
+        <div class="ev-gain-lbl">Formula errors</div>
+      </div>
+      <div class="ev-gain">
+        <div class="ev-gain-num">&lt;30s</div>
+        <div class="ev-gain-lbl">To close a sale</div>
+      </div>
+      <div class="ev-gain">
+        <div class="ev-gain-num">100%</div>
+        <div class="ev-gain-lbl">GST-accurate invoices</div>
+      </div>
+      <div class="ev-gain">
+        <div class="ev-gain-num">Live</div>
+        <div class="ev-gain-lbl">Stock &amp; financials</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1044,6 +1208,65 @@
 
 <hr>
 
+<!-- ══ DATA SECURITY ═════════════════════════════════════ -->
+<section class="section" id="security">
+  <div class="wrap">
+    <div class="fd fd--r rev">
+      <div>
+        <p class="eyebrow">// data security</p>
+        <h2 class="sh">Your data belongs<br><em>to your business.</em></h2>
+        <p>Every transaction, every login, every settings change is logged against the user who made it. Role-based access keeps sensitive numbers away from the wrong eyes — and your data stays private, with no background telemetry or third-party data sharing.</p>
+        <ul class="checks">
+          <li>Full audit trail on every sale, void, refund, and inventory adjustment</li>
+          <li>26 granular permissions — control exactly who sees what</li>
+          <li>Each staff member has their own login — no shared passwords</li>
+          <li>Financial reports visible only to the Owner role by default</li>
+          <li>No background telemetry or usage data sent to third parties</li>
+          <li>CSV export at any time — your data is always readable and portable</li>
+          <li>Owner-only controls for user management and business configuration</li>
+        </ul>
+      </div>
+      <div>
+        <div class="mock">
+          <div class="mock-bar">
+            <div class="dot" style="background:#F87171"></div>
+            <div class="dot" style="background:#FACC15"></div>
+            <div class="dot" style="background:#4ADE80"></div>
+          </div>
+          <div class="mock-body">
+            <div class="mock-label">Audit Log — last 24 hours</div>
+            <div class="pos-row" style="flex-direction:column;align-items:flex-start;gap:3px;">
+              <span style="font-size:12.5px;font-weight:600;">Sale #INV-2851 &nbsp;<span style="color:var(--green);font-size:11px;">PAID</span></span>
+              <span class="dim">Cashier Priya &nbsp;·&nbsp; ₹4,850 &nbsp;·&nbsp; 2 min ago</span>
+            </div>
+            <div class="pos-row" style="flex-direction:column;align-items:flex-start;gap:3px;">
+              <span style="font-size:12.5px;font-weight:600;">Stock adjusted — Safety Gloves L</span>
+              <span class="dim">Manager Suresh &nbsp;·&nbsp; +20 units &nbsp;·&nbsp; 1 hr ago</span>
+            </div>
+            <div class="pos-row" style="flex-direction:column;align-items:flex-start;gap:3px;">
+              <span style="font-size:12.5px;font-weight:600;">Void #INV-2839 &nbsp;<span style="color:var(--red);font-size:11px;">VOIDED</span></span>
+              <span class="dim">Manager Suresh &nbsp;·&nbsp; reason: billing error &nbsp;·&nbsp; 3 hr ago</span>
+            </div>
+            <div class="pos-row" style="flex-direction:column;align-items:flex-start;gap:3px;">
+              <span style="font-size:12.5px;font-weight:600;">Login — new session</span>
+              <span class="dim">Cashier Ravi &nbsp;·&nbsp; 09:22 &nbsp;·&nbsp; Chrome · Android</span>
+            </div>
+            <div class="pos-row" style="flex-direction:column;align-items:flex-start;gap:3px;border:none;">
+              <span style="font-size:12.5px;font-weight:600;">GST rate updated — Power Tools</span>
+              <span class="dim">Owner &nbsp;·&nbsp; 18% → 12% &nbsp;·&nbsp; 09:05</span>
+            </div>
+            <div style="margin-top:12px;padding:9px 12px;border-radius:7px;background:var(--brand-dim);border:1px solid rgba(124,111,255,0.2);font-size:11.5px;color:var(--brand);font-family:var(--mono);">
+              🔒 &nbsp;Financial reports — Owner access only
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
 <!-- ══ CTA ═══════════════════════════════════════════════ -->
 <div class="cta-wrap">
   <div class="wrap">
@@ -1054,7 +1277,7 @@
       <a href="#features" class="btn btn--primary" style="font-size:16px;padding:15px 32px;">Explore features ↑</a>
       <a href="#contact" class="btn btn--ghost" style="font-size:15px;">Get in touch</a>
     </div>
-    <p class="cta-note rev rev-d4">No vendor lock-in &nbsp;·&nbsp; No telemetry &nbsp;·&nbsp; Built for Indian retail</p>
+    <p class="cta-note rev rev-d4">No telemetry &nbsp;·&nbsp; No data mining &nbsp;·&nbsp; Built for Indian retail</p>
   </div>
 </div>
 
