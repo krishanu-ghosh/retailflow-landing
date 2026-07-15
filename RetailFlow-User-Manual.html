@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RetailFlow — Complete User Guide &amp; Product Manual</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The complete RetailFlow user guide — every module, every flow, every permission, explained.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ground:#0D0B1E;
+    --surface:#171430;
+    --surface-2:#1F1C3D;
+    --border:#2B2750;
+    --text:#EEE9FF;
+    --muted:#9692C0;
+    --faint:#6f6a9c;
+    --dim:#4D4880;
+    --ghost:#3A3660;
+    --brand:#7C6FFF;
+    --brand-dim:rgba(124,111,255,0.12);
+    --accent:#F5A523;
+    --accent-dim:rgba(245,165,35,0.10);
+    --green:#4ADE80;
+    --green-dim:rgba(74,222,128,0.10);
+    --red:#F87171;
+    --red-dim:rgba(248,113,113,0.10);
+    --mono:'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+    --body:'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+    --r:10px;
+    --sidebar-w:280px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--ground); color:var(--text);
+    font-family:var(--body);
+    line-height:1.6; font-size:15.5px;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--brand); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  /* ---------- Layout shell ---------- */
+  .shell{display:flex; max-width:1400px; margin:0 auto;}
+  .sidebar{
+    width:var(--sidebar-w); flex:none; position:sticky; top:0; height:100vh; overflow-y:auto;
+    background:var(--surface); border-right:1px solid var(--border); padding:22px 18px 60px;
+  }
+
+  /* ---------- Mobile top bar / off-canvas nav ---------- */
+  .mobile-topbar{display:none;}
+  .nav-backdrop{display:none;}
+  .menu-toggle{
+    appearance:none; border:1px solid var(--border); background:var(--surface-2); color:var(--text);
+    width:38px; height:38px; border-radius:8px; font-size:18px; line-height:1; flex:none; cursor:pointer;
+  }
+  .brandmark{display:flex; flex-direction:column; align-items:flex-start; gap:1px; margin-bottom:18px;}
+  .brand-logo{
+    font-family:var(--mono); font-weight:800; font-size:17px; letter-spacing:-0.5px; color:var(--text);
+  }
+  .brand-logo b{color:var(--brand); font-weight:800;}
+  .brand-logo:hover{text-decoration:none; opacity:.85;}
+  .brand-sub{font-size:10.5px; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; margin-top:1px;}
+  .sidebar nav a{
+    display:block; font-size:13px; color:var(--muted); padding:5px 8px; border-radius:6px; margin:1px 0;
+  }
+  .sidebar nav a.lvl1{font-weight:700; color:var(--text); margin-top:14px; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; font-family:var(--mono);}
+  .sidebar nav a.lvl2{padding-left:16px;}
+  .sidebar nav a.lvl3{padding-left:28px; font-size:12.2px; color:var(--faint);}
+  .sidebar nav a:hover{background:var(--brand-dim); color:var(--brand); text-decoration:none;}
+  .sidebar .back-link{
+    display:flex; align-items:center; gap:6px; margin-top:22px; padding:9px 12px;
+    font-size:12.5px; font-weight:600; color:var(--muted);
+    background:var(--ground); border:1px solid var(--border); border-radius:7px;
+  }
+  .sidebar .back-link:hover{color:var(--brand); border-color:var(--brand); text-decoration:none;}
+
+  main{flex:1; min-width:0; padding:0 0 80px;}
+  .page-pad{padding:0 56px;}
+
+  /* ---------- Cover ---------- */
+  .cover{
+    min-height:92vh; display:flex; flex-direction:column; justify-content:center;
+    padding:60px 70px; background:var(--ground);
+    color:var(--text); position:relative; overflow:hidden;
+  }
+  .cover::before{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background-image:
+      repeating-linear-gradient(90deg,
+        transparent 0px, transparent 3px,
+        rgba(124,111,255,0.05) 3px, rgba(124,111,255,0.05) 4px,
+        transparent 4px, transparent 8px,
+        rgba(124,111,255,0.035) 8px, rgba(124,111,255,0.035) 10px,
+        transparent 10px, transparent 16px,
+        rgba(124,111,255,0.05) 16px, rgba(124,111,255,0.05) 17px,
+        transparent 17px, transparent 24px
+      );
+  }
+  .cover::after{
+    content:""; position:absolute; right:-160px; top:-160px; width:520px; height:520px; border-radius:50%;
+    background:radial-gradient(ellipse at center, rgba(124,111,255,0.20) 0%, transparent 70%);
+  }
+  .cover .eyebrow{
+    font-family:var(--mono); text-transform:uppercase; letter-spacing:.16em; font-size:11.5px;
+    color:var(--accent); font-weight:700; margin-bottom:20px; position:relative;
+  }
+  .cover h1{
+    font-family:var(--mono); font-size:52px; margin:0 0 14px; line-height:1.05; font-weight:800;
+    letter-spacing:-0.02em; position:relative;
+  }
+  .cover h1 .kw{color:var(--brand);}
+  .cover .tagline{font-size:19px; max-width:640px; color:var(--muted); margin-bottom:34px; position:relative;}
+  .cover .meta-row{
+    display:flex; gap:36px; flex-wrap:wrap; font-size:13px; color:var(--muted);
+    border-top:1px solid var(--border); padding-top:20px; margin-top:auto; position:relative;
+  }
+  .cover .meta-row div b{display:block; font-size:14px; margin-bottom:2px; color:var(--text);}
+
+  /* ---------- Typography ---------- */
+  h1.section-title{
+    font-size:30px; font-weight:800; color:var(--text); margin:0 0 6px; padding-top:56px; letter-spacing:-0.015em;
+    border-bottom:3px solid var(--brand); padding-bottom:14px; display:flex; align-items:baseline; gap:12px;
+  }
+  h1.section-title .num{font-family:var(--mono); color:var(--accent); font-variant-numeric:tabular-nums;}
+  .section-intro{color:var(--muted); font-size:15px; max-width:820px; margin:14px 0 34px;}
+  h2.mod-title{
+    font-size:22px; font-weight:750; color:var(--brand); margin:46px 0 4px; padding-top:10px;
+    display:flex; align-items:center; gap:10px; letter-spacing:-0.01em;
+  }
+  h2.mod-title .tag{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; font-weight:700;
+    color:var(--muted); background:var(--ground); border:1px solid var(--border); border-radius:20px; padding:2px 10px;
+  }
+  h3.sub-title{font-size:16.5px; font-weight:700; color:var(--text); margin:26px 0 8px; padding-bottom:6px; border-bottom:1px solid var(--border);}
+  h4.flow-title{font-size:14.5px; font-weight:700; color:var(--brand); margin:22px 0 6px;}
+  p{margin:0 0 12px;}
+  ul,ol{margin:6px 0 14px; padding-left:24px;}
+  li{margin:3px 0;}
+  .lede{color:var(--muted);}
+
+  /* ---------- UI element styling ---------- */
+  kbd, .ui-key{
+    display:inline-block; font-family:var(--mono); font-size:11.5px;
+    background:var(--surface-2); border:1px solid var(--border); border-bottom-width:2px; border-radius:5px;
+    padding:1px 7px; color:var(--text); font-weight:600;
+  }
+  .btn{
+    display:inline-block; font-weight:600; font-size:13px; background:var(--brand); color:#fff !important;
+    padding:2px 10px; border-radius:6px; text-decoration:none !important; white-space:nowrap;
+  }
+  .btn.secondary{background:var(--surface-2); color:var(--text) !important; border:1px solid var(--border);}
+  .btn.danger{background:var(--red); color:#2a0a0a !important;}
+  .field-label{
+    font-weight:700; color:var(--text); background:var(--surface-2); border:1px solid var(--border); border-radius:4px;
+    padding:0 6px; font-size:13px; font-family:var(--mono);
+  }
+
+  /* ---------- Callouts ---------- */
+  .callout{border-left:4px solid; border-radius:8px; padding:12px 16px; margin:14px 0; font-size:14px; background:var(--surface);}
+  .callout .callout-title{font-weight:700; display:block; margin-bottom:3px; font-size:12.5px; text-transform:uppercase; letter-spacing:.04em; font-family:var(--mono);}
+  .callout.note{background:var(--brand-dim); border-color:var(--brand);}
+  .callout.note .callout-title{color:var(--brand);}
+  .callout.tip{background:var(--green-dim); border-color:var(--green);}
+  .callout.tip .callout-title{color:var(--green);}
+  .callout.warn{background:var(--accent-dim); border-color:var(--accent);}
+  .callout.warn .callout-title{color:var(--accent);}
+  .callout.danger{background:var(--red-dim); border-color:var(--red); color:var(--text);}
+  .callout.danger .callout-title{color:var(--red);}
+
+  /* ---------- Tables ---------- */
+  .table-scroll{overflow-x:auto; margin:14px 0 22px; -webkit-overflow-scrolling:touch;}
+  .table-scroll table{margin:0;}
+  table{width:100%; border-collapse:collapse; margin:14px 0 22px; font-size:13.6px;}
+  caption{text-align:left; font-size:12px; color:var(--faint); margin-bottom:6px;}
+  th,td{border:1px solid var(--border); padding:7px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--surface-2); font-weight:700; color:var(--text);}
+  tr:nth-child(even) td{background:rgba(255,255,255,0.015);}
+  td code, p code{background:var(--surface-2); padding:1px 6px; border-radius:4px; font-size:12.5px; font-family:var(--mono); color:var(--accent);}
+
+  /* ---------- Micro-feature / flow cards ---------- */
+  .feature-list{list-style:none; margin:10px 0 20px; padding:0;}
+  .feature-list li{
+    padding:8px 12px; margin:6px 0; background:var(--surface); border:1px solid var(--border); border-radius:8px;
+    font-size:14px;
+  }
+  .feature-list li b{color:var(--brand);}
+  .flow{border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin:14px 0 26px; background:var(--surface);}
+  .flow ol{margin:8px 0 4px;}
+  .flow ol li{margin:5px 0;}
+  .flow-meta{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 4px;}
+  .badge{font-family:var(--mono); font-size:10.8px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; padding:2px 9px; border-radius:20px;}
+  .badge.perm{background:var(--accent-dim); color:var(--accent); border:1px solid var(--accent);}
+  .badge.owner{background:var(--accent-dim); color:var(--accent); border:1px solid var(--accent);}
+  .badge.manager{background:var(--brand-dim); color:var(--brand); border:1px solid var(--brand);}
+  .badge.cashier{background:var(--green-dim); color:var(--green); border:1px solid var(--green);}
+
+  .toc-grid{display:grid; grid-template-columns:1fr 1fr; gap:4px 40px; margin:20px 0;}
+  .toc-grid a{font-size:14.5px; padding:6px 0; border-bottom:1px dashed var(--border); display:flex; justify-content:space-between;}
+  .toc-grid a .n{color:var(--faint); font-size:12px;}
+
+  .quote-bar{border-left:3px solid var(--brand); padding-left:14px; color:var(--muted); font-style:italic; margin:14px 0;}
+
+  footer.doc-footer{padding:40px 56px; color:var(--faint); font-size:12px; border-top:1px solid var(--border); margin-top:60px;}
+
+  .pill-row{display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 18px;}
+  .pill{background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:4px 12px; font-size:12.5px; color:var(--muted);}
+
+  /* ---------- Print ---------- */
+  @media print{
+    :root{
+      --ground:#ffffff; --surface:#ffffff; --surface-2:#f2f2f5; --border:#ccc;
+      --text:#111; --muted:#333; --faint:#555;
+      --brand:#5b4fd6; --brand-dim:#ece9fb;
+      --accent:#946015; --accent-dim:#f5ecd9;
+      --green:#1f7a44; --green-dim:#e6f5ec;
+      --red:#a33; --red-dim:#fbe9e9;
+    }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; color-adjust:exact; }
+    .sidebar, .mobile-topbar, .nav-backdrop{display:none;}
+    .shell{display:block; max-width:none;}
+    .table-scroll{overflow-x:visible;}
+    main{padding:0;}
+    .page-pad{padding:0 8mm;}
+    body{font-size:10.6pt; background:#fff;}
+    .cover{min-height:100vh; page-break-after:always; padding:22mm 18mm;}
+    .cover::before, .cover::after{display:none;}
+    h1.section-title{page-break-before:always; padding-top:0;}
+    h1.section-title:first-of-type{page-break-before:auto;}
+    h2.mod-title{page-break-before:auto; break-inside:avoid;}
+    h3.sub-title, h4.flow-title{break-after:avoid;}
+    .flow, .feature-list li, table, .callout{break-inside:avoid;}
+    a{color:var(--text); text-decoration:none;}
+    a[href^="#"]::after{content:""; }
+    .no-print{display:none !important;}
+    @page{ margin:16mm 14mm; }
+    @page{ @bottom-center{ content: "RetailFlow User Guide  •  Page " counter(page); font-size:9pt; color:#777; } }
+  }
+
+  @media (max-width:900px){
+    .mobile-topbar{
+      display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:60;
+      background:rgba(13,11,30,0.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:10px 16px;
+    }
+    .shell{position:relative;}
+    .sidebar{
+      position:fixed; top:0; left:0; height:100dvh; z-index:80; box-sizing:border-box;
+      width:min(84vw,320px); transform:translateX(-100%); transition:transform .25s ease;
+      box-shadow:0 0 40px rgba(0,0,0,0);
+    }
+    body.nav-open .sidebar{transform:translateX(0); box-shadow:12px 0 32px rgba(0,0,0,.5);}
+    body.nav-open .nav-backdrop{
+      display:block; position:fixed; inset:0; background:rgba(5,4,14,.6); z-index:70;
+    }
+    body.nav-open{overflow:hidden;}
+    .page-pad{padding:0 20px;}
+    .cover{padding:40px 26px; min-height:auto;}
+    .cover h1{font-size:34px;}
+    .cover .tagline{font-size:16px;}
+    .toc-grid{grid-template-columns:1fr;}
+    h1.section-title{font-size:24px; padding-top:36px; flex-wrap:wrap;}
+    h2.mod-title{font-size:19px; margin-top:34px;}
+    table{font-size:12.5px;}
+    th,td{padding:6px 8px;}
+  }
+
+  @media (max-width:480px){
+    body{font-size:14.5px;}
+    .page-pad{padding:0 14px;}
+    .cover{padding:30px 18px;}
+    .cover h1{font-size:27px;}
+    .cover .tagline{font-size:14.5px;}
+    .cover .meta-row{gap:18px 24px;}
+    h1.section-title{font-size:20px;}
+    h2.mod-title{font-size:17px;}
+    .flow{padding:12px 14px;}
+    footer.doc-footer{padding:30px 14px;}
+  }
+
+</style>
+</head>
+<body>
+<div class="mobile-topbar no-print">
+  <button class="menu-toggle" id="navToggle" aria-label="Toggle table of contents" aria-expanded="false" aria-controls="guideNav">☰</button>
+  <div class="brandmark" style="margin-bottom:0">
+    <a href="index.html" class="brand-logo">Retail<b>Flow</b></a>
+    <div class="brand-sub">User Guide</div>
+  </div>
+</div>
+<div class="nav-backdrop no-print" id="navBackdrop"></div>
+<div class="shell">
+
+  <aside class="sidebar no-print" id="guideNav">
+    <div class="brandmark">
+      <a href="index.html" class="brand-logo">Retail<b>Flow</b></a>
+      <div class="brand-sub">User Guide</div>
+    </div>
+    <nav>
+      <a class="lvl1" href="#sec-1">1 · Product Overview</a>
+      <a class="lvl2" href="#sec-1-1">What RetailFlow Is</a>
+      <a class="lvl2" href="#sec-1-2">Who It's For</a>
+      <a class="lvl2" href="#sec-1-3">Problems It Solves</a>
+      <a class="lvl2" href="#sec-1-4">Key Concepts &amp; Terms</a>
+
+      <a class="lvl1" href="#sec-2">2 · Getting Started</a>
+      <a class="lvl2" href="#sec-2-1">How Your Account Is Created</a>
+      <a class="lvl2" href="#sec-2-2">First Login</a>
+      <a class="lvl2" href="#sec-2-3">First-Time Setup Checklist</a>
+      <a class="lvl2" href="#sec-2-4">Touring the Interface</a>
+
+      <a class="lvl1" href="#sec-3">3 · Module Breakdown</a>
+      <a class="lvl2" href="#mod-dashboard">Dashboard</a>
+      <a class="lvl2" href="#mod-pos">Point of Sale (Billing)</a>
+      <a class="lvl2" href="#mod-sales">Sales Records &amp; Invoices</a>
+      <a class="lvl2" href="#mod-products">Product Catalog</a>
+      <a class="lvl2" href="#mod-batches">Batches &amp; Inventory</a>
+      <a class="lvl2" href="#mod-categories">Categories</a>
+      <a class="lvl2" href="#mod-purchases">Purchases</a>
+      <a class="lvl2" href="#mod-suppliers">Suppliers</a>
+      <a class="lvl2" href="#mod-customers">Customers</a>
+      <a class="lvl2" href="#mod-expenses">Expenses</a>
+      <a class="lvl2" href="#mod-cashbook">Cashbook</a>
+      <a class="lvl2" href="#mod-audits">Stock Counts &amp; Loss Reports</a>
+      <a class="lvl2" href="#mod-reports">Reports &amp; Analytics</a>
+      <a class="lvl2" href="#mod-users">Staff &amp; User Management</a>
+      <a class="lvl2" href="#mod-auditlog">Audit Log</a>
+      <a class="lvl2" href="#mod-settings">Settings</a>
+      <a class="lvl2" href="#mod-feedback">Feedback &amp; Support</a>
+      <a class="lvl2" href="#mod-platform">Platform Administration</a>
+
+      <a class="lvl1" href="#sec-4">4 · Granular User Flows</a>
+      <a class="lvl2" href="#flow-dashboard">Dashboard flows</a>
+      <a class="lvl2" href="#flow-pos">POS flows</a>
+      <a class="lvl2" href="#flow-sales">Sales record flows</a>
+      <a class="lvl2" href="#flow-products">Product flows</a>
+      <a class="lvl2" href="#flow-batches">Batch flows</a>
+      <a class="lvl2" href="#flow-categories">Category flows</a>
+      <a class="lvl2" href="#flow-purchases">Purchase flows</a>
+      <a class="lvl2" href="#flow-suppliers">Supplier flows</a>
+      <a class="lvl2" href="#flow-customers">Customer flows</a>
+      <a class="lvl2" href="#flow-expenses">Expense &amp; Cashbook flows</a>
+      <a class="lvl2" href="#flow-audits">Stock count flows</a>
+      <a class="lvl2" href="#flow-reports">Report flows</a>
+      <a class="lvl2" href="#flow-users">User management flows</a>
+      <a class="lvl2" href="#flow-settings">Settings flows</a>
+      <a class="lvl2" href="#flow-platform">Platform admin flows</a>
+
+      <a class="lvl1" href="#sec-5">5 · Permissions &amp; Access</a>
+      <a class="lvl1" href="#sec-6">6 · Troubleshooting</a>
+    </nav>
+    <a class="back-link no-print" href="index.html">← Back to RetailFlow.com</a>
+  </aside>
+
+  <main>
+
+    <section class="cover">
+      <div class="eyebrow">Complete User Guide &amp; Product Manual</div>
+      <h1>Retail<span class="kw">Flow</span></h1>
+      <div class="tagline">Multi-tenant inventory management, GST billing, accounting, and analytics for retail businesses — everything your team needs to run the shop floor, the back office, and the books from one screen.</div>
+      <div class="meta-row">
+        <div><b>Document version</b>1.0</div>
+        <div><b>Published</b>July 2026</div>
+        <div><b>Audience</b>Business owners, managers, cashiers &amp; staff, platform administrators</div>
+        <div><b>Format</b>Printable reference — use your browser's Print → Save as PDF</div>
+      </div>
+    </section>
+
+    <div class="page-pad">
+
+    <h1 id="sec-1" class="section-title"><span class="num">1.</span> Product Overview &amp; Value Proposition</h1>
+
+    <h2 id="sec-1-1" class="mod-title">1.1 &nbsp;What RetailFlow Is</h2>
+    <p>RetailFlow is a complete, all-in-one management system for retail businesses — the kind of shop, store, or trading business that buys stock from suppliers, sells it to customers, and needs to keep the books straight in between. It brings together five things that most small and mid-sized retailers otherwise juggle across notebooks, spreadsheets, and separate apps:</p>
+    <ul>
+      <li><b>Billing &amp; Point of Sale</b> — a fast checkout screen for ringing up sales, scanning barcodes, and printing GST-compliant invoices.</li>
+      <li><b>Inventory management</b> — real-time stock levels for every product, tracked down to the individual batch or lot it arrived in.</li>
+      <li><b>Purchasing</b> — placing, receiving, and paying for orders with your suppliers, with a running record of what you owe them.</li>
+      <li><b>Accounting essentials</b> — a cashbook, an expense tracker, and running ledgers of what customers owe you and what you owe suppliers.</li>
+      <li><b>Reporting &amp; analytics</b> — dashboards and exportable reports covering sales, profit, inventory health, and cash flow.</li>
+    </ul>
+    <p class="lede">RetailFlow runs as a single, secure web application. Each business that uses RetailFlow has its own private, isolated account — your data is never visible to any other business on the platform.</p>
+
+    <h2 id="sec-1-2" class="mod-title">1.2 &nbsp;Who It's For</h2>
+    <p>RetailFlow is built for three kinds of people, and the interface adapts to each:</p>
+    <ul>
+      <li><b>Business Owners</b> — the person (or people) who run the shop and need the full picture: sales, profit, stock, staff, and the books, all in one place.</li>
+      <li><b>Managers and staff</b> — day-to-day operators who use RetailFlow to bill customers, receive deliveries, count stock, and manage day-to-day operations, within limits the owner sets.</li>
+      <li><b>Cashiers</b> — front-of-store staff who mostly live on the billing screen, looking up products and taking payments.</li>
+    </ul>
+    <p>A fourth audience — <b>platform administrators</b> — are RetailFlow's own operations team, who set up new business accounts and provide support. Their tools are covered separately in <a href="#mod-platform">Platform Administration</a>, since they are not part of the day-to-day retail-business experience.</p>
+
+    <h2 id="sec-1-3" class="mod-title">1.3 &nbsp;Problems It Solves</h2>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th style="width:32%">Without RetailFlow</th><th>With RetailFlow</th></tr></thead>
+      <tbody>
+        <tr><td>Stock counts are guessed or tracked on paper; it's unclear what's actually on the shelf.</td><td>Every sale, purchase, return, and correction updates stock automatically. The number on screen is always the real number.</td></tr>
+        <tr><td>It's hard to know which batch of stock cost what, especially when supplier prices change.</td><td>Stock is tracked in batches, each with its own cost and sell price, so margin is always accurate — even mid-shelf-life.</td></tr>
+        <tr><td>GST invoices are calculated by hand or in a spreadsheet, risking errors.</td><td>GST is calculated automatically per product at the correct slab, and a compliant invoice is generated and ready to print or share on every sale.</td></tr>
+        <tr><td>It's unclear who owes the business money, or who the business owes.</td><td>Running, always-up-to-date ledgers for every customer and supplier, with full statement history.</td></tr>
+        <tr><td>Cash in the register doesn't reconcile with what the books say.</td><td>A dedicated cashbook tracks every rupee in and out, with a daily reconciliation report.</td></tr>
+        <tr><td>It's slow to notice slow-moving stock, understocking, or shrinkage (loss).</td><td>Built-in reports flag low stock, dead stock, and reorder points; physical stock counts reconcile the system to reality and quantify any loss.</td></tr>
+        <tr><td>Staff access is all-or-nothing, and it's hard to track who did what.</td><td>Role-based permissions restrict each teammate to what their job needs, and every sensitive action is recorded in an audit trail.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 id="sec-1-4" class="mod-title">1.4 &nbsp;Key Concepts &amp; Terminology</h2>
+    <p class="section-intro" style="margin-top:0">A handful of ideas recur throughout RetailFlow. Understanding them up front makes every module below easier to follow.</p>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th style="width:22%">Term</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td><b>Business</b></td><td>Your company's private account on RetailFlow. All your products, sales, staff, and records live inside your business and are never shared with any other business.</td></tr>
+        <tr><td><b>Product</b></td><td>An item you sell — e.g. "1L Sunflower Oil." A product defines the name, category, unit, GST rate, and default price, but not the physical stock itself.</td></tr>
+        <tr><td><b>Batch (lot)</b></td><td>A specific delivery of stock for a product — e.g. "50 bottles that arrived on 3 June at ₹142 each." Every unit of stock belongs to exactly one batch, which carries its own cost and sell price. This is why RetailFlow can tell you accurate profit even if the same product was bought at different prices over time.</td></tr>
+        <tr><td><b>Ledger-based stock &amp; ledgers</b></td><td>RetailFlow never simply stores "current stock: 40" as an editable number. Instead, every sale, delivery, return, and correction is written down as a movement, and the current figure is always calculated fresh from that history. The same approach is used for customer and supplier balances (the "ledger"). This means the numbers you see are always trustworthy and fully explained by a trail of events.</td></tr>
+        <tr><td><b>GST</b></td><td>India's Goods and Services Tax. Each product carries a GST slab (5/12/18/28/40% or none); RetailFlow calculates the tax automatically and shows it on invoices.</td></tr>
+        <tr><td><b>Purchase Order (PO)</b></td><td>A record of stock you've ordered from a supplier. It moves through statuses as it's delivered and paid — see <a href="#mod-purchases">Purchases</a>.</td></tr>
+        <tr><td><b>Sale / Invoice</b></td><td>A completed transaction with a customer, generated at checkout on the <a href="#mod-pos">Point of Sale</a> screen. Every sale produces a printable invoice.</td></tr>
+        <tr><td><b>Customer / supplier statement</b></td><td>A running, dated list of every invoice, payment, and adjustment for a specific customer or supplier — effectively their account history with you.</td></tr>
+        <tr><td><b>Store credit</b></td><td>Money the business owes a customer (e.g. from an overpayment or a refund), which the customer can spend against a future sale instead of taking cash back.</td></tr>
+        <tr><td><b>Stock count (inventory audit)</b></td><td>A physical count of what's actually on the shelf, compared against what RetailFlow's records say should be there. Differences ("shrinkage") are reported and can be used to correct the system.</td></tr>
+        <tr><td><b>Cashbook</b></td><td>A simple ledger of physical cash moving in and out of the till/register, separate from digital payments.</td></tr>
+        <tr><td><b>Role (Owner / Manager / Cashier)</b></td><td>Every staff member is assigned one role, which determines exactly which screens and actions they can use. See <a href="#sec-5">Permissions &amp; Access Control</a>.</td></tr>
+        <tr><td><b>Platform administrator</b></td><td>A RetailFlow staff member (not part of your business) who provisions new business accounts and provides account-level support. See <a href="#mod-platform">Platform Administration</a>.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h1 id="sec-2" class="section-title"><span class="num">2.</span> Getting Started &amp; Onboarding</h1>
+    <p class="section-intro">RetailFlow does not have a public "sign up" page. This section explains exactly how a new business account comes into existence, what a brand-new user sees the first time they log in, and the handful of things every business should configure before relying on RetailFlow day to day.</p>
+
+    <h2 id="sec-2-1" class="mod-title">2.1 &nbsp;How Your Account Is Created</h2>
+    <p>Businesses are provisioned onto RetailFlow by a <b>platform administrator</b> — there is no self-service registration form, by design. This keeps every account verified and correctly configured from day one (correct GST details, the right starter categories, and sensible default limits).</p>
+    <div class="callout note">
+      <span class="callout-title">What this means for you</span>
+      To get started, you don't create an account yourself — RetailFlow's onboarding team sets up your business for you and provides the very first sign-in details for your <b>Owner</b> account: your login email and a temporary password. If you're waiting on access, contact whoever arranged your RetailFlow subscription rather than looking for a sign-up link.
+    </div>
+    <p>When your business is provisioned, the following are configured on your behalf:</p>
+    <ul>
+      <li>Your business name, contact details, and (for standard businesses) your GSTIN, legal name, and registered address.</li>
+      <li>A UPI ID and payee name, if you plan to accept UPI payments and show a QR code at checkout.</li>
+      <li>One <b>Owner</b> account — the highest level of access — using the email and name supplied during onboarding.</li>
+      <li>A starting set of product categories to save you typing them in from scratch.</li>
+      <li>A limit on how many staff accounts your business may create (five by default — see <a href="#sec-5">Permissions &amp; Access Control</a>).</li>
+    </ul>
+
+    <h2 id="sec-2-2" class="mod-title">2.2 &nbsp;First Login</h2>
+    <div class="flow">
+      <h4 class="flow-title">Signing in for the first time</h4>
+      <ol>
+        <li>Open the RetailFlow web address given to you by your onboarding contact.</li>
+        <li>On the sign-in screen, enter the <span class="field-label">Email</span> address your account was created with.</li>
+        <li>Enter the <span class="field-label">Password</span> you were given. Click the eye icon inside the field to reveal the characters and check for typos.</li>
+        <li>Click <span class="btn">Sign in</span>.</li>
+      </ol>
+      <p><b>System response:</b> On success, you're taken straight to the <a href="#mod-dashboard">Dashboard</a>. If the email or password is wrong, a message reading <i>"invalid credentials"</i> appears and you remain on the sign-in screen — see <a href="#sec-6">Troubleshooting</a> if this keeps happening.</p>
+      <div class="callout tip"><span class="callout-title">Tip</span>Change your temporary password immediately after your first login — see <a href="#flow-settings">Change Password</a> in Settings.</div>
+    </div>
+
+    <h2 id="sec-2-3" class="mod-title">2.3 &nbsp;First-Time Setup Checklist</h2>
+    <p>Once you're in as the Owner, a few things are worth doing before the shop goes live on RetailFlow:</p>
+    <ol>
+      <li><b>Change your password</b> (Settings → Change Password) so you're not relying on the onboarding temporary password.</li>
+      <li><b>Review Business Details</b> (Settings) to confirm your GSTIN, address, and UPI details look correct — these are read-only from your side; contact support if anything needs correcting.</li>
+      <li><b>Set up Categories</b> for how you group your products (e.g. Groceries, Beverages, Snacks) — a few come pre-loaded, but you can add your own.</li>
+      <li><b>Add your Products</b>, including opening stock, cost price, selling price, and GST rate for each.</li>
+      <li><b>Add your Suppliers</b> so you're ready to record Purchase Orders.</li>
+      <li><b>Set your opening cashbook balance</b> so day-to-day cash reconciliation starts from an accurate number.</li>
+      <li><b>Review Inventory &amp; Sales Settings</b> (lead time, safety stock, low-stock threshold, void/refund windows) so alerts and rules match how your business actually runs.</li>
+      <li><b>Invite your team</b> by creating staff accounts with the right role for each person (Users page).</li>
+    </ol>
+
+    <h2 id="sec-2-4" class="mod-title">2.4 &nbsp;Touring the Interface</h2>
+    <p>Every screen in RetailFlow (other than sign-in) shares the same layout:</p>
+    <ul>
+      <li><b>Left sidebar</b> — your main navigation menu. It only shows the sections you have permission to use; everything else is hidden rather than shown-but-blocked. It can be collapsed to a slim icon rail for more screen space, and includes a light/dark/system theme toggle at the bottom.</li>
+      <li><b>Top bar</b> — shows the current section's title and, on most list screens, search and filter controls.</li>
+      <li><b>Main content area</b> — the screen itself: a dashboard, a table of records, or a form.</li>
+      <li><b>Feedback</b> — a link at the bottom of the sidebar for sending a bug report, idea, or comment straight to the RetailFlow team — see <a href="#mod-feedback">Feedback &amp; Support</a>.</li>
+    </ul>
+    <div class="callout note"><span class="callout-title">Note</span>If someone with a Manager or Cashier role signs in, their sidebar will show fewer items than an Owner's — this is expected and covered fully in <a href="#sec-5">Permissions &amp; Access Control</a>.</div>
+
+    <h1 id="sec-3" class="section-title"><span class="num">3.</span> Exhaustive Module &amp; Feature Breakdown</h1>
+    <p class="section-intro">This section walks through every screen in RetailFlow one by one: what it's for, how it's laid out, and every action available on it. For step-by-step instructions on using each action — including exact fields, validation rules, and what happens after you click — see <a href="#sec-4">Section 4, Granular User Flows</a>, which mirrors this section module-for-module.</p>
+
+    <h2 id="mod-dashboard" class="mod-title">3.1 &nbsp;Dashboard <span class="tag">Home screen</span></h2>
+    <p><b>Module overview.</b> The Dashboard is the first screen most people see after signing in. It gives an at-a-glance summary of how the business is doing today and this month, without requiring anyone to run a report.</p>
+    <p><b>UI tour.</b> The dashboard is arranged as a grid of cards and charts:</p>
+    <ul>
+      <li>Two headline stat cards: <b>Today's Sales</b> and <b>Today's Profit</b>.</li>
+      <li>Two growth cards: <b>Monthly Revenue</b> and <b>Monthly Profit</b>, each with a percentage change versus the previous month.</li>
+      <li>A collapsible <b>Sales Trend</b> area chart with a 30-day / 90-day / 1-year range toggle.</li>
+      <li>An <b>Inventory Alerts</b> panel listing products that are "Reorder soon" or "Low stock."</li>
+      <li>Mini stat cards for <b>Inventory value</b>, <b>Cash position</b>, <b>Receivable</b> (what customers owe you), and <b>Payable</b> (what you owe suppliers).</li>
+      <li>A <b>Revenue &amp; Profit by Category</b> bar chart.</li>
+      <li>A <b>Top Customers</b> list.</li>
+    </ul>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Auto-refresh</b> — the whole dashboard silently refreshes itself every 30 seconds, so it's safe to leave open on a shop-floor screen.</li>
+      <li><b>Sales Trend range toggle</b> — switch the chart between 30 days, 90 days, and 1 year.</li>
+      <li><b>Collapse/expand Sales Trend</b> — hide the chart to save space without losing the rest of the dashboard.</li>
+      <li><b>Permission-gated widgets</b> — profit figures only show for users with the Profit-reports permission; inventory alerts and inventory value only show with the Inventory-reports permission.</li>
+    </ul>
+
+    <h2 id="mod-pos" class="mod-title">3.2 &nbsp;Point of Sale (Billing) <span class="tag">Checkout screen</span></h2>
+    <p><b>Module overview.</b> This is the till: the screen a cashier or owner uses to ring up a sale, from adding products to the cart through to taking payment and printing the invoice. It is the single most detailed screen in RetailFlow, and is designed to be usable entirely from the keyboard for speed at a busy counter.</p>
+    <p><b>UI tour.</b> The screen is split into a product-entry/search area and cart on the left, and a running bill summary on the right, with a Payment &amp; Complete panel that opens as a modal when checkout begins.</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Product search</b> — type a name or SKU to find a product (keyboard shortcut <kbd>F1</kbd> jumps focus to the search box).</li>
+      <li><b>USB barcode scanner support</b> — a handheld scanner's rapid keystrokes-plus-Enter are automatically captured as a barcode lookup, no click required.</li>
+      <li><b>Camera barcode scanning</b> — a <span class="btn secondary">📷 Scan</span> button opens your device camera to read a barcode.</li>
+      <li><b>Batch picker</b> — if a product has more than one active batch in stock, a picker shows each batch's remaining quantity, sell price, and (for permitted users) profit margin, so you choose which stock to sell from.</li>
+      <li><b>Automatic batch split</b> — the batch you pick sets the line's selling price, but if it doesn't hold enough quantity, RetailFlow automatically draws the rest from other active batches (oldest first) at their own cost. The cart line is only capped by the product's total stock across all batches, not the picked batch alone.</li>
+      <li><b>Cart line quantity control</b> — a stepper or typed quantity, capped to what's actually in stock.</li>
+      <li><b>Per-line discount</b> — apply a discount to one line, in ₹ or %.</li>
+      <li><b>Bill-level discount</b> — apply a discount to the whole sale, in ₹ or %.</li>
+      <li><b>Warranty</b> — optionally attach a warranty period (in months) to the sale; RetailFlow computes and prints the "valid up to" date.</li>
+      <li><b>Live totals</b> — subtotal, discount, GST, and final price recalculate as you build the cart; a profit/margin badge shows for permitted users.</li>
+      <li><b>Payment &amp; Complete panel</b> (keyboard shortcut <kbd>F4</kbd>) — the checkout modal covering customer selection, payment method(s), store credit, UPI QR, and invoice printing.</li>
+      <li><b>Customer selection</b> — search an existing customer by name/phone, create one inline, or proceed as a walk-in with no account.</li>
+      <li><b>Quick-set payment buttons</b> — "Exact cash" and "Full credit" fill in the payment amount for you.</li>
+      <li><b>Split payment</b> — divide one sale's payment across Cash, UPI, Card, and Bank Transfer.</li>
+      <li><b>Apply/remove customer credit</b> — spend a customer's existing store credit balance against the current sale.</li>
+      <li><b>Generate UPI QR code</b> — shows a scannable QR for the exact amount due, if your business has a UPI ID configured.</li>
+      <li><b>"No change" (convert change to credit)</b> — instead of handing back cash change, add it to the customer's store credit.</li>
+      <li><b>Print Invoice toggle</b> — choose whether to auto-open the printable invoice after completing the sale (defaults to your Settings preference).</li>
+    </ul>
+
+    <h2 id="mod-sales" class="mod-title">3.3 &nbsp;Sales Records &amp; Invoices <span class="tag">History</span></h2>
+    <p><b>Module overview.</b> Where every past sale lives, searchable and reviewable, with tools to reprint, void, or refund a transaction after the fact.</p>
+    <p><b>UI tour.</b> A searchable, date-filterable table listing Invoice number, Customer, Date, Total, Paid, Balance, and Status. Clicking a row's <span class="btn secondary">Details</span> opens the Sale detail drawer.</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Search by invoice number.</b></li>
+      <li><b>Filter by date range.</b></li>
+      <li><b>Send invoice on WhatsApp</b> — a one-click button that prepares a WhatsApp message with the invoice link for the customer.</li>
+      <li><b>View sale details</b> — line items, subtotal/discount/tax/total, payments received, balance, and warranty details. Any line that auto-split across batches lists each batch and the quantity drawn from it.</li>
+      <li><b>Print invoice</b> — regenerate the printable PDF at any time.</li>
+      <li><b>Void a sale</b> — reverse a sale entirely, restoring stock, within the business's configured void window.</li>
+      <li><b>Refund a sale</b> — issue a partial or full refund, either as cash from the register or as store credit, within the configured refund window.</li>
+    </ul>
+
+    <h2 id="mod-products" class="mod-title">3.4 &nbsp;Product Catalog <span class="tag">Catalog</span></h2>
+    <p><b>Module overview.</b> The master list of everything your business sells, along with each product's category, pricing, tax rate, and stock rules.</p>
+    <p><b>UI tour.</b> A searchable, filterable grid/table with a category filter, an A–Z jump index for long catalogs, and a barcode lookup box (type or scan). Each row exposes Batches, Stock, Edit, and Deactivate/Reactivate actions.</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Search products</b> by name or SKU.</li>
+      <li><b>Filter by category.</b></li>
+      <li><b>A–Z index</b> to jump straight to products starting with a given letter.</li>
+      <li><b>Barcode lookup</b> — type a barcode or scan one with your camera to jump straight to that product.</li>
+      <li><b>Create a new product</b>, including an opening stock batch and a product photo.</li>
+      <li><b>Edit a product's</b> details, price, GST rate, and minimum stock level.</li>
+      <li><b>Add, replace, or remove a product photo</b> at any time from the edit form.</li>
+      <li><b>View a product's batches</b> — every lot of stock currently or previously held for this product.</li>
+      <li><b>Adjust stock</b> — a manual correction (e.g. for damage or a miscount) outside of a sale or purchase.</li>
+      <li><b>Deactivate / Reactivate a product</b> — hide a discontinued product from the till without deleting its history.</li>
+      <li><b>Inline category creation</b> — add a new category without leaving the product form.</li>
+    </ul>
+
+    <h2 id="mod-batches" class="mod-title">3.5 &nbsp;Batches &amp; Inventory <span class="tag">Stock detail</span></h2>
+    <p><b>Module overview.</b> A batch (or "lot") is a specific delivery of stock for one product, each with its own cost, sell price, and barcode. RetailFlow tracks stock this way — rather than as one editable number per product — so that profit stays accurate even when the same product is restocked at a different price. When a sale needs more of a product than the cashier's chosen batch has left, RetailFlow automatically spreads the remainder across other active batches (oldest first) so the true cost of goods sold is still tracked correctly, even though the sale prices the whole line at the chosen batch's rate. This module lets you see and manage batches both per-product and across the whole catalog.</p>
+    <p><b>UI tour.</b> A global <b>All Batches</b> page lists every batch across every product, with search (by product, batch number, or barcode) and a status filter (Active / Depleted / Inactive). The same table appears scoped to a single product inside that product's drawer.</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Search batches</b> by product name, batch number, or barcode.</li>
+      <li><b>Filter by status</b> — Active, Depleted (fully sold), or Inactive (manually hidden).</li>
+      <li><b>Edit a batch</b> — change its cost price, selling price, or barcode.</li>
+      <li><b>Deactivate a batch</b> — hide it from the billing screen (e.g. stock found to be damaged) without deleting its history.</li>
+      <li><b>Reactivate a batch</b> — bring a previously deactivated batch back into sellable stock.</li>
+    </ul>
+
+    <h2 id="mod-categories" class="mod-title">3.6 &nbsp;Categories <span class="tag">Organization</span></h2>
+    <p><b>Module overview.</b> Categories group your products (e.g. "Beverages," "Snacks") for filtering, reporting, and faster navigation of the catalog.</p>
+    <p><b>UI tour.</b> A simple table of category Name, Description, and Status, with Deactivate/Activate controls.</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Create a category</b> with a name and optional description.</li>
+      <li><b>Edit a category's</b> name or description.</li>
+      <li><b>Deactivate / Reactivate a category</b> — a deactivated category is hidden from new-product forms but existing products keep it.</li>
+    </ul>
+
+    <h2 id="mod-purchases" class="mod-title">3.7 &nbsp;Purchases <span class="tag">Supplier ordering</span></h2>
+    <p><b>Module overview.</b> Purchases (Purchase Orders, or "POs") are how new stock enters RetailFlow. A purchase order records what you ordered from a supplier, tracks partial or full delivery, records any price differences, and keeps a running balance of what you owe.</p>
+    <p><b>UI tour.</b> A searchable, date-filterable list of purchase orders (PO number, supplier, date, total, status). A <span class="btn">+ New Purchase Order</span> button starts a new order; <span class="btn secondary">Details</span> opens the Purchase detail drawer, which is where receiving, payment, returns, and closing all happen.</p>
+    <p>A purchase order moves through a lifecycle of statuses as it's actioned:</p>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>DRAFT</code></td><td>Order created but nothing delivered yet. Can still be cancelled.</td></tr>
+        <tr><td><code>PARTIALLY_RECEIVED</code></td><td>Some, but not all, ordered items have arrived.</td></tr>
+        <tr><td><code>RECEIVED</code></td><td>Everything ordered has arrived.</td></tr>
+        <tr><td><code>PARTIALLY_PAID</code> / <code>PAID</code></td><td>Payment status toward the supplier, tracked independently of delivery.</td></tr>
+        <tr><td><code>CANCELLED</code></td><td>The order was cancelled before anything was received.</td></tr>
+        <tr><td><code>CLOSED_SHORT</code></td><td>Some ordered stock will never arrive, and the outstanding amount has been written off.</td></tr>
+        <tr><td><code>RETURNED</code></td><td>Delivered stock was sent back to the supplier.</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Search purchase orders</b> by PO number, and filter by date range.</li>
+      <li><b>Create a new purchase order</b> — pick a supplier (or create one inline), set the order date and the supplier's own invoice number, and add line items with quantity, unit cost, tax %, and an overall discount.</li>
+      <li><b>Receive goods</b> — record delivery of some or all of an order's line items, each becoming a new stock batch.</li>
+      <li><b>Track price variance</b> — if the delivered unit cost differs from what was ordered, RetailFlow tracks the difference automatically.</li>
+      <li><b>Append to an existing batch</b> — when a second delivery against the same PO matches an already-created batch's cost, add to it instead of creating a new batch.</li>
+      <li><b>Close short</b> — write off the value of items that were ordered but will never be delivered.</li>
+      <li><b>Cancel a purchase order</b> — only available while it's still in Draft.</li>
+      <li><b>Record a payment</b> to the supplier against this order, including part-payments and advances paid before goods arrive.</li>
+      <li><b>Return items</b> — send delivered stock back to the supplier, reducing your stock and crediting your account with them.</li>
+    </ul>
+
+    <h2 id="mod-suppliers" class="mod-title">3.8 &nbsp;Suppliers <span class="tag">Vendor ledger</span></h2>
+    <p><b>Module overview.</b> Your supplier directory and, for each supplier, a running ledger of everything you've ordered, received, paid, and returned.</p>
+    <p><b>UI tour.</b> A searchable list of suppliers with Details, Statement, and Edit actions. The Supplier detail page has tabs for Supplier Details, Purchases, and Products Delivered.</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Search suppliers</b> by name.</li>
+      <li><b>Create / edit a supplier</b> — name, contact person, phone, email, GSTIN, address, and notes.</li>
+      <li><b>Deactivate a supplier.</b></li>
+      <li><b>View statement</b> — a running-balance ledger of everything owed and paid, in date order.</li>
+      <li><b>Record a refund received</b> — if returns to a supplier exceed what you've paid them, they may owe you; record money received back.</li>
+      <li><b>View purchase history</b> for this supplier.</li>
+      <li><b>View products delivered</b> by this supplier, filterable to this month or all-time.</li>
+    </ul>
+
+    <h2 id="mod-customers" class="mod-title">3.9 &nbsp;Customers <span class="tag">Customer ledger</span></h2>
+    <p><b>Module overview.</b> Your customer directory, each customer's balance (what they owe you, or store credit they hold), and their full purchase history.</p>
+    <p><b>UI tour.</b> A searchable list showing each customer's outstanding balance (shown in red if they owe money, or as an amber "CR" badge if the business owes them credit), with Details, "Pay out credit" (when applicable), "Collect payment," and Edit actions. The Customer detail page has tabs for Customer Details, Statement, Invoices, and Products Bought.</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Search customers</b> by name or phone.</li>
+      <li><b>Create / edit a customer</b> — name, phone, email, GSTIN, address, and notes.</li>
+      <li><b>View statement</b> — a paginated, running-balance ledger of every invoice, payment, and adjustment.</li>
+      <li><b>View invoices</b> for this customer, with WhatsApp send.</li>
+      <li><b>View products bought</b>, filterable to this month or all-time.</li>
+      <li><b>Collect a payment</b> — record money received from the customer against their balance.</li>
+      <li><b>Pay out credit</b> — return store credit the customer holds, as cash or another method (only shown when the customer has a credit balance).</li>
+    </ul>
+
+    <h2 id="mod-expenses" class="mod-title">3.10 &nbsp;Expenses <span class="tag">Spend tracking</span></h2>
+    <p><b>Module overview.</b> Tracks business running costs (rent, utilities, wages, supplies) separately from purchases of resale stock, so profit reporting is accurate.</p>
+    <p><b>UI tour.</b> Three tabs: <b>Expenses</b> (the filterable list with create/edit/delete), <b>Categories</b> (manage expense categories), and <b>Report</b> (a bar chart of spend, grouped by category, vendor, or payment method).</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Log a new expense</b> — date, amount, payment method, optional vendor and note, and a category (creatable inline).</li>
+      <li><b>Filter expenses</b> by date range, category, or payment method.</li>
+      <li><b>Edit or delete an expense</b> (delete requires a two-step confirmation).</li>
+      <li><b>Manage expense categories</b> — create, and toggle Active/Inactive.</li>
+      <li><b>View the spend report</b> for a chosen period, grouped by category, vendor, or payment method.</li>
+    </ul>
+
+    <h2 id="mod-cashbook" class="mod-title">3.11 &nbsp;Cashbook <span class="tag">Cash reconciliation</span></h2>
+    <p><b>Module overview.</b> A dedicated ledger for physical cash moving in and out of the till, kept separate from digital payment methods, so the register can be reconciled daily.</p>
+    <p><b>UI tour.</b> Stat cards for Opening balance, Cash in, Cash out, and Closing balance sit above two tabs: <b>Entries</b> (the transaction list) and <b>Report</b> (a daily rollup table).</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Set the opening balance</b> — establishes the starting cash figure the cashbook reconciles against.</li>
+      <li><b>Add a manual adjustment</b> — record cash in or cash out with an amount and notes (e.g. petty cash withdrawal).</li>
+      <li><b>View the daily report</b> — a rollup of opening/in/out/closing figures per day.</li>
+    </ul>
+
+    <h2 id="mod-audits" class="mod-title">3.12 &nbsp;Stock Counts &amp; Loss Reports <span class="tag">Inventory audit</span></h2>
+    <p><b>Module overview.</b> Lets you periodically count what's physically on the shelf, compare it against what RetailFlow's records say, and correct the system to match reality — while quantifying any loss (shrinkage) or surplus along the way.</p>
+    <p><b>UI tour.</b> Two tabs: <b>Stock counts</b> (create and complete physical counts) and <b>Loss report</b> (shrinkage summarized by period).</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Start a new stock count</b> — pick a count date, add notes, and search-and-add the products being counted.</li>
+      <li><b>Enter counted quantities</b> — each line is pre-filled with the current system quantity as a starting point; you edit it to the actual counted number, and a live Difference column shows the variance.</li>
+      <li><b>Review a count's impact</b> — before completing, see short/over quantities and the net value impact.</li>
+      <li><b>Complete a count</b> — corrects system stock to match what was counted. This cannot be undone.</li>
+      <li><b>View the loss report</b> — total loss/surplus value and a per-product breakdown, filterable by month or all-time, drawn only from completed counts.</li>
+    </ul>
+
+    <h2 id="mod-reports" class="mod-title">3.13 &nbsp;Reports &amp; Analytics <span class="tag">Business intelligence</span></h2>
+    <p><b>Module overview.</b> A deeper analytical companion to the Dashboard, organized into focused tabs for sales performance, inventory health, customer/supplier rankings, and full financial statements — plus one-click exports for spreadsheet analysis.</p>
+    <p><b>UI tour.</b> Five tabs: <b>Overview</b>, <b>Inventory</b>, <b>Rankings</b>, <b>Financial</b>, and <b>Exports</b>. Most tabs offer a period selector; some are gated by permission (Inventory and Exports need Inventory-reports access, Financial needs Profit-reports access).</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Overview tab</b> — revenue, profit, order count, average order value, and growth versus the previous period, plus a Revenue &amp; Profit by Category chart.</li>
+      <li><b>Inventory tab</b> — low-stock list, reorder suggestions, dead-stock list (items not selling), and total inventory valuation.</li>
+      <li><b>Rankings tab</b> — top customers, top suppliers, ABC analysis (classifying products by contribution to revenue), and fast-moving products.</li>
+      <li><b>Financial tab</b> — a profit &amp; loss statement (revenue, cost of goods sold, gross profit, expenses, net profit), current cash position, and outstanding receivable/payable.</li>
+      <li><b>Exports tab</b> — download CSV/Excel files for ten report types: Low stock, Reorder, Dead stock, Fast-moving, Slow-moving, Inventory valuation, ABC analysis, Category performance, Top customers, and Top suppliers.</li>
+    </ul>
+
+    <h2 id="mod-users" class="mod-title">3.14 &nbsp;Staff &amp; User Management <span class="tag">Team accounts</span></h2>
+    <p><b>Module overview.</b> Where the Owner (or anyone granted the right permission) creates and manages accounts for the rest of the team, assigning each person a role that controls what they can see and do.</p>
+    <p><b>UI tour.</b> A list of staff with Name, Email, Role badges, and Status, plus a live counter in the header showing how many of the business's allowed accounts are in use (e.g. "3 / 5 accounts").</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Create a new user</b> — name, email, temporary password, optional phone, and a role.</li>
+      <li><b>Edit a user's</b> name or phone number.</li>
+      <li><b>Change a user's role</b> — every user has exactly one role at a time.</li>
+      <li><b>Reset a user's password</b> — sets a new password and signs them out of all existing sessions.</li>
+      <li><b>Deactivate a user</b> — blocks sign-in without deleting their history.</li>
+      <li><b>Account limit awareness</b> — the "+ New user" action is disabled with an explanatory message once the business's account limit is reached.</li>
+    </ul>
+    <div class="callout note"><span class="callout-title">Note</span>The Owner role can never be assigned to anyone through this screen — every business has exactly one Owner, set when the business account was created. See <a href="#sec-5">Permissions &amp; Access Control</a>.</div>
+
+    <h2 id="mod-auditlog" class="mod-title">3.15 &nbsp;Audit Log <span class="tag">Accountability</span></h2>
+    <p><b>Module overview.</b> An unchangeable record of every significant action taken in your business's account — who did what, to which record, and when — for accountability and troubleshooting.</p>
+    <p><b>UI tour.</b> A date-range-filterable, paginated table of Time, Action, Entity, Entity ID, User, Role, and IP address, with each action color-coded (e.g. green for creation, blue for updates, red for deletions or cancellations).</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Filter by date range.</b></li>
+      <li><b>Read entries</b> — every row shows exactly which user performed which action on which record, from where.</li>
+    </ul>
+    <div class="callout note"><span class="callout-title">Note</span>This is separate from Stock Counts (§3.12), which reconcile physical inventory. The Audit Log tracks <i>actions</i> across the whole system — sales voided, users deactivated, products created, and so on.</div>
+
+    <h2 id="mod-settings" class="mod-title">3.16 &nbsp;Settings <span class="tag">Configuration</span></h2>
+    <p><b>Module overview.</b> Where a business reviews its own details and tunes the rules RetailFlow uses for stock alerts, void/refund time limits, and invoice printing, plus manages personal password security.</p>
+    <p><b>UI tour.</b> Three cards: <b>Business Details</b> (read-only), <b>Inventory &amp; Sales Settings</b> (editable with the right permission), and <b>Change Password</b>.</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>View Business Details</b> — business name, phone, GSTIN, address, and UPI details (read-only; changes go through a platform administrator).</li>
+      <li><b>Set Lead time</b> — how many days it typically takes a supplier order to arrive, used in reorder calculations.</li>
+      <li><b>Set Safety stock</b> — a buffer of extra days' stock to hold, used in reorder calculations.</li>
+      <li><b>Set Dead stock threshold</b> — how many days without a sale before a product is flagged as dead stock.</li>
+      <li><b>Set Low-stock threshold</b> — the quantity below which a product is flagged as low stock.</li>
+      <li><b>Set the Void window</b> — how long after a sale it can still be voided.</li>
+      <li><b>Set the Refund window</b> — how long after a sale it can still be refunded.</li>
+      <li><b>Toggle "Print Invoice by default"</b> — the default state of the print checkbox at checkout.</li>
+      <li><b>Change your own password.</b></li>
+    </ul>
+
+    <h2 id="mod-feedback" class="mod-title">3.17 &nbsp;Feedback &amp; Support <span class="tag">Always available</span></h2>
+    <p><b>Module overview.</b> A lightweight way for anyone on your team to send a bug report, an idea, or a comment directly to the RetailFlow team, without leaving the app.</p>
+    <p><b>UI tour.</b> A "Send feedback" link at the bottom of the sidebar opens a small dialog with a category picker, a message box, and an optional screenshot attachment.</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Choose a category</b> — Bug, Idea, Praise, or Other.</li>
+      <li><b>Write a message</b> describing the issue or idea.</li>
+      <li><b>Attach a screenshot</b> — paste or upload an image to illustrate the feedback.</li>
+    </ul>
+
+    <h2 id="mod-platform" class="mod-title">3.18 &nbsp;Platform Administration <span class="tag">For RetailFlow staff only</span></h2>
+    <p><b>Module overview.</b> A completely separate portal, used only by RetailFlow's own operations staff, for provisioning new business accounts, managing platform-level admin accounts, and providing account support. Business owners, managers, and cashiers never see or use this portal — it is documented here for completeness and for platform administrators reading this manual.</p>
+    <p><b>UI tour.</b> Reached via a separate sign-in page, entirely apart from the business sign-in page. Two access tiers exist: <b>Admin</b> and <b>Super Admin</b>, sharing the same screens but with Super Admin unlocking a few additional capabilities (see below and <a href="#sec-5">Permissions &amp; Access Control</a>).</p>
+    <p><b>Micro-features:</b></p>
+    <ul class="feature-list">
+      <li><b>Businesses console</b> — list every business on the platform with its owner, user count vs. limit, category, and status.</li>
+      <li><b>Create a new business</b> — the sole way a new business account comes into existence on RetailFlow.</li>
+      <li><b>Manage a business</b> — edit its details, raise its user-account limit, and manage its users.</li>
+      <li><b>Suspend / reactivate a business</b> — immediately blocks or restores sign-in for everyone at that business.</li>
+      <li><b>Delete a business</b> — a permanent, irreversible action requiring the exact business name to be typed as confirmation.</li>
+      <li><b>Impersonate a user</b> ("Enter as") — sign in as a specific user at a business to help troubleshoot, with a persistent on-screen banner showing you're impersonating and a one-click way to exit back to the admin portal.</li>
+      <li><b>Platform dashboard</b> — stat cards for total businesses, suspended businesses, users, admins, and sales, plus admin-defined progress "targets."</li>
+      <li><b>Platform Admins management</b> (Super Admin capability) — create and manage other admin accounts and their permissions.</li>
+      <li><b>Platform Settings</b> — an admin's own profile and password.</li>
+    </ul>
+
+    <h1 id="sec-4" class="section-title"><span class="num">4.</span> Granular User Flows</h1>
+    <p class="section-intro">This is the step-by-step reference. For every micro-feature listed in Section 3, you'll find here exactly what to click, what to type, what's required versus optional, and what happens immediately afterward — including the exact wording of confirmation and error messages RetailFlow shows.</p>
+
+    <h2 id="flow-dashboard" class="mod-title">4.1 &nbsp;Dashboard Flows</h2>
+
+    <h4 class="flow-title">Switching the Sales Trend chart range</h4>
+    <div class="flow">
+      <ol>
+        <li>On the Dashboard, locate the <b>Sales Trend</b> card.</li>
+        <li>Click <span class="btn secondary">30d</span>, <span class="btn secondary">90d</span>, or <span class="btn secondary">1y</span> to change the chart's time window.</li>
+      </ol>
+      <p><b>System response:</b> The chart redraws immediately with the selected range; no page reload occurs.</p>
+    </div>
+
+    <h4 class="flow-title">Collapsing the Sales Trend chart</h4>
+    <div class="flow">
+      <ol><li>Click the collapse arrow/header on the Sales Trend card.</li></ol>
+      <p><b>System response:</b> The chart hides, freeing vertical space; clicking again restores it. Your other dashboard cards are unaffected.</p>
+    </div>
+
+    <div class="callout note"><span class="callout-title">Note on live data</span>The Dashboard refreshes automatically every 30 seconds. If a number seems out of date, wait a moment rather than reloading the page — a reload is unnecessary and will lose your Sales Trend range/collapse selection.</div>
+
+    <h2 id="flow-pos" class="mod-title">4.2 &nbsp;Point of Sale (POS) Flows</h2>
+
+    <h4 class="flow-title">Adding a product to the cart by search</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: sales.create</span></div>
+      <ol>
+        <li>Press <kbd>F1</kbd> or click the product search box.</li>
+        <li>Type the product's name or SKU.</li>
+        <li>Select the product from the results.</li>
+        <li>If the product has more than one active batch, a <b>Batch Picker</b> opens — choose the batch to sell from, using the shown remaining quantity, sell price, and (if you can view profit) margin per unit.</li>
+      </ol>
+      <p><b>System response:</b> The product is added to the cart as a new line with quantity 1, using the selected batch's sell price. If only one batch exists, it is chosen automatically with no picker shown.</p>
+    </div>
+
+    <h4 class="flow-title">Selling more than the picked batch has in stock</h4>
+    <div class="flow">
+      <ol>
+        <li>On a cart line whose picked batch is running low, increase the quantity beyond that batch's remaining stock.</li>
+      </ol>
+      <p><b>System response:</b> RetailFlow automatically tops up the line from other active batches of the same product, oldest batch first, at each batch's own cost — the line still sells at the originally picked batch's price throughout. The sale detail view later shows exactly which batches (and how much of each) the line drew from. The line is only blocked once quantity exceeds the product's <i>total</i> stock across every active batch, not the picked batch alone.</p>
+    </div>
+
+    <h4 class="flow-title">Scanning a barcode (handheld USB scanner)</h4>
+    <div class="flow">
+      <ol>
+        <li>With the billing screen open (no need to click into a field first), scan the product's barcode with your USB scanner.</li>
+      </ol>
+      <p><b>System response:</b> RetailFlow recognizes the rapid keystroke-plus-Enter pattern of a scanner, looks up the barcode, and adds the matching product/batch to the cart automatically. If no product matches the barcode, a "not found" message is shown and nothing is added.</p>
+    </div>
+
+    <h4 class="flow-title">Scanning a barcode with the camera</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn secondary">📷 Scan</span>.</li>
+        <li>Grant camera access if prompted by your browser.</li>
+        <li>Point the camera at the barcode until it is recognized.</li>
+      </ol>
+      <p><b>System response:</b> On a successful read, the scanner closes and the matched product/batch is added to the cart, same as a USB scan. Supported formats include EAN-13/8, UPC-A/E, Code128/39/93, ITF, Codabar, and QR. A torch/flashlight toggle is available for low light.</p>
+    </div>
+
+    <h4 class="flow-title">Changing a cart line's quantity</h4>
+    <div class="flow">
+      <ol>
+        <li>On the cart line, use the quantity stepper, or click into the quantity field and type a number directly.</li>
+      </ol>
+      <p><b>Validation:</b> Quantity cannot exceed the product's total stock across all its active batches (the excess over the picked batch is drawn from other batches automatically — see below). If you try to enter more than the product's total stock, the field shows "Max stock: N" and will not accept a larger number.</p>
+      <p><b>System response:</b> The line's subtotal and the bill's running totals update immediately.</p>
+    </div>
+
+    <h4 class="flow-title">Applying a per-line discount</h4>
+    <div class="flow">
+      <ol>
+        <li>On the cart line, click the discount field.</li>
+        <li>Toggle between <span class="field-label">₹</span> and <span class="field-label">%</span> as needed.</li>
+        <li>Enter the discount amount.</li>
+      </ol>
+      <p><b>System response:</b> The line total, and the bill's subtotal/tax/final total, recalculate immediately.</p>
+    </div>
+
+    <h4 class="flow-title">Applying a bill-level discount</h4>
+    <div class="flow">
+      <ol>
+        <li>In the bill summary panel, click the overall discount field.</li>
+        <li>Toggle ₹/% as needed and enter the amount.</li>
+      </ol>
+      <p><b>System response:</b> The final total updates immediately, applied after any per-line discounts.</p>
+    </div>
+
+    <h4 class="flow-title">Adding a warranty period</h4>
+    <div class="flow">
+      <ol>
+        <li>In the bill summary panel, enter a number of months in the <span class="field-label">Warranty</span> field.</li>
+      </ol>
+      <p><b>System response:</b> RetailFlow computes and displays a "valid up to" date based on today's date plus the entered months. This date is printed on the invoice.</p>
+    </div>
+
+    <h4 class="flow-title">Removing a line from the cart</h4>
+    <div class="flow">
+      <ol><li>Click the remove/trash icon on the cart line.</li></ol>
+      <p><b>System response:</b> The line disappears and totals recalculate immediately. There is no confirmation prompt — this only affects the in-progress cart, not a completed sale.</p>
+    </div>
+
+    <h4 class="flow-title">Completing a sale (Payment &amp; Complete)</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: sales.create</span></div>
+      <ol>
+        <li>With at least one item in the cart, press <kbd>F4</kbd> or click <span class="btn">Payment &amp; Complete</span>.</li>
+        <li><b>Select a customer</b>: search by name/phone and pick one, click <span class="btn secondary">+ New</span> to create one inline, or leave as <span class="field-label">Walk-in (no account)</span>.</li>
+        <li>Choose how payment is made:
+          <ul>
+            <li>Click <span class="btn secondary">Exact cash</span> to fill in the exact amount due as cash, or <span class="btn secondary">Full credit</span> to put the whole sale on the customer's account.</li>
+            <li>Or manually enter amounts against one or more of Cash / UPI / Card / Bank Transfer to split the payment — in split mode, the cash amount auto-computes to cover whatever is left.</li>
+          </ul>
+        </li>
+        <li>If the selected customer holds a credit balance, a banner shows it — click <span class="btn secondary">Apply</span> to spend it toward this sale, or <span class="btn secondary">Remove</span> to undo that.</li>
+        <li>If your business has a UPI ID configured, click <span class="btn secondary">Generate QR</span> to show a scannable payment QR code for the amount due.</li>
+        <li>If the customer overpays in cash, you may tick <span class="field-label">No change</span> to add the change to their store credit instead of handing back cash (this option requires a selected customer — it is unavailable for a walk-in sale).</li>
+        <li>Tick or untick <span class="field-label">Print Invoice</span> as needed (defaults from your Settings preference).</li>
+        <li>Review the live summary line — it will read one of: <i>"Exceeds total"</i> (too much entered), <i>"On credit"</i> (payment doesn't cover the total and a customer is attached), <i>"Paid in full ✓"</i> with any change/credit noted, or plain <i>"Paid in full ✓."</i></li>
+        <li>Click the Complete button. Its label adapts to context: <i>"Complete — ₹X credit,"</i> <i>"Complete — Change ₹X,"</i> <i>"Complete — Credit ₹X,"</i> or plain <i>"Complete sale."</i></li>
+      </ol>
+      <p><b>Validation:</b> A sale cannot be completed on credit without a selected customer — <i>"a customer is required for a credit sale."</i> Total payments entered cannot exceed the sale total by more than what would be handled as change — <i>"payments exceed the sale total"</i> is rejected server-side if something is inconsistent. Selling more of a batch than is in stock is blocked with <i>"insufficient stock."</i></p>
+      <p><b>System response:</b> On success, a confirmation toast shows the new invoice number and outcome. If Print Invoice was ticked, the printable invoice PDF opens automatically in a new tab and its print dialog opens after a short delay. If "No change" was used, the change amount is posted as a customer credit payment in the background. The cart clears, ready for the next sale.</p>
+    </div>
+
+    <h2 id="flow-sales" class="mod-title">4.3 &nbsp;Sales Record &amp; Invoice Flows</h2>
+
+    <h4 class="flow-title">Finding a past sale</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: sales.view</span></div>
+      <ol>
+        <li>Go to <b>Sales</b> in the sidebar.</li>
+        <li>Type an invoice number in the search box, and/or set a date range.</li>
+      </ol>
+      <p><b>System response:</b> The table filters to matching invoices as you type/select.</p>
+    </div>
+
+    <h4 class="flow-title">Sending an invoice on WhatsApp</h4>
+    <div class="flow">
+      <ol>
+        <li>On the Sales list (or a customer's Invoices tab), click <span class="btn secondary">Send on WhatsApp</span> next to the invoice.</li>
+      </ol>
+      <p><b>System response:</b> A WhatsApp link opens (in a new tab or the WhatsApp app, depending on your device) pre-filled with a message containing the invoice details/link, ready for you to send to the customer's number on file.</p>
+    </div>
+
+    <h4 class="flow-title">Viewing sale details</h4>
+    <div class="flow">
+      <ol><li>Click <span class="btn secondary">Details</span> on a sale in the list.</li></ol>
+      <p><b>System response:</b> A drawer opens showing line items with batch allocations, Subtotal/Discount/Tax/Total/Paid/Balance, the payment method(s) used, and warranty details (period and valid-until date) if any.</p>
+    </div>
+
+    <h4 class="flow-title">Printing an invoice again</h4>
+    <div class="flow">
+      <ol><li>In the Sale detail drawer, click <span class="btn secondary">Print invoice</span>.</li></ol>
+      <p><b>System response:</b> The invoice PDF opens in a new tab, ready to print or save.</p>
+    </div>
+
+    <h4 class="flow-title">Voiding a sale</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: sales.cancel</span></div>
+      <ol>
+        <li>Open the sale's detail drawer.</li>
+        <li>Click <span class="btn danger">Void</span>.</li>
+        <li>Confirm the action.</li>
+      </ol>
+      <p><b>Validation:</b> The button is disabled once the business's configured void window (a number of days plus hours; the default is 12 hours) has passed since the sale, with a tooltip reading <i>"Void window has expired."</i> A sale that isn't in a voidable status shows <i>"sale cannot be voided in its current status."</i></p>
+      <p><b>System response:</b> The sale is reversed — stock sold in it is returned to inventory, and its status updates. This is recorded in the Audit Log.</p>
+    </div>
+
+    <h4 class="flow-title">Refunding a sale</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: sales.refund</span></div>
+      <ol>
+        <li>Open the sale's detail drawer and click <span class="btn danger">Refund</span>.</li>
+        <li>The modal shows the linked customer's current balance context: whether they owe money, already hold a credit balance, or have no outstanding balance.</li>
+        <li>Choose a <b>Refund method</b>: <span class="field-label">Add to customer's credit balance</span> or <span class="field-label">Pay cash from register</span>. (If no customer is linked to the sale, cash is the only option.)</li>
+        <li>Confirm the refund.</li>
+      </ol>
+      <p><b>Validation:</b> Disabled after the business's configured refund window (default 7 days) has elapsed, with a tooltip reading <i>"Refund window has expired."</i> A sale not in a refundable status shows <i>"sale cannot be refunded in its current status."</i></p>
+      <p><b>System response:</b> The refund is recorded against the sale, and either the customer's credit balance increases or cash is logged as paid out, depending on the method chosen.</p>
+    </div>
+
+    <h2 id="flow-products" class="mod-title">4.4 &nbsp;Product Catalog Flows</h2>
+
+    <h4 class="flow-title">Searching and filtering the catalog</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: products.view</span></div>
+      <ol>
+        <li>Go to <b>Products</b> in the sidebar.</li>
+        <li>Type into the search box to filter by name or SKU, and/or pick a category from the filter dropdown.</li>
+        <li>Use the A–Z index bar to jump to products starting with a specific letter, or click it again to collapse it.</li>
+      </ol>
+      <p><b>System response:</b> The list filters live as you type or select.</p>
+    </div>
+
+    <h4 class="flow-title">Looking up a product by barcode</h4>
+    <div class="flow">
+      <ol>
+        <li>Click the barcode field and either type a barcode or click the camera icon to scan one.</li>
+      </ol>
+      <p><b>System response:</b> If found, the matching product is shown/highlighted. If not, a "not found" message appears.</p>
+    </div>
+
+    <h4 class="flow-title">Creating a new product</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: products.create</span></div>
+      <ol>
+        <li>Click <span class="btn">+ New product</span>.</li>
+        <li>Enter <span class="field-label">Name</span> (required).</li>
+        <li>Optionally enter a <span class="field-label">SKU</span>.</li>
+        <li>Pick a <span class="field-label">Category</span>, or click the inline "add category" option to create one on the spot without leaving the form.</li>
+        <li>Enter the <span class="field-label">Opening cost</span> (required) — what you paid per unit for the starting stock.</li>
+        <li>Enter the <span class="field-label">Default selling price</span> (required).</li>
+        <li>Tick <span class="field-label">Apply GST</span> if the product is taxable, then choose the GST slab: 5%, 12%, 18%, 28%, or 40%.</li>
+        <li>Optionally tick <span class="field-label">Selling price is MRP</span> — when set, GST is calculated as already included in the price you entered (backed out) rather than added on top.</li>
+        <li>Choose a <span class="field-label">Unit</span>: PCS, KG, GRAM, LITER, ML, BOX, PACK, DOZEN, or METER.</li>
+        <li>Optionally set <span class="field-label">Min. stock</span> — the quantity that triggers a low-stock alert for this product.</li>
+        <li>Enter or scan a <span class="field-label">Barcode</span> (optional).</li>
+        <li>Enter <span class="field-label">Initial stock</span> (create-only) — the opening quantity for this product's first batch.</li>
+        <li>Optionally add a product photo — drag-and-drop, click to upload, or capture with a camera. Accepted formats are JPEG, PNG, and WebP, up to 5MB; images over 2MB are automatically compressed before upload.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> Name is required. Cost and selling price must both be entered and greater than zero — otherwise you'll see <i>"Enter a purchase price and a selling price greater than 0."</i> An SKU or barcode already used by another product is rejected with <i>"sku already in use"</i> or <i>"barcode already in use."</i></p>
+      <p><b>System response:</b> The product is created along with its first stock batch (using the opening cost, selling price, and initial stock you entered), and appears immediately in the catalog list.</p>
+    </div>
+
+    <h4 class="flow-title">Editing a product</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: products.update</span></div>
+      <ol>
+        <li>Click <span class="btn secondary">Edit</span> on a product row.</li>
+        <li>Update any field except initial stock (stock is changed via Adjust Stock or purchases, never by editing the product directly) and the opening cost (each batch tracks its own cost from here on).</li>
+        <li>To change the photo, upload a new one to replace the existing image, or click <span class="btn danger">Remove photo</span> and confirm to delete it entirely.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>System response:</b> Changes apply immediately across the catalog and billing screen. Removing a photo deletes it from storage right away, independent of clicking Save, and cannot be undone.</p>
+    </div>
+
+    <h4 class="flow-title">Adjusting stock manually</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: inventory.adjust</span></div>
+      <ol>
+        <li>On a product row, click <span class="btn secondary">Stock</span> → <span class="btn secondary">Adjust</span> (or the equivalent action from the product's Batches view).</li>
+        <li>Enter a signed <span class="field-label">Quantity</span> — a positive number to add stock (e.g. found extra stock), or a negative number to remove it (e.g. damage or a correction).</li>
+        <li>Optionally add a <span class="field-label">Note</span> explaining the reason.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> The quantity cannot be zero — <i>"Enter a non-zero quantity."</i></p>
+      <p><b>System response:</b> A stock-adjustment movement is written against the relevant batch, and the product's current stock reflects it immediately. The adjustment appears in the Audit Log.</p>
+    </div>
+
+    <h4 class="flow-title">Deactivating / reactivating a product</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: products.delete</span></div>
+      <ol>
+        <li>Click <span class="btn secondary">Deactivate</span> on a product row (or <span class="btn secondary">Reactivate</span> on an already-deactivated one).</li>
+      </ol>
+      <p><b>System response:</b> A deactivated product disappears from the billing screen's search and can no longer be sold, but its full sales/purchase history is preserved and it can be reactivated at any time.</p>
+    </div>
+
+    <h2 id="flow-batches" class="mod-title">4.5 &nbsp;Batch Flows</h2>
+
+    <h4 class="flow-title">Searching and filtering batches</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: inventory.view</span></div>
+      <ol>
+        <li>Go to <b>Inventory → All batches</b> (or open a specific product's Batches view).</li>
+        <li>Search by product name, batch number, or barcode.</li>
+        <li>Filter by status: Active, Depleted, or Inactive.</li>
+      </ol>
+      <p><b>System response:</b> The batch table filters live.</p>
+    </div>
+
+    <h4 class="flow-title">Editing a batch</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: products.update</span></div>
+      <ol>
+        <li>Click <span class="btn secondary">Edit</span> on a batch row.</li>
+        <li>Update <span class="field-label">Cost price</span>, <span class="field-label">Selling price</span>, and/or <span class="field-label">Barcode</span>.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>System response:</b> Future sales from this batch use the updated price(s) immediately; past sales are unaffected.</p>
+    </div>
+
+    <h4 class="flow-title">Deactivating / reactivating a batch</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn secondary">Deactivate</span> on a batch (e.g. stock found to be damaged) or <span class="btn secondary">Reactivate</span> on a previously deactivated one.</li>
+      </ol>
+      <p><b>System response:</b> A deactivated batch is hidden from the billing screen's batch picker and cannot be sold from, but remains visible in reporting and can be reactivated at any time.</p>
+    </div>
+
+    <h2 id="flow-categories" class="mod-title">4.6 &nbsp;Category Flows</h2>
+
+    <h4 class="flow-title">Creating a category</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: products.create</span></div>
+      <ol>
+        <li>Go to <b>Categories</b> in the sidebar, or use the inline "add category" option from a product form.</li>
+        <li>Click <span class="btn">+ New category</span>.</li>
+        <li>Enter <span class="field-label">Name</span> (required).</li>
+        <li>Optionally enter a <span class="field-label">Description</span>.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> A duplicate name is rejected with <i>"category name already exists."</i></p>
+      <p><b>System response:</b> The category appears immediately in the category list and in the category picker on product forms.</p>
+    </div>
+
+    <h4 class="flow-title">Editing a category</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn secondary">Edit</span> on a category row, update the name or description, and click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>System response:</b> Existing products keep the category; only its name/description changes everywhere it's shown.</p>
+    </div>
+
+    <h4 class="flow-title">Deactivating / reactivating a category</h4>
+    <div class="flow">
+      <ol><li>Click <span class="btn secondary">Deactivate</span> or <span class="btn secondary">Activate</span> on a category row.</li></ol>
+      <p><b>System response:</b> A deactivated category is hidden from new-product forms but remains attached to any product already assigned to it.</p>
+    </div>
+
+    <h2 id="flow-purchases" class="mod-title">4.7 &nbsp;Purchase Order Flows</h2>
+
+    <h4 class="flow-title">Creating a new purchase order</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: purchases.create</span></div>
+      <ol>
+        <li>Go to <b>Purchases</b> and click <span class="btn">+ New Purchase Order</span>.</li>
+        <li>Choose a <span class="field-label">Supplier</span> from the list, or click "+ New" to create one inline.</li>
+        <li>Set the <span class="field-label">Purchase date</span> and optionally enter the supplier's own <span class="field-label">Invoice #</span>.</li>
+        <li>Add products to the order — search and select, or create a new product inline if it doesn't exist yet.</li>
+        <li>For each line, enter <span class="field-label">Qty</span>, <span class="field-label">Unit cost</span>, and <span class="field-label">Tax %</span>.</li>
+        <li>Optionally enter an overall <span class="field-label">Discount</span> (₹) and <span class="field-label">Notes</span>.</li>
+        <li>Review the live Subtotal / Tax / Total, then click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> A supplier must be selected — <i>"Select a supplier."</i> At least one item is required — <i>"Add at least one item"</i> / <i>"purchase must have at least one item."</i> Quantity must be greater than zero — <i>"quantity must be greater than zero."</i> Unit cost cannot be negative — <i>"unit cost must be non-negative."</i></p>
+      <p><b>System response:</b> The purchase order is created with status <code>DRAFT</code> and appears in the Purchases list, ready to receive against.</p>
+    </div>
+
+    <h4 class="flow-title">Receiving goods against a purchase order</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: purchases.update</span></div>
+      <ol>
+        <li>Open the purchase order's detail drawer and choose <span class="btn secondary">Receive</span>.</li>
+        <li>For each outstanding line, enter the <span class="field-label">Receiving now</span> quantity (capped at what remains to be delivered).</li>
+        <li>Confirm or adjust the <span class="field-label">Unit cost</span> — if it differs from the ordered cost, RetailFlow tracks this as a price variance automatically.</li>
+        <li>Enter the <span class="field-label">Selling price</span> for the new batch this delivery will create.</li>
+        <li>Provide a <span class="field-label">Batch barcode</span> — type one, scan one, or click "reuse previous barcode." Alternatively, if an earlier delivery on this same order already created a batch for this exact product at a matching cost, tick <span class="field-label">Append to batch</span> to add to it instead of creating a new one.</li>
+        <li>Review the live "Price variance vs. ordered" total, then click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> A receiving quantity must be entered — <i>"Enter a quantity to receive."</i> It cannot exceed what's left on the line — <i>"Received quantity exceeds what's left on a line"</i> / <i>"received quantity exceeds the remaining ordered quantity."</i> A selling price is required for every received line — <i>"Enter a selling price for each received line."</i> Reusing a barcode when none exists yet shows <i>"This product has no previous barcode to reuse — enter one."</i> Appending to a batch whose cost doesn't match is rejected — <i>"unit cost does not match the existing batch's cost."</i></p>
+      <p><b>System response:</b> Each received line becomes a new stock batch (or adds to an existing one if appended), immediately available for sale. The purchase order's status updates to <code>PARTIALLY_RECEIVED</code> or <code>RECEIVED</code> depending on whether anything is still outstanding.</p>
+    </div>
+
+    <h4 class="flow-title">Recording a payment to a supplier</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: payments.manage</span></div>
+      <ol>
+        <li>Open the purchase order's detail drawer and choose <span class="btn secondary">Record payment</span>.</li>
+        <li>Enter the <span class="field-label">Amount</span> (required).</li>
+        <li>Choose a <span class="field-label">Method</span>: Cash, UPI, Card, or Bank Transfer.</li>
+        <li>Optionally add <span class="field-label">Notes</span>.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>System response:</b> The payment is recorded against the order and the supplier's ledger. If paid before anything has been received, it is flagged as an "ADVANCE." The order's payment status updates to <code>PARTIALLY_PAID</code> or <code>PAID</code>.</p>
+    </div>
+
+    <h4 class="flow-title">Returning items to a supplier</h4>
+    <div class="flow">
+      <ol>
+        <li>Open the purchase order's detail drawer and choose <span class="btn secondary">Return items</span>.</li>
+        <li>For each delivered-but-not-yet-returned line, enter the <span class="field-label">Return qty</span>.</li>
+        <li>Optionally add a <span class="field-label">Reason</span>.</li>
+        <li>Review the estimated credit, then click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> Return quantity cannot exceed what was purchased and not already returned — <i>"return quantity exceeds the remaining purchased quantity."</i></p>
+      <p><b>System response:</b> Stock is reduced accordingly, the supplier's ledger is credited by the estimated value, and the order's status may become <code>RETURNED</code> if fully returned.</p>
+    </div>
+
+    <h4 class="flow-title">Closing a purchase order short</h4>
+    <div class="flow">
+      <ol>
+        <li>Open the purchase order's detail drawer and choose <span class="btn secondary">Close short</span>.</li>
+        <li>Confirm the action in the dialog that appears.</li>
+      </ol>
+      <p><b>System response:</b> The value of whatever was ordered but never delivered is written off as no longer owed to the supplier, and the order's status becomes <code>CLOSED_SHORT</code>. This cannot be undone.</p>
+    </div>
+
+    <h4 class="flow-title">Cancelling a purchase order</h4>
+    <div class="flow">
+      <ol><li>Open the purchase order's detail drawer and choose <span class="btn danger">Cancel</span>, then confirm.</li></ol>
+      <p><b>Validation:</b> Only available while the order is still <code>DRAFT</code>. Otherwise: <i>"purchase cannot be cancelled in its current status."</i></p>
+      <p><b>System response:</b> The order is marked <code>CANCELLED</code> and no stock is affected, since nothing had been received.</p>
+    </div>
+
+    <h2 id="flow-suppliers" class="mod-title">4.8 &nbsp;Supplier Flows</h2>
+
+    <h4 class="flow-title">Creating or editing a supplier</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: suppliers.manage</span></div>
+      <ol>
+        <li>Go to <b>Suppliers</b> and click <span class="btn">+ New supplier</span> (or <span class="btn secondary">Edit</span> on an existing one).</li>
+        <li>Enter <span class="field-label">Name</span> (required).</li>
+        <li>Optionally fill in Contact person, Phone, Email, GSTIN, City, State, Address, and Notes.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>System response:</b> The supplier appears in the list and becomes available to select on new purchase orders.</p>
+    </div>
+
+    <h4 class="flow-title">Viewing a supplier statement</h4>
+    <div class="flow">
+      <ol><li>Click <span class="btn secondary">Statement</span> on a supplier row.</li></ol>
+      <p><b>System response:</b> A running-balance ledger opens, listing every purchase, payment, and return in date order.</p>
+    </div>
+
+    <h4 class="flow-title">Recording a refund received from a supplier</h4>
+    <div class="flow">
+      <ol>
+        <li>On the supplier's Statement, if their balance shows a credit in your favor (returns exceeding payments), click <span class="btn secondary">Record refund received</span>.</li>
+        <li>Enter <span class="field-label">Amount</span>, <span class="field-label">Method</span>, and optional <span class="field-label">Notes</span>.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> The amount is capped to the supplier's available credit — <i>"refund exceeds the supplier's available credit"</i> if you try to enter more.</p>
+      <p><b>System response:</b> The supplier's ledger balance decreases by the refunded amount.</p>
+    </div>
+
+    <h2 id="flow-customers" class="mod-title">4.9 &nbsp;Customer Flows</h2>
+
+    <h4 class="flow-title">Creating or editing a customer</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: customers.manage</span></div>
+      <ol>
+        <li>Go to <b>Customers</b> and click <span class="btn">+ New customer</span> (or <span class="btn secondary">Edit</span> on an existing one). This can also be done inline from the POS checkout screen.</li>
+        <li>Enter <span class="field-label">Name</span> (required).</li>
+        <li>Optionally fill in Phone, Email, GSTIN, City, State, Address, and Notes.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>System response:</b> The customer becomes searchable on the billing screen and in the Customers list.</p>
+    </div>
+
+    <h4 class="flow-title">Collecting a payment from a customer</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: payments.manage</span></div>
+      <ol>
+        <li>On the Customers list or a customer's detail page, click <span class="btn secondary">Collect payment</span>.</li>
+        <li>Enter <span class="field-label">Amount</span>, <span class="field-label">Method</span>, and optional <span class="field-label">Notes</span>.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>System response:</b> The customer's outstanding balance reduces immediately, visible on the list and in their statement.</p>
+    </div>
+
+    <h4 class="flow-title">Paying out a customer's credit balance</h4>
+    <div class="flow">
+      <ol>
+        <li>On a customer who holds a credit balance, click <span class="btn secondary">Pay out credit</span> (only shown in this case).</li>
+        <li>Enter the <span class="field-label">Amount</span> (capped to their available credit) and <span class="field-label">Method</span>.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> <i>"settlement exceeds the customer's available credit"</i> if you try to pay out more than they hold.</p>
+      <p><b>System response:</b> The customer's credit balance decreases by the amount paid out.</p>
+    </div>
+
+    <h4 class="flow-title">Viewing a customer's statement, invoices, and products bought</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn secondary">Details</span> on a customer, then choose the <b>Statement</b>, <b>Invoices</b>, or <b>Products Bought</b> tab.</li>
+        <li>On Products Bought, toggle between <span class="field-label">This month</span> and <span class="field-label">All time</span>.</li>
+      </ol>
+      <p><b>System response:</b> Statement is a paginated, signed (+/−) ledger; Invoices lists their sales with a WhatsApp-send option per row; Products Bought summarizes quantities/spend per product for the chosen period.</p>
+    </div>
+
+    <h2 id="flow-expenses" class="mod-title">4.10 &nbsp;Expense &amp; Cashbook Flows</h2>
+
+    <h4 class="flow-title">Logging an expense</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: expenses.manage</span></div>
+      <ol>
+        <li>Go to <b>Expenses</b> and click <span class="btn">+ New expense</span>.</li>
+        <li>Enter <span class="field-label">Date</span> and <span class="field-label">Amount</span> (both required).</li>
+        <li>Choose a <span class="field-label">Payment method</span>.</li>
+        <li>Optionally enter <span class="field-label">Vendor</span> and a <span class="field-label">Note</span>.</li>
+        <li>Pick a <span class="field-label">Category</span>, or create one inline.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>System response:</b> The expense appears in the list immediately and is reflected in the Expense Report and in Financial reporting.</p>
+    </div>
+
+    <h4 class="flow-title">Editing or deleting an expense</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn secondary">Edit</span> to change any field, or <span class="btn danger">Delete</span> to remove it.</li>
+        <li>Deleting requires a second confirmation click before it takes effect.</li>
+      </ol>
+      <p><b>System response:</b> Edits apply immediately; deletion is permanent and removes the expense from all reports.</p>
+    </div>
+
+    <h4 class="flow-title">Managing expense categories</h4>
+    <div class="flow">
+      <ol>
+        <li>Go to the <b>Categories</b> tab within Expenses.</li>
+        <li>Click <span class="btn">+ New category</span> to create one, or click a category's status badge to toggle Active/Inactive.</li>
+      </ol>
+      <p><b>System response:</b> Inactive categories are hidden from new-expense forms but remain attached to existing expenses.</p>
+    </div>
+
+    <h4 class="flow-title">Setting the cashbook opening balance</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: settings.manage</span></div>
+      <ol>
+        <li>Go to <b>Cashbook</b> and click <span class="btn secondary">Set opening balance</span>.</li>
+        <li>Enter the <span class="field-label">Opening balance</span> amount.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>System response:</b> The Opening balance stat card updates, and all subsequent Cash in/out totals reconcile against it.</p>
+    </div>
+
+    <h4 class="flow-title">Adding a cash adjustment</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn">+ Adjustment</span>.</li>
+        <li>Choose <span class="field-label">Type</span>: Cash in or Cash out.</li>
+        <li>Enter the <span class="field-label">Amount</span> and optional <span class="field-label">Notes</span>.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>System response:</b> The Cash in/Cash out and Closing balance stat cards update immediately, and the entry appears in the Entries tab.</p>
+    </div>
+
+    <h2 id="flow-audits" class="mod-title">4.11 &nbsp;Stock Count Flows</h2>
+
+    <h4 class="flow-title">Starting a new stock count</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: inventory.audit</span></div>
+      <ol>
+        <li>Go to <b>Inventory audits → Stock counts</b> and click <span class="btn">+ New count</span>.</li>
+        <li>Pick the <span class="field-label">Count date</span> and optionally add <span class="field-label">Notes</span>.</li>
+        <li>Search for and add each product being counted. Every line is pre-filled with the current system quantity.</li>
+        <li>Edit the <span class="field-label">Counted</span> quantity on each line to the number you actually counted on the shelf. A live <b>Difference</b> column shows the variance (shown in green for a surplus, red for a shortage).</li>
+        <li>Click <span class="btn">Save</span> to store the count in progress (it does not affect stock yet).</li>
+      </ol>
+      <p><b>System response:</b> The count is saved with status <code>IN_PROGRESS</code> and assigned an audit number; it can be resumed and edited until completed.</p>
+    </div>
+
+    <h4 class="flow-title">Completing a stock count</h4>
+    <div class="flow">
+      <ol>
+        <li>Open the stock count's detail drawer to review the Short/Over counts and net value impact, along with a per-line System/Counted/Difference/Value table.</li>
+        <li>Click <span class="btn">Complete count &amp; correct stock</span>.</li>
+        <li>Confirm the warning: <i>"Your system stock will be corrected to match the counted quantities. This can't be undone."</i></li>
+      </ol>
+      <p><b>System response:</b> RetailFlow writes stock-adjustment movements to bring system stock in line with what was counted, and marks the count <code>COMPLETED</code>. Completed counts feed into the Loss report.</p>
+    </div>
+
+    <h4 class="flow-title">Viewing the loss (shrinkage) report</h4>
+    <div class="flow">
+      <ol>
+        <li>Go to the <b>Loss report</b> tab.</li>
+        <li>Choose <span class="field-label">This month</span> or <span class="field-label">All time</span>.</li>
+      </ol>
+      <p><b>System response:</b> Shows total loss/surplus value and a per-product System/Counted/Difference/Value breakdown, calculated only from completed stock counts.</p>
+    </div>
+
+    <h2 id="flow-reports" class="mod-title">4.12 &nbsp;Reports &amp; Analytics Flows</h2>
+
+    <h4 class="flow-title">Viewing the Overview tab</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: reports.sales</span></div>
+      <ol>
+        <li>Go to <b>Reports</b> (defaults to the Overview tab).</li>
+        <li>Choose a period from the selector.</li>
+      </ol>
+      <p><b>System response:</b> Revenue, profit, order count, average order value, growth versus the previous period, and the category chart update for the chosen period.</p>
+    </div>
+
+    <h4 class="flow-title">Viewing the Inventory tab</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: reports.inventory</span></div>
+      <ol><li>Click the <b>Inventory</b> tab.</li></ol>
+      <p><b>System response:</b> Shows low-stock items, reorder suggestions (based on your Lead time and Safety stock settings), dead-stock items (based on your Dead stock setting), and total inventory valuation.</p>
+    </div>
+
+    <h4 class="flow-title">Viewing the Rankings tab</h4>
+    <div class="flow">
+      <ol><li>Click the <b>Rankings</b> tab.</li></ol>
+      <p><b>System response:</b> Shows top customers, top suppliers, ABC analysis (products ranked by contribution to revenue), and fast-moving products.</p>
+    </div>
+
+    <h4 class="flow-title">Viewing the Financial tab</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: reports.profit</span></div>
+      <ol><li>Click the <b>Financial</b> tab.</li></ol>
+      <p><b>System response:</b> Shows a full profit &amp; loss statement (revenue, cost of goods sold, gross profit, expenses, net profit), current cash position, and outstanding receivable/payable, generally reflecting the current month for the live figures.</p>
+    </div>
+
+    <h4 class="flow-title">Exporting a report</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: reports.inventory</span></div>
+      <ol>
+        <li>Click the <b>Exports</b> tab.</li>
+        <li>Click the download button (CSV or Excel) next to the report you need: Low stock, Reorder, Dead stock, Fast-moving, Slow-moving, Inventory valuation, ABC analysis, Category performance, Top customers, or Top suppliers.</li>
+      </ol>
+      <p><b>System response:</b> The file downloads to your device immediately, ready to open in a spreadsheet application.</p>
+    </div>
+
+    <h2 id="flow-users" class="mod-title">4.13 &nbsp;Staff &amp; User Management Flows</h2>
+
+    <h4 class="flow-title">Creating a new staff user</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: users.manage</span></div>
+      <ol>
+        <li>Go to <b>Users</b> and click <span class="btn">+ New user</span>.</li>
+        <li>Enter <span class="field-label">First name</span> and <span class="field-label">Last name</span> (required).</li>
+        <li>Enter <span class="field-label">Email</span> (required, must be a valid, unused address).</li>
+        <li>Enter a <span class="field-label">Password</span> (required, minimum 8 characters).</li>
+        <li>Optionally enter a <span class="field-label">Phone</span> number.</li>
+        <li>Choose a <span class="field-label">Role</span> from the dropdown — note the Owner role never appears here.</li>
+        <li>Enter <span class="field-label">Confirm with your password</span> — your own account password, to authorize this action.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> Email must be valid and not already registered — <i>"email already registered."</i> Password must be at least 8 characters. A role must be selected — <i>"Select a role."</i> Your confirm-password must match your own account password — <i>"password is incorrect"</i> otherwise. If the business is already at its account limit, the button is disabled with the tooltip <i>"You've reached your maximum number of user accounts. Contact support to raise this limit."</i></p>
+      <p><b>System response:</b> The new user appears in the list immediately, able to sign in with the email and password you set, restricted to their assigned role's permissions.</p>
+    </div>
+
+    <h4 class="flow-title">Editing a user's details</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn secondary">Edit</span> on a user row.</li>
+        <li>Update First/Last name and/or Phone.</li>
+        <li>Enter your own <span class="field-label">Confirm password</span>.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>System response:</b> Changes apply immediately.</p>
+    </div>
+
+    <h4 class="flow-title">Changing a user's role</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn secondary">Change role</span> on a user row.</li>
+        <li>Select the new role from the dropdown (Owner is never an option here).</li>
+        <li>Enter your own <span class="field-label">Confirm password</span>.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> You cannot change your own role — <i>"cannot change your own role"</i> — this action is hidden on your own row. Assigning Owner is never possible — <i>"the owner role cannot be assigned here."</i></p>
+      <p><b>System response:</b> The user's permissions change to match the new role the next time they load or refresh a page; if they're actively signed in, their sidebar and access update on their next navigation.</p>
+    </div>
+
+    <h4 class="flow-title">Resetting a user's password</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn secondary">Password</span> on a user row.</li>
+        <li>Enter a <span class="field-label">New password</span> (minimum 8 characters).</li>
+        <li>Enter your own <span class="field-label">Confirm password</span>.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> You cannot reset your own password this way — <i>"cannot reset your own password here; use change password instead"</i> — this action is hidden on your own row.</p>
+      <p><b>System response:</b> The message <i>"The user will be signed out of existing sessions"</i> applies — their password changes and any device where they're currently signed in is logged out.</p>
+    </div>
+
+    <h4 class="flow-title">Deactivating a user</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn danger">Deactivate</span> on a user row.</li>
+        <li>Enter your own <span class="field-label">Confirm password</span> in the dialog that reads <i>"This user can no longer sign in until reactivated."</i></li>
+        <li>Confirm.</li>
+      </ol>
+      <p><b>Validation:</b> You cannot deactivate your own account — <i>"cannot deactivate your own account"</i> — this action is hidden on your own row.</p>
+      <p><b>System response:</b> The user is immediately blocked from signing in (and signed out if currently active), but their history and any records they created remain intact and can be reactivated later.</p>
+    </div>
+
+    <h2 id="flow-settings" class="mod-title">4.14 &nbsp;Settings Flows</h2>
+
+    <h4 class="flow-title">Reviewing Business Details</h4>
+    <div class="flow">
+      <ol><li>Go to <b>Settings</b> — Business Details are shown read-only.</li></ol>
+      <p><b>System response:</b> Nothing is editable here; the card notes <i>"Managed by the administrator. Contact support to make changes."</i> Reach out to your onboarding contact for corrections.</p>
+    </div>
+
+    <h4 class="flow-title">Updating Inventory &amp; Sales Settings</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: settings.manage to save (reports.inventory to view)</span></div>
+      <ol>
+        <li>In the <b>Inventory &amp; Sales Settings</b> card, adjust any of: <span class="field-label">Lead time (days)</span>, <span class="field-label">Safety stock (days)</span>, <span class="field-label">Dead stock (days)</span>, <span class="field-label">Low-stock threshold</span>, <span class="field-label">Void window</span> (days + hours), <span class="field-label">Refund window (days)</span>, and the <span class="field-label">Print Invoice by default</span> checkbox.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Note on the Void window field:</b> entering 24 or more hours automatically rolls over into whole days for you. Setting both days and hours to 0 means no time limit at all.</p>
+      <p><b>System response:</b> New values take effect immediately across the app — for example, sales older than the new void window will show the "Void window has expired" tooltip right away. Defaults, if never changed, are: Lead time 7 days, Safety stock 3 days, Dead stock 90 days, Low-stock threshold 0, Print by default on, Void window 12 hours, Refund window 7 days.</p>
+    </div>
+
+    <h4 class="flow-title">Changing your password</h4>
+    <div class="flow">
+      <ol>
+        <li>In the <b>Change Password</b> card, enter your <span class="field-label">Current password</span>.</li>
+        <li>Enter a <span class="field-label">New password</span> (minimum 8 characters).</li>
+        <li>Enter the same value again in <span class="field-label">Confirm new password</span>.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> The two new-password fields must match — <i>"New passwords do not match"</i> if they don't. The current password must be correct.</p>
+      <p><b>System response:</b> Your password changes immediately, and other signed-in devices/sessions are signed out for security.</p>
+    </div>
+
+    <h2 id="flow-platform" class="mod-title">4.15 &nbsp;Platform Administration Flows <span class="badge" style="background:var(--surface-2);color:var(--faint);border:1px solid var(--border)">RetailFlow staff only</span></h2>
+
+    <h4 class="flow-title">Provisioning a new business</h4>
+    <div class="flow">
+      <ol>
+        <li>From the Businesses console, click <span class="btn">+ New business</span>.</li>
+        <li>Enter <span class="field-label">Business name</span>, <span class="field-label">Owner first/last name</span>, <span class="field-label">Owner email</span>, and an <span class="field-label">Owner password</span> (minimum 8 characters).</li>
+        <li>Choose a <span class="field-label">Category</span>: Normal, Test, or Early Access.</li>
+        <li>For a <b>Normal</b> business, also enter GSTIN, Legal name, Address, City, State, and Postal code (required for this category; optional for Test/Early Access).</li>
+        <li>Optionally enter Business email, Phone, UPI ID, and UPI Payee Name (used for the checkout QR code).</li>
+        <li>Optionally add starter product categories as tags.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> Owner email must not already be registered — <i>"admin email already registered."</i></p>
+      <p><b>System response:</b> The business, its Owner user, and its default settings (including the 5-account user limit) are created in one step, ready for the owner to sign in at the regular business login page.</p>
+    </div>
+
+    <h4 class="flow-title">Managing an existing business</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn secondary">Manage</span> on a business row.</li>
+        <li>Edit any business detail, or raise the <span class="field-label">Max user accounts</span> limit — the help text on this field notes that only a platform admin can change it; the business owner cannot raise it themselves.</li>
+        <li>From the user list inside this modal, use <span class="btn secondary">Enter as</span> to impersonate a user (if you have impersonation permission), <span class="btn secondary">Edit</span>, <span class="btn secondary">Reset password</span>, <span class="btn secondary">Disable/Enable</span>, or <span class="btn danger">Delete</span> a user.</li>
+      </ol>
+      <p><b>Validation:</b> Deleting a user requires typing their exact email to confirm — the dialog notes <i>"Unlike Disable, this cannot be undone."</i></p>
+      <p><b>System response:</b> Edits apply immediately; Disable blocks sign-in reversibly; Delete permanently removes the account.</p>
+    </div>
+
+    <h4 class="flow-title">Suspending / reactivating a business</h4>
+    <div class="flow">
+      <ol><li>Click <span class="btn secondary">Suspend</span> or <span class="btn secondary">Activate</span> on a business row.</li></ol>
+      <p><b>System response:</b> A suspended business's users are immediately blocked from signing in, seeing <i>"business is not active"</i> if they try. Reactivating restores access instantly.</p>
+    </div>
+
+    <h4 class="flow-title">Deleting a business</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn danger">Delete</span> on a business row.</li>
+        <li>Type the exact business name into the confirmation field.</li>
+        <li>Confirm.</li>
+      </ol>
+      <p><b>Warning shown:</b> <i>"This deletes users, sales, inventory, purchases, and more... cannot be undone."</i></p>
+      <p><b>System response:</b> The business and all of its data are permanently removed.</p>
+    </div>
+
+    <h4 class="flow-title">Impersonating a user ("Enter as")</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn secondary">Enter as</span> next to a user (only visible if you have impersonation permission).</li>
+        <li>Confirm the browser prompt.</li>
+      </ol>
+      <p><b>System response:</b> You're signed in as that user, in that business, for support purposes. A persistent amber banner appears reading "👁️ Impersonating [user] at [business] — actions are performed as this user," with an <span class="btn secondary">Exit to admin</span> button to return to the platform console at any time.</p>
+    </div>
+
+    <h1 id="sec-5" class="section-title"><span class="num">5.</span> Permissions &amp; Access Control</h1>
+    <p class="section-intro">Every staff account belongs to exactly one role. A role is simply a fixed bundle of permissions — there is no way to hand-pick individual permissions for a single user outside of the three built-in roles. Anything a user doesn't have permission for is hidden from their sidebar entirely, not merely shown-but-disabled — the interface only ever offers what you're allowed to do.</p>
+
+    <h2 class="mod-title">5.1 &nbsp;The Three Roles</h2>
+    <div class="pill-row">
+      <span class="pill"><span class="badge owner">OWNER</span> — full control, one per business</span>
+      <span class="pill"><span class="badge manager">MANAGER</span> — full operations, no admin</span>
+      <span class="pill"><span class="badge cashier">CASHIER</span> — front-desk billing</span>
+    </div>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th style="width:16%">Role</th><th>Intended for</th><th>Summary of access</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge owner">OWNER</span></td><td>The business owner / proprietor</td><td>Every permission in the system, including staff management, settings, and the audit log. Every business has exactly one Owner, assigned when the business account is created by a platform administrator — the Owner role can never be granted to anyone else afterward, and an Owner cannot demote or replace themselves through the Users screen.</td></tr>
+        <tr><td><span class="badge manager">MANAGER</span></td><td>A trusted deputy running day-to-day operations</td><td>Everything an Owner can do <i>except</i> managing staff accounts, changing business settings, and viewing the audit log.</td></tr>
+        <tr><td><span class="badge cashier">CASHIER</span></td><td>Front-of-store billing staff</td><td>Creating and viewing sales, looking up products and stock, managing customers, and recording payments — enough to run the till and handle walk-in questions without exposing purchasing, reporting, or admin screens.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 class="mod-title">5.2 &nbsp;Full Permission Matrix</h2>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th style="width:26%">Permission</th><th>What it controls</th><th style="width:9%">Owner</th><th style="width:9%">Manager</th><th style="width:9%">Cashier</th></tr></thead>
+      <tbody>
+        <tr><td><code>sales.create</code></td><td>Ring up sales on the POS screen</td><td>✅</td><td>✅</td><td>✅</td></tr>
+        <tr><td><code>sales.view</code></td><td>View the Sales list and sale details</td><td>✅</td><td>✅</td><td>✅</td></tr>
+        <tr><td><code>sales.cancel</code></td><td>Void a sale within the void window</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>sales.refund</code></td><td>Refund a sale within the refund window</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>products.create</code></td><td>Create products and categories</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>products.update</code></td><td>Edit products and batches</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>products.delete</code></td><td>Deactivate / reactivate products</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>products.view</code></td><td>View the product catalog</td><td>✅</td><td>✅</td><td>✅</td></tr>
+        <tr><td><code>inventory.view</code></td><td>View batches and stock levels</td><td>✅</td><td>✅</td><td>✅</td></tr>
+        <tr><td><code>inventory.adjust</code></td><td>Manually adjust stock quantities</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>inventory.audit</code></td><td>Create and complete stock counts</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>purchases.create</code></td><td>Create purchase orders</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>purchases.update</code></td><td>Receive, return, close, or cancel purchase orders</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>purchases.view</code></td><td>View purchase orders</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>suppliers.manage</code></td><td>Create/edit suppliers, view statements, record refunds</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>customers.manage</code></td><td>Create/edit customers, view statements</td><td>✅</td><td>✅</td><td>✅</td></tr>
+        <tr><td><code>payments.manage</code></td><td>Collect/pay out customer &amp; supplier payments</td><td>✅</td><td>✅</td><td>✅</td></tr>
+        <tr><td><code>expenses.manage</code></td><td>Log expenses and manage expense categories</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>reports.sales</code></td><td>View sales-related dashboard cards and Overview report</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>reports.inventory</code></td><td>View inventory alerts/valuation and the Inventory &amp; Exports report tabs</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>reports.profit</code></td><td>View profit figures and the Financial report tab</td><td>✅</td><td>✅</td><td>—</td></tr>
+        <tr><td><code>users.manage</code></td><td>Create, edit, role-change, reset password, and deactivate staff</td><td>✅</td><td>—</td><td>—</td></tr>
+        <tr><td><code>settings.manage</code></td><td>Edit Inventory &amp; Sales Settings, set cashbook opening balance</td><td>✅</td><td>—</td><td>—</td></tr>
+        <tr><td><code>audit_logs.view</code></td><td>View the Audit Log</td><td>✅</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 class="mod-title">5.3 &nbsp;Special Rules That Apply Regardless of Role</h2>
+    <ul>
+      <li><b>The Owner role cannot be assigned to anyone via the Users screen</b> — including by an Owner themselves. Every business has exactly one Owner, fixed at account creation.</li>
+      <li><b>No one can deactivate their own account.</b></li>
+      <li><b>No one can change their own role</b> (even an Owner with full permissions).</li>
+      <li><b>An Owner cannot reset their own password via the staff-management "reset password" action</b> — they must use the self-service Change Password flow in Settings instead.</li>
+      <li><b>Every sensitive staff-management action</b> (create user, edit user, change role, deactivate, reset password) <b>requires the acting user to re-enter their own account password</b> as a confirmation step, regardless of role.</li>
+      <li><b>The number of staff accounts a business may have is capped</b> (five by default) and can only be raised by a platform administrator — never by the Owner from within their own Settings.</li>
+    </ul>
+
+    <h2 class="mod-title">5.4 &nbsp;Platform Administration Access Tiers</h2>
+    <p>Separately from the Owner/Manager/Cashier roles used inside a business, RetailFlow's own operations staff hold one of two platform-level tiers:</p>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th style="width:16%">Tier</th><th>Access</th></tr></thead>
+      <tbody>
+        <tr><td>Admin</td><td>Can view and manage businesses, provision new ones, manage business users, and (if separately granted) impersonate users. Cannot manage other platform admin accounts.</td></tr>
+        <tr><td>Super Admin</td><td>Everything an Admin can do, plus managing other platform-admin accounts and their permissions (including who can impersonate).</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Within the platform console, two admin-level permissions gate specific actions: the ability to <b>impersonate</b> a business user, and the ability to <b>manage other admins</b> (add/edit admin accounts, assign the Super Admin tier). Both are visible only to admins who hold them.</p>
+
+    <h1 id="sec-6" class="section-title"><span class="num">6.</span> Troubleshooting &amp; User Edge Cases</h1>
+    <p class="section-intro">Most error messages in RetailFlow are written in plain language and tell you exactly what to fix. This section collects the most common ones, what they mean, and how to resolve them.</p>
+
+    <h2 class="mod-title">6.1 &nbsp;Sign-in &amp; Access Issues</h2>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
+      <tbody>
+        <tr><td><i>"invalid credentials"</i></td><td>The email or password entered doesn't match any account, or doesn't match each other.</td><td>Double-check for typos (use the eye icon to reveal your password), confirm caps lock is off, and confirm you're using the correct sign-in page (business login vs. admin login are different addresses).</td></tr>
+        <tr><td><i>"user is not active"</i></td><td>Your account has been deactivated by your Owner or Manager.</td><td>Contact your business's Owner or Manager to have your account reactivated.</td></tr>
+        <tr><td><i>"business is not active"</i></td><td>Your business's account has been suspended at the platform level.</td><td>Contact RetailFlow support/your onboarding contact — this is not something anyone inside the business can reverse themselves.</td></tr>
+        <tr><td>Sidebar is missing an option you expect (e.g. no Reports link)</td><td>Your role doesn't include the permission for that section.</td><td>This is by design — ask your Owner to review your assigned role if you believe you need broader access.</td></tr>
+        <tr><td>"You don't have permission to view this page"</td><td>You navigated directly to a page URL your role doesn't have access to.</td><td>Return to the Dashboard using the sidebar; if you believe you should have access, ask your Owner to check your role.</td></tr>
+        <tr><td>Signed in on the wrong portal (business vs. admin vs. super-admin login)</td><td>Platform-tier logins and business logins are entirely separate — an account for one won't work on the other's page.</td><td>An error toast appears and you're bounced back; navigate to the correct sign-in address for your account type.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 class="mod-title">6.2 &nbsp;Sales &amp; Billing Issues</h2>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
+      <tbody>
+        <tr><td>"Max stock: N" and the quantity won't go higher</td><td>You're trying to sell more units than remain in that batch.</td><td>Check if another batch of the same product has stock (use the Batch Picker), or reduce the quantity to what's available.</td></tr>
+        <tr><td><i>"insufficient stock"</i></td><td>The system blocked a sale because the stock isn't actually available (e.g. it changed between opening the cart and checking out).</td><td>Refresh the product's stock and adjust the quantity, or select a different batch.</td></tr>
+        <tr><td>Complete button stuck showing "On credit" and won't proceed</td><td>The amount entered doesn't cover the total and no customer is selected — credit sales require a customer.</td><td>Select or create a customer, or increase the payment amount to cover the total.</td></tr>
+        <tr><td>"No change" checkbox is disabled</td><td>This option requires a specific customer to receive the store credit — it can't be used for a walk-in sale.</td><td>Select a customer before ticking "No change," or hand back the cash change normally.</td></tr>
+        <tr><td>Void or Refund button is greyed out with a tooltip about an expired window</td><td>The business's configured time limit for voiding/refunding that sale has passed.</td><td>If a correction is still needed, use a manual stock adjustment and/or a customer credit/payment instead, or ask your Owner to review the Void/Refund window in Settings if this happens often.</td></tr>
+        <tr><td><i>"sale cannot be voided/refunded in its current status"</i></td><td>The sale is already voided, refunded, or otherwise not in a state that allows the action.</td><td>Check the sale's current status in its detail drawer — no further action of that kind is possible.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 class="mod-title">6.3 &nbsp;Product &amp; Inventory Issues</h2>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
+      <tbody>
+        <tr><td><i>"Enter a purchase price and a selling price greater than 0"</i></td><td>One or both price fields were left blank or entered as zero when creating/editing a product.</td><td>Enter a positive number for both the opening cost and the default selling price.</td></tr>
+        <tr><td><i>"sku already in use"</i> / <i>"barcode already in use"</i></td><td>Another product already has that exact SKU or barcode.</td><td>Check the existing product (search by that SKU/barcode) — either reuse it or choose a different, unique value.</td></tr>
+        <tr><td><i>"category name already exists"</i></td><td>A category with that exact name is already in your list.</td><td>Select the existing category instead of creating a duplicate.</td></tr>
+        <tr><td><i>"Enter a non-zero quantity"</i> on a stock adjustment</td><td>The adjustment field was left at zero.</td><td>Enter a positive number to add stock, or a negative number to remove it.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 class="mod-title">6.4 &nbsp;Purchases &amp; Suppliers Issues</h2>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
+      <tbody>
+        <tr><td><i>"Add at least one item" / "purchase must have at least one item"</i></td><td>You tried to save a purchase order with no products on it.</td><td>Add at least one product line before saving.</td></tr>
+        <tr><td><i>"Received quantity exceeds what's left on a line"</i></td><td>You entered a receiving quantity larger than what's still outstanding on that order line.</td><td>Reduce the quantity to match what's actually still due, or check whether this delivery belongs to a different purchase order.</td></tr>
+        <tr><td><i>"This product has no previous barcode to reuse — enter one"</i></td><td>You clicked "reuse previous barcode" but no earlier batch exists to reuse from.</td><td>Type or scan a barcode for this new batch manually.</td></tr>
+        <tr><td><i>"unit cost does not match the existing batch's cost"</i></td><td>You tried to append a new delivery to an existing batch, but the unit cost this time is different.</td><td>Uncheck "Append to batch" to create a separate new batch at the new cost instead.</td></tr>
+        <tr><td><i>"return quantity exceeds the remaining purchased quantity"</i></td><td>You tried to return more units than were actually delivered (and not already returned).</td><td>Reduce the return quantity to match what's genuinely available to send back.</td></tr>
+        <tr><td><i>"refund exceeds the supplier's available credit"</i></td><td>You tried to record a refund larger than the credit balance the supplier actually owes you.</td><td>Reduce the amount to the available credit shown on the supplier's statement.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 class="mod-title">6.5 &nbsp;Customer Payment Issues</h2>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
+      <tbody>
+        <tr><td><i>"settlement exceeds the customer's available credit"</i></td><td>You tried to pay out more store credit than the customer actually holds.</td><td>Check the customer's current credit balance and reduce the amount.</td></tr>
+        <tr><td>"Pay out credit" button is missing on a customer</td><td>The customer currently has no credit balance — there's nothing to pay out.</td><td>This is expected; the option reappears automatically if they build up a credit balance later.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 class="mod-title">6.6 &nbsp;Staff &amp; Account Management Issues</h2>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
+      <tbody>
+        <tr><td><i>"email already registered"</i></td><td>Another staff account already uses that email address.</td><td>Use a different, unused email, or check whether the person already has an account (perhaps deactivated) that should be reactivated instead.</td></tr>
+        <tr><td><i>"password is incorrect"</i> when confirming a sensitive action</td><td>The "confirm with your password" field didn't match your own account's current password.</td><td>Re-enter your own current password carefully — this field always refers to the person performing the action, not the account being changed.</td></tr>
+        <tr><td><i>"the owner role cannot be assigned here"</i></td><td>The Owner role can never be assigned through the Users screen.</td><td>Every business has exactly one Owner, fixed at account creation — contact RetailFlow support if ownership genuinely needs to change hands.</td></tr>
+        <tr><td>"+ New user" is disabled, tooltip about the account limit</td><td>Your business has reached its maximum number of staff accounts (five by default).</td><td>Deactivate an unused account to free up a slot, or contact support to have a platform administrator raise your limit.</td></tr>
+        <tr><td>"cannot deactivate your own account"</td><td>You tried to deactivate the account you're currently signed in as.</td><td>Ask another Owner/Manager-permission user to perform this action if you genuinely need your own account disabled.</td></tr>
+        <tr><td>"cannot change your own role"</td><td>You tried to change the role of the account you're currently signed in as.</td><td>Ask another user with the right permission to make this change on your behalf.</td></tr>
+        <tr><td>"cannot reset your own password here; use change password instead"</td><td>You tried to use the staff "reset password" tool on your own account.</td><td>Go to Settings → Change Password instead, which asks for your current password first.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 class="mod-title">6.7 &nbsp;Feedback &amp; Miscellaneous</h2>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
+      <tbody>
+        <tr><td>"Please write a little more detail" on the feedback form</td><td>Your feedback message is shorter than 3 characters.</td><td>Add a bit more detail describing the bug or idea.</td></tr>
+        <tr><td>A screenshot won't attach to feedback</td><td>The file is either larger than 8MB or isn't an image.</td><td>Resize/compress the screenshot, or attach a smaller image file.</td></tr>
+        <tr><td>Barcode scanner (camera) shows a blank or black preview</td><td>Camera permission wasn't granted, or the browser/device doesn't support the camera API being used.</td><td>Check your browser's site permissions and allow camera access; if the device genuinely lacks support, use a USB barcode scanner or type the barcode manually instead.</td></tr>
+        <tr><td>Numbers on the Dashboard look stale</td><td>The dashboard auto-refreshes every 30 seconds — you may just be between refreshes.</td><td>Wait a few seconds; a manual page reload is not necessary and will reset your chart range/collapse choices.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="callout tip" style="margin-top:26px">
+      <span class="callout-title">Still stuck?</span>
+      Use the <b>Send feedback</b> link at the bottom of the sidebar to report a bug or ask a question directly — see <a href="#mod-feedback">Feedback &amp; Support</a>.
+    </div>
+
+    </div>
+
+    <footer class="doc-footer page-pad">
+      <div>RetailFlow — Complete User Guide &amp; Product Manual · Version 1.0 · July 2026</div>
+      <div style="margin-top:4px;">This guide describes the RetailFlow application as configured for standard use; your business's specific settings (thresholds, limits, and enabled features) may vary slightly from the defaults shown here.</div>
+    </footer>
+
+  </main>
+</div>
+<script>
+  (function(){
+    var toggle = document.getElementById('navToggle');
+    var backdrop = document.getElementById('navBackdrop');
+    var nav = document.getElementById('guideNav');
+    function closeNav(){
+      document.body.classList.remove('nav-open');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    }
+    function openNav(){
+      document.body.classList.add('nav-open');
+      if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    }
+    if (toggle) toggle.addEventListener('click', function(){
+      document.body.classList.contains('nav-open') ? closeNav() : openNav();
+    });
+    if (backdrop) backdrop.addEventListener('click', closeNav);
+    if (nav) nav.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', closeNav);
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') closeNav();
+    });
+  })();
+</script>
+</body>
+</html>
