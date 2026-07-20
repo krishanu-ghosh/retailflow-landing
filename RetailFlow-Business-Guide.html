@@ -697,7 +697,7 @@
     <ul class="feature-list">
       <li><b>Overview tab</b> — revenue, profit, order count, average order value, and growth versus the previous period, plus a Revenue &amp; Profit by Category chart.</li>
       <li><b>Inventory tab</b> — low-stock list, reorder suggestions, dead-stock list (items not selling), and total inventory valuation.</li>
-      <li><b>Rankings tab</b> — top customers, top suppliers, ABC analysis (classifying products by contribution to revenue), and fast-moving products.</li>
+      <li><b>Rankings tab</b> — top customers, top suppliers, ABC analysis (classifying products by contribution to revenue), fast-moving products, and a per-product sales-by-day breakdown with its own date-range picker.</li>
       <li><b>Financial tab</b> — a profit &amp; loss statement (revenue, cost of goods sold, gross profit, expenses, net profit), current cash position, and outstanding receivable/payable.</li>
       <li><b>Exports tab</b> — download CSV/Excel files for ten report types: Low stock, Reorder, Dead stock, Fast-moving, Slow-moving, Inventory valuation, ABC analysis, Category performance, Top customers, and Top suppliers.</li>
     </ul>
@@ -711,7 +711,7 @@
       <li><b>Edit a user's</b> name or phone number.</li>
       <li><b>Change a user's role</b> — every user has exactly one role at a time.</li>
       <li><b>Reset a user's password</b> — sets a new password and signs them out of all existing sessions.</li>
-      <li><b>Deactivate a user</b> — blocks sign-in without deleting their history.</li>
+      <li><b>Deactivate a user</b> — immediately ends any session they're currently signed into and blocks further sign-in, without deleting their history.</li>
       <li><b>Account limit awareness</b> — the "+ New user" action is disabled with an explanatory message once the business's account limit is reached.</li>
     </ul>
     <div class="callout note"><span class="callout-title">Note</span>The Owner role can never be assigned to anyone through this screen — every business has exactly one Owner, set when the business account was created. See <a href="#sec-5">Permissions &amp; Access Control</a>.</div>
@@ -1344,6 +1344,15 @@
     <div class="flow">
       <ol><li>Click the <b>Rankings</b> tab.</li></ol>
       <p><b>System response:</b> Shows top customers, top suppliers, ABC analysis (products ranked by contribution to revenue), and fast-moving products.</p>
+    </div>
+
+    <h4 class="flow-title">Viewing products sold by day</h4>
+    <div class="flow">
+      <ol>
+        <li>On the <b>Rankings</b> tab, scroll to the <b>Products sold by day</b> card.</li>
+        <li>Use its date-range picker to choose a single day (defaults to today) or a multi-day range.</li>
+      </ol>
+      <p><b>System response:</b> Lists each product's quantity sold and revenue for the selected day; choosing a multi-day range adds a Date column and breaks the totals out per day.</p>
     </div>
 
     <h4 class="flow-title">Viewing the Financial tab</h4>

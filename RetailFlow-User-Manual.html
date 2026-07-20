@@ -699,7 +699,7 @@
     <ul class="feature-list">
       <li><b>Overview tab</b> — revenue, profit, order count, average order value, and growth versus the previous period, plus a Revenue &amp; Profit by Category chart.</li>
       <li><b>Inventory tab</b> — low-stock list, reorder suggestions, dead-stock list (items not selling), and total inventory valuation.</li>
-      <li><b>Rankings tab</b> — top customers, top suppliers, ABC analysis (classifying products by contribution to revenue), and fast-moving products.</li>
+      <li><b>Rankings tab</b> — top customers, top suppliers, ABC analysis (classifying products by contribution to revenue), fast-moving products, and a per-product sales-by-day breakdown with its own date-range picker.</li>
       <li><b>Financial tab</b> — a profit &amp; loss statement (revenue, cost of goods sold, gross profit, expenses, net profit), current cash position, and outstanding receivable/payable.</li>
       <li><b>Exports tab</b> — download CSV/Excel files for ten report types: Low stock, Reorder, Dead stock, Fast-moving, Slow-moving, Inventory valuation, ABC analysis, Category performance, Top customers, and Top suppliers.</li>
     </ul>
@@ -713,7 +713,7 @@
       <li><b>Edit a user's</b> name or phone number.</li>
       <li><b>Change a user's role</b> — every user has exactly one role at a time.</li>
       <li><b>Reset a user's password</b> — sets a new password and signs them out of all existing sessions.</li>
-      <li><b>Deactivate a user</b> — blocks sign-in without deleting their history.</li>
+      <li><b>Deactivate a user</b> — immediately ends any session they're currently signed into and blocks further sign-in, without deleting their history.</li>
       <li><b>Account limit awareness</b> — the "+ New user" action is disabled with an explanatory message once the business's account limit is reached.</li>
     </ul>
     <div class="callout note"><span class="callout-title">Note</span>The Owner role can never be assigned to anyone through this screen — every business has exactly one Owner, set when the business account was created. See <a href="#sec-5">Permissions &amp; Access Control</a>.</div>
@@ -759,12 +759,14 @@
     <p><b>UI tour.</b> Reached via a separate sign-in page, entirely apart from the business sign-in page. Two access tiers exist: <b>Admin</b> and <b>Super Admin</b>, sharing the same screens but with Super Admin unlocking a few additional capabilities (see below and <a href="#sec-5">Permissions &amp; Access Control</a>).</p>
     <p><b>Micro-features:</b></p>
     <ul class="feature-list">
-      <li><b>Businesses console</b> — list every business on the platform with its owner, user count vs. limit, category, and status.</li>
-      <li><b>Create a new business</b> — the sole way a new business account comes into existence on RetailFlow.</li>
-      <li><b>Manage a business</b> — edit its details, raise its user-account limit, and manage its users.</li>
+      <li><b>Businesses console</b> — list every business on the platform with its owner, user count vs. limit, category, status, who onboarded it, and when; searchable by business/owner/onboarded-by, and filterable by status and category.</li>
+      <li><b>Create a new business</b> — the sole way a new business account comes into existence on RetailFlow, optionally hiding specific sidebar modules for that business from creation onward.</li>
+      <li><b>Manage a business</b> — edit its details, raise its user-account limit, choose which sidebar modules are hidden for it, and manage its users.</li>
       <li><b>Suspend / reactivate a business</b> — immediately blocks or restores sign-in for everyone at that business.</li>
+      <li><b>Log out all users of a business</b> — immediately revokes every user's session at that business; each must sign in again.</li>
       <li><b>Delete a business</b> — a permanent, irreversible action requiring the exact business name to be typed as confirmation.</li>
       <li><b>Impersonate a user</b> ("Enter as") — sign in as a specific user at a business to help troubleshoot, with a persistent on-screen banner showing you're impersonating and a one-click way to exit back to the admin portal.</li>
+      <li><b>View a user's last access</b> — the Manage-business user list shows each user's last-login time plus device, browser, OS, and IP address when available; this detail is platform-admin-only and is not shown on the business's own tenant-facing Users screen.</li>
       <li><b>Platform dashboard</b> — stat cards for total businesses, suspended businesses, users, admins, and sales, plus admin-defined progress "targets."</li>
       <li><b>Platform Admins management</b> (Super Admin capability) — create and manage other admin accounts and their permissions.</li>
       <li><b>Platform Settings</b> — an admin's own profile and password.</li>
@@ -1359,6 +1361,15 @@
       <p><b>System response:</b> Shows top customers, top suppliers, ABC analysis (products ranked by contribution to revenue), and fast-moving products.</p>
     </div>
 
+    <h4 class="flow-title">Viewing products sold by day</h4>
+    <div class="flow">
+      <ol>
+        <li>On the <b>Rankings</b> tab, scroll to the <b>Products sold by day</b> card.</li>
+        <li>Use its date-range picker to choose a single day (defaults to today) or a multi-day range.</li>
+      </ol>
+      <p><b>System response:</b> Lists each product's quantity sold and revenue for the selected day; choosing a multi-day range adds a Date column and breaks the totals out per day.</p>
+    </div>
+
     <h4 class="flow-title">Viewing the Financial tab</h4>
     <div class="flow">
       <div class="flow-meta"><span class="badge perm">Requires: reports.profit</span></div>
@@ -1474,6 +1485,15 @@
 
     <h2 id="flow-platform" class="mod-title">4.15 &nbsp;Platform Administration Flows <span class="badge" style="background:var(--surface-2);color:var(--faint);border:1px solid var(--border)">RetailFlow staff only</span></h2>
 
+    <h4 class="flow-title">Searching and filtering the Businesses console</h4>
+    <div class="flow">
+      <ol>
+        <li>Type into the search box to match against business name, owner email/phone, or the onboarding admin's name/email.</li>
+        <li>Optionally narrow further with the <span class="field-label">Status</span> and <span class="field-label">Category</span> dropdowns.</li>
+      </ol>
+      <p><b>System response:</b> The list filters as you type/select; if nothing matches, it shows "No businesses match your search/filters" instead of the empty-state message used when there are no businesses at all.</p>
+    </div>
+
     <h4 class="flow-title">Provisioning a new business</h4>
     <div class="flow">
       <ol>
@@ -1483,10 +1503,11 @@
         <li>For a <b>Normal</b> business, also enter GSTIN, Legal name, Address, City, State, and Postal code (required for this category; optional for Test/Early Access).</li>
         <li>Optionally enter Business email, Phone, UPI ID, and UPI Payee Name (used for the checkout QR code).</li>
         <li>Optionally add starter product categories as tags.</li>
+        <li>Optionally uncheck any <span class="field-label">Sidebar modules</span> (Suppliers, Purchases, Expenses, Cashbook, Stock Count, Audit Log, Categories) to hide them for this business from the start.</li>
         <li>Click <span class="btn">Save</span>.</li>
       </ol>
       <p><b>Validation:</b> Owner email must not already be registered — <i>"admin email already registered."</i></p>
-      <p><b>System response:</b> The business, its Owner user, and its default settings (including the 5-account user limit) are created in one step, ready for the owner to sign in at the regular business login page.</p>
+      <p><b>System response:</b> The business, its Owner user, and its default settings (including the 5-account user limit and any disabled modules) are created in one step, ready for the owner to sign in at the regular business login page.</p>
     </div>
 
     <h4 class="flow-title">Managing an existing business</h4>
@@ -1494,10 +1515,20 @@
       <ol>
         <li>Click <span class="btn secondary">Manage</span> on a business row.</li>
         <li>Edit any business detail, or raise the <span class="field-label">Max user accounts</span> limit — the help text on this field notes that only a platform admin can change it; the business owner cannot raise it themselves.</li>
-        <li>From the user list inside this modal, use <span class="btn secondary">Enter as</span> to impersonate a user (if you have impersonation permission), <span class="btn secondary">Edit</span>, <span class="btn secondary">Reset password</span>, <span class="btn secondary">Disable/Enable</span>, or <span class="btn danger">Delete</span> a user.</li>
+        <li>Check/uncheck any of the <span class="field-label">Sidebar modules</span> checkboxes to show or hide that module for this business.</li>
+        <li>From the user list inside this modal, each user's row shows their last-access time and, when available, device/browser/OS/IP; use <span class="btn secondary">Enter as</span> to impersonate a user (if you have impersonation permission), <span class="btn secondary">Edit</span>, <span class="btn secondary">Reset password</span>, <span class="btn secondary">Disable/Enable</span>, or <span class="btn danger">Delete</span> a user.</li>
       </ol>
       <p><b>Validation:</b> Deleting a user requires typing their exact email to confirm — the dialog notes <i>"Unlike Disable, this cannot be undone."</i></p>
-      <p><b>System response:</b> Edits apply immediately; Disable blocks sign-in reversibly; Delete permanently removes the account.</p>
+      <p><b>System response:</b> Edits, including sidebar-module changes, apply immediately; Disable blocks sign-in reversibly (ending any active session right away); Delete permanently removes the account.</p>
+    </div>
+
+    <h4 class="flow-title">Logging out all users of a business</h4>
+    <div class="flow">
+      <ol>
+        <li>Click <span class="btn secondary">Manage</span> on a business row, then <span class="btn secondary">Log out all users</span>.</li>
+        <li>Confirm the browser prompt, which reads <i>"Log out every user of [business]? They'll be signed out immediately and must sign in again."</i></li>
+      </ol>
+      <p><b>System response:</b> Every user's session at that business is revoked immediately; each must sign in again on their next request.</p>
     </div>
 
     <h4 class="flow-title">Suspending / reactivating a business</h4>
@@ -1601,6 +1632,7 @@
     </table>
     </div>
     <p>Within the platform console, two admin-level permissions gate specific actions: the ability to <b>impersonate</b> a business user, and the ability to <b>manage other admins</b> (add/edit admin accounts, assign the Super Admin tier). Both are visible only to admins who hold them.</p>
+    <div class="callout note"><span class="callout-title">Note</span>Locking or resetting a platform-admin account takes effect immediately, ending any session that admin is currently signed into — the same mechanism used when a business deactivates a staff user (§3.14).</div>
 
     <h1 id="sec-6" class="section-title"><span class="num">6.</span> Troubleshooting &amp; User Edge Cases</h1>
     <p class="section-intro">Most error messages in RetailFlow are written in plain language and tell you exactly what to fix. This section collects the most common ones, what they mean, and how to resolve them.</p>
