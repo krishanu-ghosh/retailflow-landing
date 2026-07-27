@@ -432,7 +432,7 @@
         <tr><td><b>Purchase Order (PO)</b></td><td>A record of stock you've ordered from a supplier. It moves through statuses as it's delivered and paid — see <a href="#mod-purchases">Purchases</a>.</td></tr>
         <tr><td><b>Sale / Invoice</b></td><td>A completed transaction with a customer, generated at checkout on the <a href="#mod-pos">Point of Sale</a> screen. Every sale produces a printable invoice.</td></tr>
         <tr><td><b>Customer / supplier statement</b></td><td>A running, dated list of every invoice, payment, and adjustment for a specific customer or supplier — effectively their account history with you.</td></tr>
-        <tr><td><b>Store credit</b></td><td>Money the business owes a customer (e.g. from an overpayment or a refund), which the customer can spend against a future sale instead of taking cash back.</td></tr>
+        <tr><td><b>Store credit</b></td><td>Money the business owes a customer (e.g. from an overpayment or a refund), which the customer can spend against a future sale, or apply toward paying down an existing invoice's balance via the "Existing account credit" payment method, instead of taking cash back.</td></tr>
         <tr><td><b>Stock count (inventory audit)</b></td><td>A physical count of what's actually on the shelf, compared against what RetailFlow's records say should be there. Differences ("shrinkage") are reported and can be used to correct the system.</td></tr>
         <tr><td><b>Cashbook</b></td><td>A simple ledger of physical cash moving in and out of the till/register, separate from digital payments.</td></tr>
         <tr><td><b>Role (Owner / Manager / Cashier)</b></td><td>Every staff member is assigned one role, which determines exactly which screens and actions they can use. See <a href="#sec-5">Permissions &amp; Access Control</a>.</td></tr>
@@ -552,6 +552,7 @@
       <li><b>Filter by date range.</b></li>
       <li><b>Send invoice on WhatsApp</b> — a one-click button that prepares a WhatsApp message with the invoice link for the customer.</li>
       <li><b>View sale details</b> — line items, subtotal/discount/tax/total, payments received, balance, and warranty details. Any line that auto-split across batches lists each batch and the quantity drawn from it.</li>
+      <li><b>Record a payment against an invoice</b> — collect money toward this specific invoice's balance directly from the Sale detail drawer (shown whenever the invoice is active and still has a balance due), without having to go to the customer's own page.</li>
       <li><b>Print invoice</b> — regenerate the printable PDF at any time.</li>
       <li><b>Void a sale</b> — reverse a sale entirely, restoring stock, within the business's configured void window.</li>
       <li><b>Refund a sale</b> — issue a partial or full refund, either as cash from the register or as store credit, within the configured refund window.</li>
@@ -644,15 +645,17 @@
 
     <h2 id="mod-customers" class="mod-title">3.9 &nbsp;Customers <span class="tag">Customer ledger</span></h2>
     <p><b>Module overview.</b> Your customer directory, each customer's balance (what they owe you, or store credit they hold), and their full purchase history.</p>
-    <p><b>UI tour.</b> A searchable list showing each customer's outstanding balance (shown in red if they owe money, or as an amber "CR" badge if the business owes them credit), with Details, "Pay out credit" (when applicable), "Collect payment," and Edit actions. The Customer detail page has tabs for Customer Details, Statement, Invoices, and Products Bought.</p>
+    <p><b>UI tour.</b> A searchable list showing each customer's outstanding balance (shown in red if they owe money, or as an amber "CR" badge if the business owes them credit), with Details, "Pay out credit" (when applicable), "Collect payment," and Edit actions. The Customer detail page has tabs for Customer Details, Statement, Invoices, and Products Bought — the Invoices tab adds a "Show only invoices with a balance due" filter and flags any invoice that isn't fully paid with an amber "UNPAID" badge alongside its status.</p>
     <p><b>Micro-features:</b></p>
     <ul class="feature-list">
       <li><b>Search customers</b> by name or phone.</li>
       <li><b>Create / edit a customer</b> — name, phone, email, GSTIN, address, and notes.</li>
       <li><b>View statement</b> — a paginated, running-balance ledger of every invoice, payment, and adjustment.</li>
-      <li><b>View invoices</b> for this customer, with WhatsApp send.</li>
+      <li><b>View invoices</b> for this customer, with WhatsApp send and a filter to show only invoices with a balance due.</li>
       <li><b>View products bought</b>, filterable to this month or all-time.</li>
-      <li><b>Collect a payment</b> — record money received from the customer against their balance.</li>
+      <li><b>Collect a payment</b> — record money received from the customer, applied invoice-by-invoice against their open invoices (oldest first, adjustable per invoice), with any leftover recorded as a general, unallocated reduction of their overall dues. Typing a total amount auto-distributes it across open invoices for you; a "Clear all dues" shortcut fills in the exact total owed across every open invoice in one click.</li>
+      <li><b>Pay with existing account credit</b> — choose "Existing account credit" as the payment method to apply store credit the customer already holds toward one or more open invoices instead of collecting new money; this method has no unallocated portion, since there's nothing left over to apply it to.</li>
+      <li><b>View or print a combined invoice</b> — from the payment screen, generate one merged PDF covering every open invoice with its full itemized detail: a "Statement of Dues" before payment (listing what's still owed on each), or a "Payment Receipt" once a payment clears every open invoice in full.</li>
       <li><b>Pay out credit</b> — return store credit the customer holds, as cash or another method (only shown when the customer has a credit balance).</li>
     </ul>
 
@@ -908,6 +911,18 @@
     <div class="flow">
       <ol><li>Click <span class="btn secondary">Details</span> on a sale in the list.</li></ol>
       <p><b>System response:</b> A drawer opens showing line items with batch allocations, Subtotal/Discount/Tax/Total/Paid/Balance, the payment method(s) used, and warranty details (period and valid-until date) if any.</p>
+    </div>
+
+    <h4 class="flow-title">Recording a payment against a single invoice</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: payments.manage</span></div>
+      <ol>
+        <li>Open the sale's detail drawer and click <span class="btn secondary">Record payment</span> (shown only while the invoice is active and still has a balance due).</li>
+        <li>The <span class="field-label">Amount</span> field defaults to the full balance due; adjust it down for a part-payment.</li>
+        <li>Choose a <span class="field-label">Payment method</span> — Cash, UPI, Card, Bank Transfer, or <span class="field-label">Existing account credit</span> to draw the amount from store credit the customer already holds instead of collecting new money — add optional <span class="field-label">Notes</span>, then click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>Validation:</b> <i>"Amount exceeds the balance due on this invoice"</i> if you enter more than what's currently owed on it.</p>
+      <p><b>System response:</b> The invoice's Paid amount and balance update immediately, and the payment shows up in the customer's statement — the same underlying action as collecting a payment from the Customers screen (see <a href="#flow-customers">Customer Flows</a>), just scoped to this one invoice.</p>
     </div>
 
     <h4 class="flow-title">Printing an invoice again</h4>
@@ -1205,10 +1220,15 @@
       <div class="flow-meta"><span class="badge perm">Requires: payments.manage</span></div>
       <ol>
         <li>On the Customers list or a customer's detail page, click <span class="btn secondary">Collect payment</span>.</li>
-        <li>Enter <span class="field-label">Amount</span>, <span class="field-label">Method</span>, and optional <span class="field-label">Notes</span>.</li>
-        <li>Click <span class="btn">Save</span>.</li>
+        <li>If the customer has open invoices, they're listed oldest first, each with a checkbox and an amount, under a running <span class="field-label">Total due across open invoices</span> banner.</li>
+        <li>Enter <span class="field-label">Amount received</span>: it auto-distributes across the open invoices oldest-first (each capped at its own balance due), leaving any remainder in <span class="field-label">Additional amount (not linked to an invoice)</span>. Or click <span class="btn secondary">Clear all dues</span> to fill in the exact total owed in one click.</li>
+        <li>To override the auto-distribution, tick/untick individual invoices or edit their amount directly.</li>
+        <li>Click <span class="btn secondary">Details</span> next to any invoice to open its Sale detail drawer without leaving the payment screen, or <span class="btn secondary">View/print combined invoice</span> to open a merged, itemized PDF of every open invoice and its balance due — useful for showing the customer their total before they pay.</li>
+        <li>Choose a <span class="field-label">Payment method</span>: Cash, UPI, Card, Bank Transfer, or <span class="field-label">Existing account credit</span> to draw the allocations down from store credit the customer already holds instead of collecting new money (choosing Credit clears and hides the "Additional amount" field, since credit can only be applied against the invoices listed).</li>
+        <li>Optionally add <span class="field-label">Notes</span>, then click <span class="btn">Save</span>.</li>
       </ol>
-      <p><b>System response:</b> The customer's outstanding balance reduces immediately, visible on the list and in their statement.</p>
+      <p><b>Validation:</b> <i>"Amount for invoice [number] exceeds its balance due"</i> if an individual invoice's entered amount is more than what's left owing on it. <i>"Enter an amount"</i> blocks Save if nothing has been entered anywhere.</p>
+      <p><b>System response:</b> Each invoice allocation posts against that invoice (increasing its Paid amount and reducing its balance) and reduces the customer's overall balance; any additional/unallocated amount reduces the customer's overall balance only, with no invoice attached. Cash payments also post a CASH_IN entry to the Cashbook. If the payment pays off every open invoice in full, a confirmation replaces the form with a <span class="btn secondary">Print customer copy</span> button that opens the same merged PDF, now reframed as a settlement receipt confirming everything's cleared.</p>
     </div>
 
     <h4 class="flow-title">Paying out a customer's credit balance</h4>
@@ -1613,6 +1633,9 @@
       <tbody>
         <tr><td><i>"settlement exceeds the customer's available credit"</i></td><td>You tried to pay out more store credit than the customer actually holds.</td><td>Check the customer's current credit balance and reduce the amount.</td></tr>
         <tr><td>"Pay out credit" button is missing on a customer</td><td>The customer currently has no credit balance — there's nothing to pay out.</td><td>This is expected; the option reappears automatically if they build up a credit balance later.</td></tr>
+        <tr><td><i>"Amount for invoice [number] exceeds its balance due"</i></td><td>In the Collect Payment screen, you edited one invoice's allocated amount to more than that invoice currently has left owing.</td><td>Reduce that invoice's amount, or clear it and let "Amount received" auto-distribute the total for you instead of entering per-invoice amounts by hand.</td></tr>
+        <tr><td><i>"Amount exceeds the balance due on this invoice"</i></td><td>The same check, encountered from the <span class="btn secondary">Record payment</span> button in a sale's own detail drawer.</td><td>Reduce the amount to at most the "Balance due" shown at the top of that dialog.</td></tr>
+        <tr><td>"Additional amount (not linked to an invoice)" field disappears after choosing Existing account credit</td><td>Account credit can only be applied against the invoices already listed on screen — there's nothing to tie a leftover, unallocated portion to.</td><td>This is expected; switch to a different payment method if you need to record an unallocated amount alongside invoice allocations.</td></tr>
       </tbody>
     </table>
     </div>
