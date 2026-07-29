@@ -264,23 +264,38 @@
   .length-card .len-time { font-family: var(--font-mono); font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; }
   .length-card h4 { font-size: 15px; margin: 6px 0 8px; }
   .length-card p { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+  .length-card .len-use { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--ink-faint); }
+  .length-card .len-use strong { color: var(--accent); font-weight: 600; }
 
   .prep-list { margin: 0; padding-left: 0; list-style: none; }
   .prep-list li {
     position: relative;
-    padding: 8px 0 8px 26px;
+    padding: 8px 0 8px 28px;
     border-bottom: 1px solid var(--line);
     color: var(--ink-soft);
     font-size: 14.5px;
   }
   .prep-list li:last-child { border-bottom: none; }
-  .prep-list li::before {
-    content: "✓";
-    position: absolute; left: 2px; top: 8px;
-    color: var(--accent);
-    font-size: 12px;
-    font-family: var(--font-mono);
+  .prep-check {
+    position: absolute; left: 0; top: 10px;
+    width: 17px; height: 17px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line-strong);
+    background: transparent;
+    color: transparent;
+    font-size: 10px;
+    line-height: 1;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
   }
+  .prep-check::after { content: "✓"; }
+  .prep-check:hover { border-color: var(--success); }
+  .prep-check[aria-pressed="true"] { background: var(--success); border-color: var(--success); color: var(--bg-raised); }
+  .prep-list li.prep-done { color: var(--ink-faint); }
+  .prep-list li.prep-done .prep-text { text-decoration: line-through; text-decoration-color: var(--line-strong); }
   .prep-list strong { color: var(--ink); }
 
   /* Act dividers */
@@ -353,6 +368,24 @@
     padding-left: 16px;
     border-left: 3px solid var(--accent);
   }
+  .hook-copy {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 12px;
+    line-height: 1;
+    color: var(--ink-faint);
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    padding: 3px 6px;
+    margin-left: 8px;
+    cursor: pointer;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .hook-copy:hover { color: var(--ink); border-color: var(--accent-line); }
+  .hook-copy.copied { color: var(--success); border-color: var(--success); }
+  @media print { .hook-copy { display: none; } }
 
   .stage h3 {
     font-size: 14px;
@@ -469,11 +502,119 @@
     font-family: var(--font-mono);
   }
 
+  /* ---------- Sales-rep tools: floating bar, checklist, path picker, scrollspy ---------- */
+  .tools-bar {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 70;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    max-width: calc(100vw - 20px);
+  }
+  .tool-btn, .tools-progress {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg-raised);
+    color: var(--ink-soft);
+    border-radius: 999px;
+    padding: 7px 12px;
+    line-height: 1;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.14);
+  }
+  .tool-btn { cursor: pointer; }
+  .tool-btn:hover { color: var(--ink); border-color: var(--accent-line); }
+  .tools-progress { cursor: default; font-variant-numeric: tabular-nums; }
+
+  /* Mark-current-stage: follows whatever stage is on screen (via scroll-spy), so a rep
+     mid-pitch never has to scroll back up to the heading just to check a box. */
+  .current-stage-btn { display: inline-flex; align-items: center; gap: 7px; }
+  .current-stage-btn .csb-check {
+    width: 15px; height: 15px; border-radius: 50%;
+    border: 1.5px solid var(--line-strong);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 10px; color: transparent; flex: 0 0 auto;
+  }
+  .current-stage-btn[aria-pressed="true"] .csb-check { background: var(--success); border-color: var(--success); color: var(--bg-raised); }
+  .current-stage-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .current-stage-btn:disabled:hover { color: var(--ink-soft); border-color: var(--line-strong); }
+
+  .tools-pace { font-variant-numeric: tabular-nums; cursor: pointer; }
+  .tools-pace[data-pace="ahead"] { color: var(--success); border-color: var(--success); }
+  .tools-pace[data-pace="onpace"] { color: var(--ink-soft); }
+  .tools-pace[data-pace="paused"] { color: var(--ink-faint); border-style: dashed; }
+
+  /* Behind pace flashes — a quiet color change is easy to miss on a second monitor
+     mid-pitch; a pulse is what actually catches a rep's eye. */
+  .tools-pace[data-pace="behind"] {
+    color: var(--danger);
+    border-color: var(--danger);
+    animation: pace-flash 1s ease-in-out infinite;
+  }
+  @keyframes pace-flash {
+    0%, 100% { background: var(--danger-soft); }
+    50% { background: var(--bg-raised); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tools-pace[data-pace="behind"] { animation: none; background: var(--danger-soft); }
+  }
+
+  .stage-check {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line-strong);
+    background: transparent;
+    color: transparent;
+    font-size: 13px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex: 0 0 auto;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .stage-check::after { content: "✓"; }
+  .stage-check:hover { border-color: var(--success); }
+  .stage-check[aria-pressed="true"] { background: var(--success); border-color: var(--success); color: var(--bg-raised); }
+
+  nav.toc li.toc-done > a { color: var(--success); }
+  nav.toc li.toc-done .toc-num::after { content: " ✓"; }
+
+  nav.toc li a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 700; }
+  nav.toc .toc-appendix a.active { color: var(--accent); }
+
+  .length-card { cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+  .length-card:hover { border-color: var(--accent-line); }
+  .length-card.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent-line) inset; }
+  .length-card.active .len-time { color: var(--ink); }
+  .path-hint { margin: -18px 0 28px; font-size: 12.5px; color: var(--ink-faint); font-style: italic; }
+
+  body[data-path] .stage.out-path,
+  body[data-path] .act-divider.out-path {
+    opacity: 0.32;
+    filter: grayscale(0.6);
+  }
+  nav.toc li.out-path a { opacity: 0.4; }
+
+  @media print {
+    .tools-bar { display: none; }
+  }
+  @media (max-width: 480px) {
+    .tools-bar { top: 8px; right: 8px; gap: 6px; }
+    .tool-btn, .tools-progress { padding: 8px 10px; font-size: 11px; min-height: 30px; }
+  }
+
   /* ---------- Tablet / mobile ---------- */
   @media (max-width: 900px) {
     /* Bottom padding clears the fixed TOC pill so it never covers the footer */
     .page { padding: 0 20px calc(88px + env(safe-area-inset-bottom, 0px)); }
-    .masthead { padding: 36px 0 26px; margin-bottom: 26px; }
+    .masthead { padding: 68px 0 26px; margin-bottom: 26px; }
     .masthead .dek { font-size: 16px; }
     .act-divider { padding-top: 34px; }
     .stage { padding: 30px 0 34px; }
@@ -483,7 +624,7 @@
     body { font-size: 15px; }
     .page { padding: 0 16px calc(84px + env(safe-area-inset-bottom, 0px)); }
 
-    .masthead { padding: 28px 0 22px; margin-bottom: 22px; }
+    .masthead { padding: 60px 0 22px; margin-bottom: 22px; }
     .masthead h1 { max-width: none; }
     .masthead .dek { font-size: 15.5px; margin-bottom: 20px; }
     .meta-row { gap: 8px; }
@@ -503,11 +644,17 @@
     .stage-head { align-items: center; gap: 8px 10px; margin-bottom: 8px; }
     .stage-num { order: 1; }
     .stage-time { order: 2; margin-left: 0; }
+    .stage-check { order: 2; margin-left: auto; width: 30px; height: 30px; font-size: 14px; }
     .stage h2 { order: 3; flex: 1 0 100%; font-size: 23px; }
 
     .hook { font-size: 16.5px; padding-left: 13px; margin-bottom: 20px; }
     .stage h3 { margin: 22px 0 8px; font-size: 13px; }
     .feat-list li { padding: 6px 0 6px 16px; }
+
+    /* Bigger tap targets: 17px is fine as a visual marker, not as a touch target */
+    .prep-list li { padding: 10px 0 10px 34px; }
+    .prep-check { width: 24px; height: 24px; top: 9px; }
+    .hook-copy { padding: 5px 8px; }
 
     .callout { padding: 13px 15px; margin: 18px 0; }
     .transition { margin-top: 22px; }
@@ -592,6 +739,17 @@
 </head>
 <body>
 
+<div class="tools-bar" role="toolbar" aria-label="Demo playbook tools">
+  <button type="button" class="tool-btn" id="themeToggle" title="Cycle theme: Auto" aria-label="Cycle color theme">🌓</button>
+  <button type="button" class="tool-btn current-stage-btn" id="checkCurrentStage" disabled aria-pressed="false" title="Scroll into a stage to mark it" aria-label="Mark current stage complete">
+    <span class="csb-check">✓</span><span class="csb-label">—</span>
+  </button>
+  <span class="tools-progress" id="progressCount" aria-label="Stages checked off">0/13</span>
+  <button type="button" class="tool-btn" id="startDemoBtn" title="Start the call timer" aria-label="Start the call timer">▶ Start</button>
+  <button type="button" class="tools-progress tools-pace" id="pacePill" aria-label="Elapsed time versus budgeted time — click to pause" hidden></button>
+  <button type="button" class="tool-btn" id="resetProgress" title="Reset everything for a fresh call" aria-label="Reset everything for a fresh call">↺</button>
+</div>
+
 <div class="page">
 
   <div class="masthead">
@@ -601,7 +759,7 @@
     <div class="meta-row">
       <span class="meta-chip">13 stages · 4 acts</span>
       <span class="meta-chip">full walkthrough ≈ 58 min</span>
-      <span class="meta-chip">Act I+II only ≈ 22 min</span>
+      <span class="meta-chip">Quick path ≈ 35 min</span>
       <span class="meta-chip">tenant app only — platform/superadmin console not included</span>
     </div>
   </div>
@@ -707,39 +865,43 @@
             <p>Roles, an audit trail, and the dials that make this business behave like itself, not a generic one.</p>
           </div>
         </div>
-        <p>The practical upshot: you can cut cleanly by act instead of stopping wherever the clock runs out mid-module.</p>
+        <p>The practical upshot: each length below is a fixed, curated set of stages — not simply "the first N acts" — so you always know exactly what's in and out before you're on the call.</p>
         <div class="lengths">
-          <div class="length-card">
-            <div class="len-time">≈ 22 min</div>
+          <div class="length-card" data-path="quick">
+            <div class="len-time">≈ 35 min</div>
             <h4>Quick</h4>
-            <p>Act I in full, then Act II — Stages 1–7. Skips the back-office setup story entirely; leads with money, closes with insight.</p>
+            <p>POS Billing, Sales History, Customers, Dashboard, Products &amp; Catalog, Suppliers &amp; Purchases (Stages 1, 2, 3, 6, 8, 10). The full sell → prove-it → restock loop, without the Reports drill-down, cash/expense bookkeeping, or the trust-and-control stack.</p>
+            <p class="len-use"><strong>Use when:</strong> a shorter call or a prospect pressed for time — it still closes the operational loop and backs it with real numbers on the Dashboard.</p>
           </div>
-          <div class="length-card">
-            <div class="len-time">≈ 40 min</div>
+          <div class="length-card" data-path="standard">
+            <div class="len-time">≈ 49 min</div>
             <h4>Standard</h4>
-            <p>Acts I &amp; II in full, plus a skim of Act III — Stage 8's product form and Stage 9's Stock Count (Stages 1–9).</p>
+            <p>Everything in Quick, plus Reports, Expenses, Stock Count, and Settings (adds Stages 5, 7, 9, 13). Layers in the report drill-down, cash discipline, shrinkage/loss prevention, and the configuration story.</p>
+            <p class="len-use"><strong>Use when:</strong> the default length for most calls with the actual decision-maker — past pure discovery, before the governance deep-dive.</p>
           </div>
-          <div class="length-card">
+          <div class="length-card" data-path="full">
             <div class="len-time">≈ 58 min</div>
             <h4>Full</h4>
-            <p>All four acts, all 13 stages. Good for a second call with an operations, finance, or IT stakeholder in the room.</p>
+            <p>Everything in Standard, plus Cashbook, Audit Log, and Users &amp; Roles (adds Stages 4, 11, 12) — all 13 stages.</p>
+            <p class="len-use"><strong>Use when:</strong> a second call, a multi-stakeholder room, or anyone who'll push on roles, audit, or data control before they'll sign off.</p>
           </div>
         </div>
+        <p class="path-hint">Tap a length above to dim everything outside that path — tap it again to clear.</p>
         <h3 style="margin-top:32px;">Before the call</h3>
         <ul class="prep-list">
-          <li>Log in as an <strong>Owner</strong>-role user — the only role with all 22 permissions, so nothing is hidden mid-call. If you're deliberately demonstrating role differences, decide in advance which stage you'll switch to a Manager or Cashier login for.</li>
-          <li>Confirm none of the seven toggleable modules are hidden for this tenant — <strong>Suppliers, Purchases, Expenses, Cashbook, Stock Count, Audit Log, Categories</strong>. That list is managed outside the tenant app, so check with onboarding/support ahead of time rather than discovering a missing sidebar item live.</li>
-          <li>Seed 15–20 products across 2–3 categories, a few with photos, at least one with its own batch barcode, and one sitting below its minimum stock — you need that last one for the reorder/low-stock moment in Stages 6 and 8.</li>
-          <li>Seed 2–3 customers with phone numbers (for the WhatsApp invoice and credit demo) and 1–2 suppliers.</li>
-          <li>Backdate a handful of sales, purchases, and expenses so Dashboard and Reports aren't empty on first load — an empty chart undersells the analytics story badly.</li>
-          <li>If you're demoing the camera barcode scanner, use HTTPS (or localhost) and grant camera permission before the call starts — it refuses to run in an insecure context.</li>
-          <li>If you're demoing the UPI QR at checkout, confirm the tenant has a UPI VPA configured — it shows read-only in Settings, so set it up beforehand if missing.</li>
-          <li>Keep a phone on hand to actually receive the WhatsApp invoice — it's a real <span class="mono">wa.me</span> deep link; worth tapping once in rehearsal so you're not surprised live.</li>
+          <li><button type="button" class="prep-check" data-prep-id="prep-1" aria-pressed="false" aria-label="Mark prep item complete"></button><span class="prep-text">Log in as an <strong>Owner</strong>-role user — the only role with all 22 permissions, so nothing is hidden mid-call. If you're deliberately demonstrating role differences, decide in advance which stage you'll switch to a Manager or Cashier login for.</span></li>
+          <li><button type="button" class="prep-check" data-prep-id="prep-2" aria-pressed="false" aria-label="Mark prep item complete"></button><span class="prep-text">Confirm none of the seven toggleable modules are hidden for this tenant — <strong>Suppliers, Purchases, Expenses, Cashbook, Stock Count, Audit Log, Categories</strong>. That list is managed outside the tenant app, so check with onboarding/support ahead of time rather than discovering a missing sidebar item live.</span></li>
+          <li><button type="button" class="prep-check" data-prep-id="prep-3" aria-pressed="false" aria-label="Mark prep item complete"></button><span class="prep-text">Seed 15–20 products across 2–3 categories, a few with photos, at least one with its own batch barcode, and one sitting below its minimum stock — you need that last one for the reorder/low-stock moment in Stages 6 and 8.</span></li>
+          <li><button type="button" class="prep-check" data-prep-id="prep-4" aria-pressed="false" aria-label="Mark prep item complete"></button><span class="prep-text">Seed 2–3 customers with phone numbers (for the WhatsApp invoice and credit demo) and 1–2 suppliers.</span></li>
+          <li><button type="button" class="prep-check" data-prep-id="prep-5" aria-pressed="false" aria-label="Mark prep item complete"></button><span class="prep-text">Backdate a handful of sales, purchases, and expenses so Dashboard and Reports aren't empty on first load — an empty chart undersells the analytics story badly.</span></li>
+          <li><button type="button" class="prep-check" data-prep-id="prep-6" aria-pressed="false" aria-label="Mark prep item complete"></button><span class="prep-text">If you're demoing the camera barcode scanner, use HTTPS (or localhost) and grant camera permission before the call starts — it refuses to run in an insecure context.</span></li>
+          <li><button type="button" class="prep-check" data-prep-id="prep-7" aria-pressed="false" aria-label="Mark prep item complete"></button><span class="prep-text">If you're demoing the UPI QR at checkout, confirm the tenant has a UPI VPA configured — it shows read-only in Settings, so set it up beforehand if missing.</span></li>
+          <li><button type="button" class="prep-check" data-prep-id="prep-8" aria-pressed="false" aria-label="Mark prep item complete"></button><span class="prep-text">Keep a phone on hand to actually receive the WhatsApp invoice — it's a real <span class="mono">wa.me</span> deep link; worth tapping once in rehearsal so you're not surprised live.</span></li>
         </ul>
       </section>
 
       <!-- ACT I -->
-      <div class="act-divider">
+      <div class="act-divider" data-stages="1-5">
         <p class="act-eyebrow">Act I · Stages 1–5</p>
         <h2>A day at the counter</h2>
         <p>Everything a shop owner emotionally cares about first: sell something, get paid, watch the cash and the ledger react. Told start to finish before touching a single setup screen.</p>
@@ -751,13 +913,14 @@
           <span class="stage-num">Stage 01</span>
           <h2>POS Billing</h2>
           <span class="stage-time">≈ 6 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-1" aria-pressed="false" aria-label="Mark Stage 01 POS Billing complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/sales/new</span>
           <span class="chip perm">sales.create</span>
           <span class="chip perm">reports.profit (margin preview)</span>
         </div>
-        <p class="hook">This is the screen a cashier lives in all day. Open here, not the dashboard — a real sale in the first sixty seconds is what makes everything after it feel earned rather than staged.</p>
+        <p class="hook">This is the screen a cashier lives in all day. Open here, not the dashboard — a real sale in the first sixty seconds is what makes everything after it feel earned rather than staged.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <h3>Finding a product</h3>
         <ul class="feat-list">
@@ -808,6 +971,7 @@
           <span class="stage-num">Stage 02</span>
           <h2>Sales History</h2>
           <span class="stage-time">≈ 4 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-2" aria-pressed="false" aria-label="Mark Stage 02 Sales History complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/sales</span>
@@ -815,7 +979,7 @@
           <span class="chip perm">sales.cancel</span>
           <span class="chip perm">sales.refund</span>
         </div>
-        <p class="hook">Show the sale you just rang up landing here instantly, then use that exact sale to demo void, refund, and the WhatsApp send — all from one drawer.</p>
+        <p class="hook">Show the sale you just rang up landing here instantly, then use that exact sale to demo void, refund, and the WhatsApp send — all from one drawer.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <h3>The list</h3>
         <ul class="feat-list">
@@ -847,13 +1011,14 @@
           <span class="stage-num">Stage 03</span>
           <h2>Customers</h2>
           <span class="stage-time">≈ 5 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-3" aria-pressed="false" aria-label="Mark Stage 03 Customers complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/customers</span>
           <span class="chip perm">customers.manage</span>
           <span class="chip perm">sales.view / sales.create</span>
         </div>
-        <p class="hook">This is where the credit sale from Stage 1 pays off — pull up that exact customer and show their balance already reflecting it.</p>
+        <p class="hook">This is where the credit sale from Stage 1 pays off — pull up that exact customer and show their balance already reflecting it.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <h3>The list &amp; detail</h3>
         <ul class="feat-list">
@@ -887,6 +1052,7 @@
           <span class="stage-num">Stage 04</span>
           <h2>Cashbook</h2>
           <span class="stage-time">≈ 4 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-4" aria-pressed="false" aria-label="Mark Stage 04 Cashbook complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/cashbook</span>
@@ -894,7 +1060,7 @@
           <span class="chip perm">settings.manage (opening balance)</span>
           <span class="chip toggle">cashbook</span>
         </div>
-        <p class="hook">The cash portion of Stage 1's sale, and the payment you just collected in Stage 3, are already sitting here — before you've touched Purchases or Expenses at all. This is the "does the drawer actually match" screen.</p>
+        <p class="hook">The cash portion of Stage 1's sale, and the payment you just collected in Stage 3, are already sitting here — before you've touched Purchases or Expenses at all. This is the "does the drawer actually match" screen.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <h3>What's already here, and what will be</h3>
         <ul class="feat-list">
@@ -917,13 +1083,14 @@
           <span class="stage-num">Stage 05</span>
           <h2>Expenses</h2>
           <span class="stage-time">≈ 3 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-5" aria-pressed="false" aria-label="Mark Stage 05 Expenses complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/expenses</span>
           <span class="chip perm">expenses.manage</span>
           <span class="chip toggle">expenses</span>
         </div>
-        <p class="hook">Quick stage, but it's what turns "gross profit" into "net profit" two stages from now on the Dashboard.</p>
+        <p class="hook">Quick stage, but it's what turns "gross profit" into "net profit" two stages from now on the Dashboard.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <ul class="feat-list">
           <li><b>Expenses tab</b> — date range, category, and payment-method filters; one summary card (total + entry count); inline edit/delete per row.</li>
@@ -944,7 +1111,7 @@
       </section>
 
       <!-- ACT II -->
-      <div class="act-divider">
+      <div class="act-divider" data-stages="6-7">
         <p class="act-eyebrow">Act II · Stages 6–7</p>
         <h2>Proof it adds up</h2>
         <p>Everything just entered across Act I, live in one KPI screen and one drill-down. This is the payoff — the moment the demo stops being a feature tour and starts looking like a decision.</p>
@@ -956,13 +1123,14 @@
           <span class="stage-num">Stage 06</span>
           <h2>Dashboard</h2>
           <span class="stage-time">≈ 5 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-6" aria-pressed="false" aria-label="Mark Stage 06 Dashboard complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/dashboard</span>
           <span class="chip perm">reports.profit</span>
           <span class="chip perm">reports.sales / reports.inventory (widgets)</span>
         </div>
-        <p class="hook">Refreshes on its own every 30 seconds. Everything you rang up in Act I is already moving these numbers — if there's a natural pause, ring up one more small sale right now and let a figure change on screen without touching refresh.</p>
+        <p class="hook">Refreshes on its own every 30 seconds. Everything you rang up in Act I is already moving these numbers — if there's a natural pause, ring up one more small sale right now and let a figure change on screen without touching refresh.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <ul class="feat-list">
           <li><b>Hero row</b>: Today's Sales (+ order count), Today's Profit (red/green by sign), Monthly Revenue (with a growth-vs-prior-period badge), Monthly Profit.</li>
@@ -985,13 +1153,14 @@
           <span class="stage-num">Stage 07</span>
           <h2>Reports</h2>
           <span class="stage-time">≈ 6 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-7" aria-pressed="false" aria-label="Mark Stage 07 Reports complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/reports</span>
           <span class="chip perm">reports.sales</span>
           <span class="chip perm">reports.inventory / reports.profit (per tab)</span>
         </div>
-        <p class="hook">Six tabs, each answering a different question a different stakeholder in the room actually has.</p>
+        <p class="hook">Six tabs, each answering a different question a different stakeholder in the room actually has.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <ul class="feat-list">
           <li><b>Overview</b> — revenue / orders / AOV / growth; gross profit / expenses / net profit / margin; category chart. Month or all-time.</li>
@@ -1010,7 +1179,7 @@
       </section>
 
       <!-- ACT III -->
-      <div class="act-divider">
+      <div class="act-divider" data-stages="8-10">
         <p class="act-eyebrow">Act III · Stages 8–10</p>
         <h2>Running the back office</h2>
         <p>The setup and day-to-day upkeep that made Acts I and II possible in the first place — catalog, physical stock, and where it all comes from. Less flashy, so it comes after the hook and the payoff, not before them.</p>
@@ -1022,6 +1191,7 @@
           <span class="stage-num">Stage 08</span>
           <h2>Products &amp; Catalog</h2>
           <span class="stage-time">≈ 9 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-8" aria-pressed="false" aria-label="Mark Stage 08 Products and Catalog complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/products</span>
@@ -1029,7 +1199,7 @@
           <span class="chip perm">inventory.adjust</span>
           <span class="chip toggle">categories</span>
         </div>
-        <p class="hook">The densest screen in the app, and the one that convinces an owner the catalog will actually match their real shop — variable units, per-batch cost tracking, and a barcode-first workflow throughout.</p>
+        <p class="hook">The densest screen in the app, and the one that convinces an owner the catalog will actually match their real shop — variable units, per-batch cost tracking, and a barcode-first workflow throughout.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <h3>Adding / editing a product</h3>
         <ul class="feat-list">
@@ -1081,13 +1251,14 @@
           <span class="stage-num">Stage 09</span>
           <h2>Stock Count</h2>
           <span class="stage-time">≈ 3 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-9" aria-pressed="false" aria-label="Mark Stage 09 Stock Count complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/inventory-audits</span>
           <span class="chip perm">inventory.audit</span>
           <span class="chip toggle">inventory_audits</span>
         </div>
-        <p class="hook">The "trust but verify" feature — a physical count that automatically corrects system stock and tells the owner exactly what they lost or found, in rupees.</p>
+        <p class="hook">The "trust but verify" feature — a physical count that automatically corrects system stock and tells the owner exactly what they lost or found, in rupees.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <h3>Stock counts tab</h3>
         <ul class="feat-list">
@@ -1114,6 +1285,7 @@
           <span class="stage-num">Stage 10</span>
           <h2>Suppliers &amp; Purchases</h2>
           <span class="stage-time">≈ 6 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-10" aria-pressed="false" aria-label="Mark Stage 10 Suppliers and Purchases complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/suppliers, /purchases</span>
@@ -1122,7 +1294,7 @@
           <span class="chip toggle">suppliers</span>
           <span class="chip toggle">purchases</span>
         </div>
-        <p class="hook">This closes the operational loop — show a purchase order arrive and turn straight into the sellable batches you saw built by hand in Stage 8.</p>
+        <p class="hook">This closes the operational loop — show a purchase order arrive and turn straight into the sellable batches you saw built by hand in Stage 8.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <h3>Suppliers</h3>
         <ul class="feat-list">
@@ -1155,7 +1327,7 @@
       </section>
 
       <!-- ACT IV -->
-      <div class="act-divider">
+      <div class="act-divider" data-stages="11-13">
         <p class="act-eyebrow">Act IV · Stages 11–13</p>
         <h2>Trust &amp; control</h2>
         <p>Who can do what, who did what, and the handful of dials that make this business behave like itself. Closes the demo on confidence rather than a feature list.</p>
@@ -1167,12 +1339,13 @@
           <span class="stage-num">Stage 11</span>
           <h2>Users &amp; Roles</h2>
           <span class="stage-time">≈ 3 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-11" aria-pressed="false" aria-label="Mark Stage 11 Users and Roles complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/users</span>
           <span class="chip perm">users.manage</span>
         </div>
-        <p class="hook">Three fixed roles — Owner, Manager, Cashier — and every sensitive action asks the acting admin to re-enter their own password before it goes through. Say that second part out loud; it isn't the default in most systems this size.</p>
+        <p class="hook">Three fixed roles — Owner, Manager, Cashier — and every sensitive action asks the acting admin to re-enter their own password before it goes through. Say that second part out loud; it isn't the default in most systems this size.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <ul class="feat-list">
           <li>New user: name, email, password (set directly — no email-invite step), phone, role. Seat count is capped and shown live as "N / limit accounts," enforced server-side, not just hidden in the UI.</li>
@@ -1193,13 +1366,14 @@
           <span class="stage-num">Stage 12</span>
           <h2>Audit Log</h2>
           <span class="stage-time">≈ 2 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-12" aria-pressed="false" aria-label="Mark Stage 12 Audit Log complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/audit-logs</span>
           <span class="chip perm">audit_logs.view</span>
           <span class="chip toggle">audit_log</span>
         </div>
-        <p class="hook">Point at literally anything done earlier in the call and show it landed here — timestamped, with the acting user, their role at the time, and their IP address.</p>
+        <p class="hook">Point at literally anything done earlier in the call and show it landed here — timestamped, with the acting user, their role at the time, and their IP address.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <ul class="feat-list">
           <li>Filter: date range (no user or action-type filter in the UI yet).</li>
@@ -1219,13 +1393,14 @@
           <span class="stage-num">Stage 13</span>
           <h2>Settings</h2>
           <span class="stage-time">≈ 2 min</span>
+          <button type="button" class="stage-check" data-stage-id="stage-13" aria-pressed="false" aria-label="Mark Stage 13 Settings complete"></button>
         </div>
         <div class="chip-row">
           <span class="chip mono">/settings</span>
           <span class="chip perm">settings.manage</span>
           <span class="chip perm">reports.inventory</span>
         </div>
-        <p class="hook">Deliberately short — most of what makes this business look and feel like itself is set once at onboarding, not fiddled with day to day.</p>
+        <p class="hook">Deliberately short — most of what makes this business look and feel like itself is set once at onboarding, not fiddled with day to day.<button type="button" class="hook-copy" aria-label="Copy this line" title="Copy this line">⧉</button></p>
 
         <ul class="feat-list">
           <li><b>Business details</b> — read-only display (name, phone, GSTIN, address, UPI ID/name); changes go through support, keeping the business's legal/financial identity stable.</li>
@@ -1332,5 +1507,476 @@
     </main>
   </div>
 </div>
+
+<script>
+  /* Scroll-spy: highlight the stage currently in view in the sidebar TOC. */
+  (function () {
+    var tocLinks = Array.prototype.slice.call(document.querySelectorAll('nav.toc a[href^="#"]'));
+    var map = {}, targets = [];
+    tocLinks.forEach(function (a) {
+      var id = a.getAttribute('href').slice(1);
+      var el = document.getElementById(id);
+      if (el) { map[id] = a; targets.push(el); }
+    });
+    if (!('IntersectionObserver' in window) || !targets.length) return;
+
+    var visible = new Set();
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) visible.add(e.target); else visible.delete(e.target);
+      });
+      var chosen = null;
+      for (var i = 0; i < targets.length; i++) {
+        if (visible.has(targets[i])) chosen = targets[i];
+      }
+      tocLinks.forEach(function (a) { a.classList.remove('active'); });
+      if (chosen && map[chosen.id]) map[chosen.id].classList.add('active');
+
+      /* Expose which stage is on screen so the tools-bar "check current stage"
+         button can act on it without the rep scrolling back to the heading. */
+      if (chosen && chosen.id.indexOf('stage-') === 0) {
+        document.body.setAttribute('data-current-stage', chosen.id);
+      } else {
+        document.body.removeAttribute('data-current-stage');
+      }
+    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+
+    targets.forEach(function (t) { io.observe(t); });
+  })();
+</script>
+
+<script>
+  /* Path picker: tapping a length card previews exactly which stages that path covers. */
+  (function () {
+    /* Each path is a curated set of stage numbers, not a contiguous range —
+       e.g. Quick skips Cashbook/Expenses (Act I) but includes Suppliers &
+       Purchases (Act III), so membership has to be checked per-stage. */
+    var STAGE_SETS = {
+      quick: [1, 2, 3, 6, 8, 10],
+      standard: [1, 2, 3, 5, 6, 7, 8, 9, 10, 13],
+      full: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    };
+    /* Shared with the pacing timer so it can score elapsed time against only the
+       stages that belong to whichever demo type is actually selected. */
+    window.DEMO_PLAYBOOK_STAGE_SETS = STAGE_SETS;
+    var cards = document.querySelectorAll('.length-card[data-path]');
+    var stages = document.querySelectorAll('.stage[id^="stage-"]');
+    var dividers = document.querySelectorAll('.act-divider[data-stages]');
+    var tocItems = document.querySelectorAll('nav.toc li');
+    if (!cards.length) return;
+
+    function stageNum(el) { return parseInt(el.id.replace('stage-', ''), 10); }
+
+    function applyPath(key) {
+      var set = STAGE_SETS[key];
+      if (!set) return;
+      document.body.setAttribute('data-path', key);
+      stages.forEach(function (s) {
+        var n = stageNum(s);
+        s.classList.toggle('out-path', set.indexOf(n) === -1);
+      });
+      dividers.forEach(function (d) {
+        var parts = d.getAttribute('data-stages').split('-').map(Number);
+        var overlaps = false;
+        for (var n = parts[0]; n <= parts[1]; n++) {
+          if (set.indexOf(n) !== -1) { overlaps = true; break; }
+        }
+        d.classList.toggle('out-path', !overlaps);
+      });
+      tocItems.forEach(function (li) {
+        var a = li.querySelector('a[href^="#stage-"]');
+        if (!a) { li.classList.remove('out-path'); return; }
+        var n = parseInt(a.getAttribute('href').replace('#stage-', ''), 10);
+        li.classList.toggle('out-path', set.indexOf(n) === -1);
+      });
+    }
+
+    var PATH_KEY = 'demoPlaybookPath';
+
+    function clearPath() {
+      document.body.removeAttribute('data-path');
+      stages.forEach(function (s) { s.classList.remove('out-path'); });
+      dividers.forEach(function (d) { d.classList.remove('out-path'); });
+      tocItems.forEach(function (li) { li.classList.remove('out-path'); });
+      cards.forEach(function (c) { c.classList.remove('active'); c.setAttribute('aria-pressed', 'false'); });
+      try { localStorage.removeItem(PATH_KEY); } catch (e) {}
+    }
+
+    function selectCard(card) {
+      cards.forEach(function (c) { c.classList.remove('active'); c.setAttribute('aria-pressed', 'false'); });
+      card.classList.add('active');
+      card.setAttribute('aria-pressed', 'true');
+      var key = card.getAttribute('data-path');
+      applyPath(key);
+      try { localStorage.setItem(PATH_KEY, key); } catch (e) {}
+    }
+
+    cards.forEach(function (card) {
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-pressed', 'false');
+
+      function toggle() {
+        if (card.classList.contains('active')) { clearPath(); return; }
+        selectCard(card);
+      }
+      card.addEventListener('click', toggle);
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    });
+
+    /* Restore whichever path a rep picked before a reload mid-call. */
+    var savedPath = null;
+    try { savedPath = localStorage.getItem(PATH_KEY); } catch (e) {}
+    if (savedPath && STAGE_SETS[savedPath]) {
+      var savedCard = document.querySelector('.length-card[data-path="' + savedPath + '"]');
+      if (savedCard) selectCard(savedCard);
+    }
+
+    document.addEventListener('demoPlaybookResetAll', clearPath);
+  })();
+</script>
+
+<script>
+  /* Progress checklist: per-stage checkmarks persisted in localStorage for one call. */
+  (function () {
+    var STORE_KEY = 'demoPlaybookProgress';
+    var checks = document.querySelectorAll('.stage-check');
+    var progressCount = document.getElementById('progressCount');
+    var resetBtn = document.getElementById('resetProgress');
+    if (!checks.length) return;
+
+    function loadDone() {
+      try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch (e) { return []; }
+    }
+    function saveDone(list) {
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(list)); } catch (e) {}
+    }
+    function updateCount() {
+      var n = document.querySelectorAll('.stage-check[aria-pressed="true"]').length;
+      if (progressCount) progressCount.textContent = n + '/' + checks.length;
+    }
+    function setDone(id, done) {
+      var btn = document.querySelector('.stage-check[data-stage-id="' + id + '"]');
+      var link = document.querySelector('nav.toc a[href="#' + id + '"]');
+      if (btn) btn.setAttribute('aria-pressed', done ? 'true' : 'false');
+      if (link) link.closest('li').classList.toggle('toc-done', done);
+    }
+
+    function toggle(id) {
+      var btn = document.querySelector('.stage-check[data-stage-id="' + id + '"]');
+      if (!btn) return;
+      var isDone = btn.getAttribute('aria-pressed') === 'true';
+      setDone(id, !isDone);
+      var list = loadDone();
+      if (!isDone) { if (list.indexOf(id) === -1) list.push(id); }
+      else { list = list.filter(function (x) { return x !== id; }); }
+      saveDone(list);
+      updateCount();
+      syncCurrentStageBtn();
+      tick();
+    }
+
+    loadDone().forEach(function (id) { setDone(id, true); });
+    updateCount();
+
+    checks.forEach(function (btn) {
+      btn.addEventListener('click', function () { toggle(btn.getAttribute('data-stage-id')); });
+    });
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        if (!window.confirm('Reset everything — stage progress, prep checklist, and the selected path — for a fresh call?')) return;
+        saveDone([]);
+        checks.forEach(function (btn) { setDone(btn.getAttribute('data-stage-id'), false); });
+        updateCount();
+        syncCurrentStageBtn();
+        clearCallStart();
+        /* Prep checklist and path picker own their own state; let them clear it. */
+        document.dispatchEvent(new CustomEvent('demoPlaybookResetAll'));
+      });
+    }
+
+    /* Pacing: an explicit "Start Demo" button begins a live clock (ticks every
+       second, pausable by clicking it) and compares elapsed time against the
+       budgeted minutes of whichever stages are checked off — scoped to the
+       selected demo path (Quick/Standard/Full) when one is active, so a stage
+       outside that script doesn't skew the read. Behind pace flashes red —
+       meant to be glanceable on a second monitor without a rep watching it. */
+    var ACCUM_KEY = 'demoPlaybookAccumMs';
+    var RUN_START_KEY = 'demoPlaybookRunStart';
+    var pacePill = document.getElementById('pacePill');
+    var startBtn = document.getElementById('startDemoBtn');
+    var STAGE_MINUTES = {};
+    checks.forEach(function (btn) {
+      var id = btn.getAttribute('data-stage-id');
+      var timeEl = document.querySelector('#' + id + ' .stage-time');
+      var m = timeEl ? timeEl.textContent.match(/\d+/) : null;
+      STAGE_MINUTES[id] = m ? parseInt(m[0], 10) : 0;
+    });
+
+    function budgetedMinutesSoFar() {
+      var selectedPath = document.body.getAttribute('data-path');
+      var pathSet = (selectedPath && window.DEMO_PLAYBOOK_STAGE_SETS) ? window.DEMO_PLAYBOOK_STAGE_SETS[selectedPath] : null;
+      var total = 0;
+      document.querySelectorAll('.stage-check[aria-pressed="true"]').forEach(function (btn) {
+        var id = btn.getAttribute('data-stage-id');
+        if (pathSet) {
+          var n = parseInt(id.replace('stage-', ''), 10);
+          if (pathSet.indexOf(n) === -1) return; // outside the selected demo type — don't let it skew pacing
+        }
+        total += STAGE_MINUTES[id] || 0;
+      });
+      return total;
+    }
+
+    function pathLabel() {
+      var key = document.body.getAttribute('data-path');
+      if (!key) return '';
+      return ' (' + key.charAt(0).toUpperCase() + key.slice(1) + ' path)';
+    }
+
+    function formatClock(totalSeconds) {
+      var m = Math.floor(totalSeconds / 60);
+      var s = totalSeconds % 60;
+      return m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    function isRunning() {
+      try { return !!localStorage.getItem(RUN_START_KEY); } catch (e) { return false; }
+    }
+    function getAccumMs() {
+      try { return Number(localStorage.getItem(ACCUM_KEY) || 0); } catch (e) { return 0; }
+    }
+    function elapsedMs() {
+      var accum = getAccumMs();
+      var runStart = null;
+      try { runStart = localStorage.getItem(RUN_START_KEY); } catch (e) {}
+      return accum + (runStart ? Math.max(0, Date.now() - Number(runStart)) : 0);
+    }
+
+    function clearCallStart() {
+      try { localStorage.removeItem(ACCUM_KEY); localStorage.removeItem(RUN_START_KEY); } catch (e) {}
+      tick();
+    }
+
+    function tick() {
+      if (!pacePill || !startBtn) return;
+      var started = getAccumMs() > 0 || isRunning();
+      if (!started) {
+        startBtn.hidden = false;
+        pacePill.hidden = true;
+        return;
+      }
+      startBtn.hidden = true;
+      pacePill.hidden = false;
+      var elapsedSec = Math.floor(elapsedMs() / 1000);
+      var clock = formatClock(elapsedSec);
+
+      if (!isRunning()) {
+        pacePill.textContent = '⏸ ' + clock;
+        pacePill.setAttribute('data-pace', 'paused');
+        pacePill.title = 'Paused at ' + clock + ' — click to resume';
+        return;
+      }
+
+      var diff = Math.round(elapsedSec / 60 - budgetedMinutesSoFar());
+      var suffix = pathLabel();
+      pacePill.textContent = clock;
+      if (diff >= 2) {
+        pacePill.setAttribute('data-pace', 'behind');
+        pacePill.title = 'Elapsed ' + clock + ' — running about ' + diff + ' min behind the stages checked off so far' + suffix + '. Click to pause.';
+      } else if (diff <= -2) {
+        pacePill.setAttribute('data-pace', 'ahead');
+        pacePill.title = 'Elapsed ' + clock + ' — running about ' + Math.abs(diff) + ' min ahead of the stages checked off so far' + suffix + '. Click to pause.';
+      } else {
+        pacePill.setAttribute('data-pace', 'onpace');
+        pacePill.title = 'Elapsed ' + clock + ' — roughly on pace with the stages checked off so far' + suffix + '. Click to pause.';
+      }
+    }
+
+    if (startBtn) {
+      startBtn.addEventListener('click', function () {
+        try {
+          localStorage.setItem(ACCUM_KEY, '0');
+          localStorage.setItem(RUN_START_KEY, String(Date.now()));
+        } catch (e) {}
+        tick();
+      });
+    }
+
+    if (pacePill) {
+      pacePill.addEventListener('click', function () {
+        if (isRunning()) {
+          // Pause: fold the current run segment into the accumulated total.
+          var runStart = null;
+          try { runStart = localStorage.getItem(RUN_START_KEY); } catch (e) {}
+          var accum = getAccumMs() + (runStart ? Math.max(0, Date.now() - Number(runStart)) : 0);
+          try {
+            localStorage.setItem(ACCUM_KEY, String(accum));
+            localStorage.removeItem(RUN_START_KEY);
+          } catch (e) {}
+        } else {
+          // Resume: start a fresh run segment on top of the frozen accumulated total.
+          try { localStorage.setItem(RUN_START_KEY, String(Date.now())); } catch (e) {}
+        }
+        tick();
+      });
+    }
+
+    tick();
+    setInterval(tick, 1000);
+
+    /* "Check current stage" — the tools-bar button that follows whatever stage
+       scroll-spy says is on screen, set on <body data-current-stage>. This is the
+       fix for a rep mid-pitch, scrolled well past a stage's heading, not wanting
+       to scroll back up just to tick its box. */
+    var currentBtn = document.getElementById('checkCurrentStage');
+    var csbLabel = currentBtn ? currentBtn.querySelector('.csb-label') : null;
+
+    function syncCurrentStageBtn() {
+      if (!currentBtn) return;
+      var id = document.body.getAttribute('data-current-stage');
+      var target = id ? document.querySelector('.stage-check[data-stage-id="' + id + '"]') : null;
+      if (!target) {
+        currentBtn.disabled = true;
+        currentBtn.setAttribute('aria-pressed', 'false');
+        currentBtn.title = 'Scroll into a stage to mark it';
+        if (csbLabel) csbLabel.textContent = '—';
+        return;
+      }
+      var num = id.replace('stage-', '');
+      if (num.length < 2) num = '0' + num;
+      currentBtn.disabled = false;
+      currentBtn.setAttribute('aria-pressed', target.getAttribute('aria-pressed'));
+      currentBtn.title = 'Mark Stage ' + num + ' (' + (target.getAttribute('aria-label') || '').replace(/^Mark |complete$/g, '') + ') complete';
+      if (csbLabel) csbLabel.textContent = num;
+    }
+
+    if (currentBtn) {
+      currentBtn.addEventListener('click', function () {
+        var id = document.body.getAttribute('data-current-stage');
+        if (id) toggle(id);
+      });
+      new MutationObserver(syncCurrentStageBtn).observe(document.body, { attributes: true, attributeFilter: ['data-current-stage'] });
+      syncCurrentStageBtn();
+    }
+  })();
+</script>
+
+<script>
+  /* Theme toggle: cycles Auto -> Light -> Dark, remembers the choice per browser. */
+  (function () {
+    var THEME_KEY = 'demoPlaybookTheme';
+    var themeBtn = document.getElementById('themeToggle');
+    if (!themeBtn) return;
+    var ORDER = ['auto', 'light', 'dark'];
+    var ICON = { auto: '🌓', light: '☀️', dark: '🌙' };
+    var TITLE = { auto: 'Cycle theme: Auto (follows system)', light: 'Cycle theme: Light', dark: 'Cycle theme: Dark' };
+
+    function readTheme() {
+      try { return localStorage.getItem(THEME_KEY) || 'auto'; } catch (e) { return 'auto'; }
+    }
+    function apply(mode) {
+      if (mode === 'auto') document.documentElement.removeAttribute('data-theme');
+      else document.documentElement.setAttribute('data-theme', mode);
+      themeBtn.textContent = ICON[mode];
+      themeBtn.title = TITLE[mode];
+    }
+
+    apply(readTheme());
+
+    themeBtn.addEventListener('click', function () {
+      var next = ORDER[(ORDER.indexOf(readTheme()) + 1) % ORDER.length];
+      try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+      apply(next);
+    });
+  })();
+</script>
+
+<script>
+  /* Prep checklist: the "Before the call" setup tasks get their own persisted
+     checkboxes, separate from stage progress — done the night before, not mid-call. */
+  (function () {
+    var STORE_KEY = 'demoPlaybookPrep';
+    var checks = document.querySelectorAll('.prep-check');
+    if (!checks.length) return;
+
+    function loadDone() {
+      try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch (e) { return []; }
+    }
+    function saveDone(list) {
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(list)); } catch (e) {}
+    }
+    function setDone(id, done) {
+      var btn = document.querySelector('.prep-check[data-prep-id="' + id + '"]');
+      if (!btn) return;
+      btn.setAttribute('aria-pressed', done ? 'true' : 'false');
+      btn.closest('li').classList.toggle('prep-done', done);
+    }
+
+    loadDone().forEach(function (id) { setDone(id, true); });
+
+    checks.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-prep-id');
+        var isDone = btn.getAttribute('aria-pressed') === 'true';
+        setDone(id, !isDone);
+        var list = loadDone();
+        if (!isDone) { if (list.indexOf(id) === -1) list.push(id); }
+        else { list = list.filter(function (x) { return x !== id; }); }
+        saveDone(list);
+      });
+    });
+
+    document.addEventListener('demoPlaybookResetAll', function () {
+      saveDone([]);
+      checks.forEach(function (btn) { setDone(btn.getAttribute('data-prep-id'), false); });
+    });
+  })();
+</script>
+
+<script>
+  /* Copy-to-clipboard on each stage's italic hook line — the talk-track sentence,
+     one tap into a personal note or CRM call log instead of retyping it after. */
+  (function () {
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('.hook-copy');
+      if (!btn) return;
+      var hook = btn.closest('.hook');
+      if (!hook) return;
+      var clone = hook.cloneNode(true);
+      var cloneBtn = clone.querySelector('.hook-copy');
+      if (cloneBtn) cloneBtn.remove();
+      var text = clone.textContent.trim();
+
+      function showCopied() {
+        var original = btn.textContent;
+        btn.textContent = '✓';
+        btn.classList.add('copied');
+        setTimeout(function () { btn.textContent = original; btn.classList.remove('copied'); }, 1200);
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(showCopied, function () { fallbackCopy(text, showCopied); });
+      } else {
+        fallbackCopy(text, showCopied);
+      }
+    });
+
+    function fallbackCopy(text, done) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+  })();
+</script>
 </body>
 </html>
