@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
 <head>
 <meta charset="UTF-8">
 <title>RetailFlow — Business User Guide &amp; Product Manual</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="The complete RetailFlow business user guide — every module, every flow, every permission, explained for owners, managers, and cashiers.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://retailflow.co.in/business-guide.html">
+
+<meta property="og:site_name" content="RetailFlow">
+<meta property="og:title" content="RetailFlow — Business User Guide &amp; Product Manual">
+<meta property="og:description" content="The complete RetailFlow business user guide — every module, every flow, every permission, explained for owners, managers, and cashiers.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://retailflow.co.in/business-guide.html">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RetailFlow — Business User Guide &amp; Product Manual">
+<meta name="twitter:description" content="The complete RetailFlow business user guide — every module, every flow, every permission, explained.">
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="theme-color" content="#0D0B1E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -122,17 +137,17 @@
   .cover .meta-row div b{display:block; font-size:14px; margin-bottom:2px; color:var(--text);}
 
   /* ---------- Typography ---------- */
-  h1.section-title{
+  h2.section-title{
     font-size:30px; font-weight:800; color:var(--text); margin:0 0 6px; padding-top:56px; letter-spacing:-0.015em;
     border-bottom:3px solid var(--brand); padding-bottom:14px; display:flex; align-items:baseline; gap:12px;
   }
-  h1.section-title .num{font-family:var(--mono); color:var(--accent); font-variant-numeric:tabular-nums;}
+  h2.section-title .num{font-family:var(--mono); color:var(--accent); font-variant-numeric:tabular-nums;}
   .section-intro{color:var(--muted); font-size:15px; max-width:820px; margin:14px 0 34px;}
-  h2.mod-title{
+  h3.mod-title{
     font-size:22px; font-weight:750; color:var(--brand); margin:46px 0 4px; padding-top:10px;
     display:flex; align-items:center; gap:10px; letter-spacing:-0.01em;
   }
-  h2.mod-title .tag{
+  h3.mod-title .tag{
     font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; font-weight:700;
     color:var(--muted); background:var(--ground); border:1px solid var(--border); border-radius:20px; padding:2px 10px;
   }
@@ -228,9 +243,9 @@
     .page-pad{padding:0 8mm;}
     body{font-size:10.6pt; background:#fff;}
     .cover{min-height:100vh; page-break-after:always; padding:22mm 18mm;}
-    h1.section-title{page-break-before:always; padding-top:0;}
-    h1.section-title:first-of-type{page-break-before:auto;}
-    h2.mod-title{page-break-before:auto; break-inside:avoid;}
+    h2.section-title{page-break-before:always; padding-top:0;}
+    h2.section-title:first-of-type{page-break-before:auto;}
+    h3.mod-title{page-break-before:auto; break-inside:avoid;}
     h3.sub-title, h4.flow-title{break-after:avoid;}
     .flow, .feature-list li, table, .callout{break-inside:avoid;}
     a{color:var(--brand); text-decoration:none;}
@@ -261,8 +276,8 @@
     .cover h1{font-size:34px;}
     .cover .tagline{font-size:16px;}
     .toc-grid{grid-template-columns:1fr;}
-    h1.section-title{font-size:24px; padding-top:36px; flex-wrap:wrap;}
-    h2.mod-title{font-size:19px; margin-top:34px;}
+    h2.section-title{font-size:24px; padding-top:36px; flex-wrap:wrap;}
+    h3.mod-title{font-size:19px; margin-top:34px;}
     table{font-size:12.5px;}
     th,td{padding:6px 8px;}
   }
@@ -274,13 +289,23 @@
     .cover h1{font-size:27px;}
     .cover .tagline{font-size:14.5px;}
     .cover .meta-row{gap:18px 24px;}
-    h1.section-title{font-size:20px;}
-    h2.mod-title{font-size:17px;}
+    h2.section-title{font-size:20px;}
+    h3.mod-title{font-size:17px;}
     .flow{padding:12px 14px;}
     footer.doc-footer{padding:30px 14px;}
   }
 
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://retailflow.co.in/" },
+    { "@type": "ListItem", "position": 2, "name": "Business User Guide", "item": "https://retailflow.co.in/business-guide.html" }
+  ]
+}
+</script>
 </head>
 <body>
 <div class="mobile-topbar no-print">
@@ -380,9 +405,9 @@
 
     <div class="page-pad">
 
-    <h1 id="sec-1" class="section-title"><span class="num">1.</span> Product Overview &amp; Value Proposition</h1>
+    <h2 id="sec-1" class="section-title"><span class="num">1.</span> Product Overview &amp; Value Proposition</h2>
 
-    <h2 id="sec-1-1" class="mod-title">1.1 &nbsp;What RetailFlow Is</h2>
+    <h3 id="sec-1-1" class="mod-title">1.1 &nbsp;What RetailFlow Is</h3>
     <p>RetailFlow is a complete, all-in-one management system for retail businesses — the kind of shop, store, or trading business that buys stock from suppliers, sells it to customers, and needs to keep the books straight in between. It brings together five things that most small and mid-sized retailers otherwise juggle across notebooks, spreadsheets, and separate apps:</p>
     <ul>
       <li><b>Billing &amp; Point of Sale</b> — a fast checkout screen for ringing up sales, scanning barcodes, and printing GST-compliant invoices.</li>
@@ -393,7 +418,7 @@
     </ul>
     <p class="lede">RetailFlow runs as a single, secure web application. Each business that uses RetailFlow has its own private, isolated account — your data is never visible to any other business on the platform.</p>
 
-    <h2 id="sec-1-2" class="mod-title">1.2 &nbsp;Who It's For</h2>
+    <h3 id="sec-1-2" class="mod-title">1.2 &nbsp;Who It's For</h3>
     <p>RetailFlow is built for three kinds of people, and the interface adapts to each:</p>
     <ul>
       <li><b>Business Owners</b> — the person (or people) who run the shop and need the full picture: sales, profit, stock, staff, and the books, all in one place.</li>
@@ -402,7 +427,7 @@
     </ul>
     <p>A fourth group — <b>platform administrators</b> — are RetailFlow's own operations team. They don't work inside your business's account; instead, they set up new business accounts and step in for a handful of things you can't do yourself, such as correcting your registered business details or raising your staff-account limit. This guide is written for your business, not for them, but it flags every point along the way where a task needs their help — see <a href="#sec-2-1">How Your Account Is Created</a> and <a href="#sec-5-4">When You Need a Platform Administrator</a>.</p>
 
-    <h2 id="sec-1-3" class="mod-title">1.3 &nbsp;Problems It Solves</h2>
+    <h3 id="sec-1-3" class="mod-title">1.3 &nbsp;Problems It Solves</h3>
     <div class="table-scroll">
     <table>
       <thead><tr><th style="width:32%">Without RetailFlow</th><th>With RetailFlow</th></tr></thead>
@@ -418,7 +443,7 @@
     </table>
     </div>
 
-    <h2 id="sec-1-4" class="mod-title">1.4 &nbsp;Key Concepts &amp; Terminology</h2>
+    <h3 id="sec-1-4" class="mod-title">1.4 &nbsp;Key Concepts &amp; Terminology</h3>
     <p class="section-intro" style="margin-top:0">A handful of ideas recur throughout RetailFlow. Understanding them up front makes every module below easier to follow.</p>
     <div class="table-scroll">
     <table>
@@ -441,10 +466,10 @@
     </table>
     </div>
 
-    <h1 id="sec-2" class="section-title"><span class="num">2.</span> Getting Started &amp; Onboarding</h1>
+    <h2 id="sec-2" class="section-title"><span class="num">2.</span> Getting Started &amp; Onboarding</h2>
     <p class="section-intro">RetailFlow does not have a public "sign up" page. This section explains exactly how a new business account comes into existence, what a brand-new user sees the first time they log in, and the handful of things every business should configure before relying on RetailFlow day to day.</p>
 
-    <h2 id="sec-2-1" class="mod-title">2.1 &nbsp;How Your Account Is Created</h2>
+    <h3 id="sec-2-1" class="mod-title">2.1 &nbsp;How Your Account Is Created</h3>
     <p>Businesses are provisioned onto RetailFlow by a <b>platform administrator</b> — there is no self-service registration form, by design. This keeps every account verified and correctly configured from day one (correct GST details, the right starter categories, and sensible default limits).</p>
     <div class="callout note">
       <span class="callout-title">What this means for you</span>
@@ -459,7 +484,7 @@
       <li>A limit on how many staff accounts your business may create (five by default — see <a href="#sec-5">Permissions &amp; Access Control</a>).</li>
     </ul>
 
-    <h2 id="sec-2-2" class="mod-title">2.2 &nbsp;First Login</h2>
+    <h3 id="sec-2-2" class="mod-title">2.2 &nbsp;First Login</h3>
     <div class="flow">
       <h4 class="flow-title">Signing in for the first time</h4>
       <ol>
@@ -472,7 +497,7 @@
       <div class="callout tip"><span class="callout-title">Tip</span>Change your temporary password immediately after your first login — see <a href="#flow-settings">Change Password</a> in Settings.</div>
     </div>
 
-    <h2 id="sec-2-3" class="mod-title">2.3 &nbsp;First-Time Setup Checklist</h2>
+    <h3 id="sec-2-3" class="mod-title">2.3 &nbsp;First-Time Setup Checklist</h3>
     <p>Once you're in as the Owner, a few things are worth doing before the shop goes live on RetailFlow:</p>
     <ol>
       <li><b>Change your password</b> (Settings → Change Password) so you're not relying on the onboarding temporary password.</li>
@@ -485,7 +510,7 @@
       <li><b>Invite your team</b> by creating staff accounts with the right role for each person (Users page).</li>
     </ol>
 
-    <h2 id="sec-2-4" class="mod-title">2.4 &nbsp;Touring the Interface</h2>
+    <h3 id="sec-2-4" class="mod-title">2.4 &nbsp;Touring the Interface</h3>
     <p>Every screen in RetailFlow (other than sign-in) shares the same layout:</p>
     <ul>
       <li><b>Left sidebar</b> — your main navigation menu. It only shows the sections you have permission to use; everything else is hidden rather than shown-but-blocked. It can be collapsed to a slim icon rail for more screen space, and includes a light/dark/system theme toggle at the bottom.</li>
@@ -495,10 +520,10 @@
     </ul>
     <div class="callout note"><span class="callout-title">Note</span>If someone with a Manager or Cashier role signs in, their sidebar will show fewer items than an Owner's — this is expected and covered fully in <a href="#sec-5">Permissions &amp; Access Control</a>.</div>
 
-    <h1 id="sec-3" class="section-title"><span class="num">3.</span> Exhaustive Module &amp; Feature Breakdown</h1>
+    <h2 id="sec-3" class="section-title"><span class="num">3.</span> Exhaustive Module &amp; Feature Breakdown</h2>
     <p class="section-intro">This section walks through every screen in RetailFlow one by one: what it's for, how it's laid out, and every action available on it. For step-by-step instructions on using each action — including exact fields, validation rules, and what happens after you click — see <a href="#sec-4">Section 4, Granular User Flows</a>, which mirrors this section module-for-module.</p>
 
-    <h2 id="mod-dashboard" class="mod-title">3.1 &nbsp;Dashboard <span class="tag">Home screen</span></h2>
+    <h3 id="mod-dashboard" class="mod-title">3.1 &nbsp;Dashboard <span class="tag">Home screen</span></h3>
     <p><b>Module overview.</b> The Dashboard is the first screen most people see after signing in. It gives an at-a-glance summary of how the business is doing today and this month, without requiring anyone to run a report.</p>
     <p><b>UI tour.</b> The dashboard is arranged as a grid of cards and charts:</p>
     <ul>
@@ -518,7 +543,7 @@
       <li><b>Permission-gated widgets</b> — profit figures only show for users with the Profit-reports permission; inventory alerts and inventory value only show with the Inventory-reports permission.</li>
     </ul>
 
-    <h2 id="mod-pos" class="mod-title">3.2 &nbsp;Point of Sale (Billing) <span class="tag">Checkout screen</span></h2>
+    <h3 id="mod-pos" class="mod-title">3.2 &nbsp;Point of Sale (Billing) <span class="tag">Checkout screen</span></h3>
     <p><b>Module overview.</b> This is the till: the screen a cashier or owner uses to ring up a sale, from adding products to the cart through to taking payment and printing the invoice. It is the single most detailed screen in RetailFlow, and is designed to be usable entirely from the keyboard for speed at a busy counter.</p>
     <p><b>UI tour.</b> The screen is split into a product-entry/search area and cart on the left, and a running bill summary on the right, with a Payment &amp; Complete panel that opens as a modal when checkout begins.</p>
     <p><b>Micro-features:</b></p>
@@ -543,7 +568,7 @@
       <li><b>Print Invoice toggle</b> — choose whether to auto-open the printable invoice after completing the sale (defaults to your Settings preference).</li>
     </ul>
 
-    <h2 id="mod-sales" class="mod-title">3.3 &nbsp;Sales Records &amp; Invoices <span class="tag">History</span></h2>
+    <h3 id="mod-sales" class="mod-title">3.3 &nbsp;Sales Records &amp; Invoices <span class="tag">History</span></h3>
     <p><b>Module overview.</b> Where every past sale lives, searchable and reviewable, with tools to reprint, void, or refund a transaction after the fact.</p>
     <p><b>UI tour.</b> A searchable, date-filterable table listing Invoice number, Customer, Date, Total, Paid, Balance, and Status. Clicking a row's <span class="btn secondary">Details</span> opens the Sale detail drawer.</p>
     <p><b>Micro-features:</b></p>
@@ -558,7 +583,7 @@
       <li><b>Refund a sale</b> — issue a partial or full refund, either as cash from the register or as store credit, within the configured refund window.</li>
     </ul>
 
-    <h2 id="mod-products" class="mod-title">3.4 &nbsp;Product Catalog <span class="tag">Catalog</span></h2>
+    <h3 id="mod-products" class="mod-title">3.4 &nbsp;Product Catalog <span class="tag">Catalog</span></h3>
     <p><b>Module overview.</b> The master list of everything your business sells, along with each product's category, pricing, tax rate, and stock rules.</p>
     <p><b>UI tour.</b> A searchable, filterable grid/table with a category filter, an A–Z jump index for long catalogs, and a barcode lookup box (type or scan). Each row exposes Batches, Stock, Edit, and Deactivate/Reactivate actions.</p>
     <p><b>Micro-features:</b></p>
@@ -576,7 +601,7 @@
       <li><b>Inline category creation</b> — add a new category without leaving the product form.</li>
     </ul>
 
-    <h2 id="mod-batches" class="mod-title">3.5 &nbsp;Batches &amp; Inventory <span class="tag">Stock detail</span></h2>
+    <h3 id="mod-batches" class="mod-title">3.5 &nbsp;Batches &amp; Inventory <span class="tag">Stock detail</span></h3>
     <p><b>Module overview.</b> A batch (or "lot") is a specific delivery of stock for one product, each with its own cost, sell price, and barcode. RetailFlow tracks stock this way — rather than as one editable number per product — so that profit stays accurate even when the same product is restocked at a different price. When a sale needs more of a product than the cashier's chosen batch has left, RetailFlow automatically spreads the remainder across other active batches (oldest first) so the true cost of goods sold is still tracked correctly, even though the sale prices the whole line at the chosen batch's rate. This module lets you see and manage batches both per-product and across the whole catalog.</p>
     <p><b>UI tour.</b> A global <b>All Batches</b> page lists every batch across every product, with search (by product, batch number, or barcode) and a status filter (Active / Depleted / Inactive). The same table appears scoped to a single product inside that product's drawer.</p>
     <p><b>Micro-features:</b></p>
@@ -588,7 +613,7 @@
       <li><b>Reactivate a batch</b> — bring a previously deactivated batch back into sellable stock.</li>
     </ul>
 
-    <h2 id="mod-categories" class="mod-title">3.6 &nbsp;Categories <span class="tag">Organization</span></h2>
+    <h3 id="mod-categories" class="mod-title">3.6 &nbsp;Categories <span class="tag">Organization</span></h3>
     <p><b>Module overview.</b> Categories group your products (e.g. "Beverages," "Snacks") for filtering, reporting, and faster navigation of the catalog.</p>
     <p><b>UI tour.</b> A simple table of category Name, Description, and Status, with Deactivate/Activate controls.</p>
     <p><b>Micro-features:</b></p>
@@ -598,7 +623,7 @@
       <li><b>Deactivate / Reactivate a category</b> — a deactivated category is hidden from new-product forms but existing products keep it.</li>
     </ul>
 
-    <h2 id="mod-purchases" class="mod-title">3.7 &nbsp;Purchases <span class="tag">Supplier ordering</span></h2>
+    <h3 id="mod-purchases" class="mod-title">3.7 &nbsp;Purchases <span class="tag">Supplier ordering</span></h3>
     <p><b>Module overview.</b> Purchases (Purchase Orders, or "POs") are how new stock enters RetailFlow. A purchase order records what you ordered from a supplier, tracks partial or full delivery, records any price differences, and keeps a running balance of what you owe.</p>
     <p><b>UI tour.</b> A searchable, date-filterable list of purchase orders (PO number, supplier, date, total, status). A <span class="btn">+ New Purchase Order</span> button starts a new order; <span class="btn secondary">Details</span> opens the Purchase detail drawer, which is where receiving, payment, returns, and closing all happen.</p>
     <p>A purchase order moves through a lifecycle of statuses as it's actioned:</p>
@@ -629,7 +654,7 @@
       <li><b>Return items</b> — send delivered stock back to the supplier, reducing your stock and crediting your account with them.</li>
     </ul>
 
-    <h2 id="mod-suppliers" class="mod-title">3.8 &nbsp;Suppliers <span class="tag">Vendor ledger</span></h2>
+    <h3 id="mod-suppliers" class="mod-title">3.8 &nbsp;Suppliers <span class="tag">Vendor ledger</span></h3>
     <p><b>Module overview.</b> Your supplier directory and, for each supplier, a running ledger of everything you've ordered, received, paid, and returned.</p>
     <p><b>UI tour.</b> A searchable list of suppliers with Details, Statement, and Edit actions. The Supplier detail page has tabs for Supplier Details, Purchases, and Products Delivered.</p>
     <p><b>Micro-features:</b></p>
@@ -643,7 +668,7 @@
       <li><b>View products delivered</b> by this supplier, filterable to this month or all-time.</li>
     </ul>
 
-    <h2 id="mod-customers" class="mod-title">3.9 &nbsp;Customers <span class="tag">Customer ledger</span></h2>
+    <h3 id="mod-customers" class="mod-title">3.9 &nbsp;Customers <span class="tag">Customer ledger</span></h3>
     <p><b>Module overview.</b> Your customer directory, each customer's balance (what they owe you, or store credit they hold), and their full purchase history.</p>
     <p><b>UI tour.</b> A searchable list showing each customer's outstanding balance (shown in red if they owe money, or as an amber "CR" badge if the business owes them credit), with Details, "Pay out credit" (when applicable), "Collect payment," and Edit actions. The Customer detail page has tabs for Customer Details, Statement, Invoices, and Products Bought — the Invoices tab adds a "Show only invoices with a balance due" filter and flags any invoice that isn't fully paid with an amber "UNPAID" badge alongside its status.</p>
     <p><b>Micro-features:</b></p>
@@ -659,7 +684,7 @@
       <li><b>Pay out credit</b> — return store credit the customer holds, as cash or another method (only shown when the customer has a credit balance).</li>
     </ul>
 
-    <h2 id="mod-expenses" class="mod-title">3.10 &nbsp;Expenses <span class="tag">Spend tracking</span></h2>
+    <h3 id="mod-expenses" class="mod-title">3.10 &nbsp;Expenses <span class="tag">Spend tracking</span></h3>
     <p><b>Module overview.</b> Tracks business running costs (rent, utilities, wages, supplies) separately from purchases of resale stock, so profit reporting is accurate.</p>
     <p><b>UI tour.</b> Three tabs: <b>Expenses</b> (the filterable list with create/edit/delete), <b>Categories</b> (manage expense categories), and <b>Report</b> (a bar chart of spend, grouped by category, vendor, or payment method).</p>
     <p><b>Micro-features:</b></p>
@@ -671,7 +696,7 @@
       <li><b>View the spend report</b> for a chosen period, grouped by category, vendor, or payment method.</li>
     </ul>
 
-    <h2 id="mod-cashbook" class="mod-title">3.11 &nbsp;Cashbook <span class="tag">Cash reconciliation</span></h2>
+    <h3 id="mod-cashbook" class="mod-title">3.11 &nbsp;Cashbook <span class="tag">Cash reconciliation</span></h3>
     <p><b>Module overview.</b> A dedicated ledger for physical cash moving in and out of the till, kept separate from digital payment methods, so the register can be reconciled daily.</p>
     <p><b>UI tour.</b> Stat cards for Opening balance, Cash in, Cash out, and Closing balance sit above two tabs: <b>Entries</b> (the transaction list) and <b>Report</b> (a daily rollup table).</p>
     <p><b>Micro-features:</b></p>
@@ -681,7 +706,7 @@
       <li><b>View the daily report</b> — a rollup of opening/in/out/closing figures per day.</li>
     </ul>
 
-    <h2 id="mod-audits" class="mod-title">3.12 &nbsp;Stock Counts &amp; Loss Reports <span class="tag">Inventory audit</span></h2>
+    <h3 id="mod-audits" class="mod-title">3.12 &nbsp;Stock Counts &amp; Loss Reports <span class="tag">Inventory audit</span></h3>
     <p><b>Module overview.</b> Lets you periodically count what's physically on the shelf, compare it against what RetailFlow's records say, and correct the system to match reality — while quantifying any loss (shrinkage) or surplus along the way.</p>
     <p><b>UI tour.</b> Two tabs: <b>Stock counts</b> (create and complete physical counts) and <b>Loss report</b> (shrinkage summarized by period).</p>
     <p><b>Micro-features:</b></p>
@@ -693,7 +718,7 @@
       <li><b>View the loss report</b> — total loss/surplus value and a per-product breakdown, filterable by month or all-time, drawn only from completed counts.</li>
     </ul>
 
-    <h2 id="mod-reports" class="mod-title">3.13 &nbsp;Reports &amp; Analytics <span class="tag">Business intelligence</span></h2>
+    <h3 id="mod-reports" class="mod-title">3.13 &nbsp;Reports &amp; Analytics <span class="tag">Business intelligence</span></h3>
     <p><b>Module overview.</b> A deeper analytical companion to the Dashboard, organized into focused tabs for sales performance, inventory health, customer/supplier rankings, and full financial statements — plus one-click exports for spreadsheet analysis.</p>
     <p><b>UI tour.</b> Five tabs: <b>Overview</b>, <b>Inventory</b>, <b>Rankings</b>, <b>Financial</b>, and <b>Exports</b>. Most tabs offer a period selector; some are gated by permission (Inventory and Exports need Inventory-reports access, Financial needs Profit-reports access).</p>
     <p><b>Micro-features:</b></p>
@@ -705,7 +730,7 @@
       <li><b>Exports tab</b> — download CSV/Excel files for ten report types: Low stock, Reorder, Dead stock, Fast-moving, Slow-moving, Inventory valuation, ABC analysis, Category performance, Top customers, and Top suppliers.</li>
     </ul>
 
-    <h2 id="mod-users" class="mod-title">3.14 &nbsp;Staff &amp; User Management <span class="tag">Team accounts</span></h2>
+    <h3 id="mod-users" class="mod-title">3.14 &nbsp;Staff &amp; User Management <span class="tag">Team accounts</span></h3>
     <p><b>Module overview.</b> Where the Owner (or anyone granted the right permission) creates and manages accounts for the rest of the team, assigning each person a role that controls what they can see and do.</p>
     <p><b>UI tour.</b> A list of staff with Name, Email, Role badges, and Status, plus a live counter in the header showing how many of the business's allowed accounts are in use (e.g. "3 / 5 accounts").</p>
     <p><b>Micro-features:</b></p>
@@ -719,7 +744,7 @@
     </ul>
     <div class="callout note"><span class="callout-title">Note</span>The Owner role can never be assigned to anyone through this screen — every business has exactly one Owner, set when the business account was created. See <a href="#sec-5">Permissions &amp; Access Control</a>.</div>
 
-    <h2 id="mod-auditlog" class="mod-title">3.15 &nbsp;Audit Log <span class="tag">Accountability</span></h2>
+    <h3 id="mod-auditlog" class="mod-title">3.15 &nbsp;Audit Log <span class="tag">Accountability</span></h3>
     <p><b>Module overview.</b> An unchangeable record of every significant action taken in your business's account — who did what, to which record, and when — for accountability and troubleshooting.</p>
     <p><b>UI tour.</b> A date-range-filterable, paginated table of Time, Action, Entity, Entity ID, User, Role, and IP address, with each action color-coded (e.g. green for creation, blue for updates, red for deletions or cancellations).</p>
     <p><b>Micro-features:</b></p>
@@ -729,7 +754,7 @@
     </ul>
     <div class="callout note"><span class="callout-title">Note</span>This is separate from Stock Counts (§3.12), which reconcile physical inventory. The Audit Log tracks <i>actions</i> across the whole system — sales voided, users deactivated, products created, and so on.</div>
 
-    <h2 id="mod-settings" class="mod-title">3.16 &nbsp;Settings <span class="tag">Configuration</span></h2>
+    <h3 id="mod-settings" class="mod-title">3.16 &nbsp;Settings <span class="tag">Configuration</span></h3>
     <p><b>Module overview.</b> Where a business reviews its own details and tunes the rules RetailFlow uses for stock alerts, void/refund time limits, and invoice printing, plus manages personal password security.</p>
     <p><b>UI tour.</b> Three cards: <b>Business Details</b> (read-only), <b>Inventory &amp; Sales Settings</b> (editable with the right permission), and <b>Change Password</b>.</p>
     <p><b>Micro-features:</b></p>
@@ -745,7 +770,7 @@
       <li><b>Change your own password.</b></li>
     </ul>
 
-    <h2 id="mod-feedback" class="mod-title">3.17 &nbsp;Feedback &amp; Support <span class="tag">Always available</span></h2>
+    <h3 id="mod-feedback" class="mod-title">3.17 &nbsp;Feedback &amp; Support <span class="tag">Always available</span></h3>
     <p><b>Module overview.</b> A lightweight way for anyone on your team to send a bug report, an idea, or a comment directly to the RetailFlow team, without leaving the app.</p>
     <p><b>UI tour.</b> A "Send feedback" link at the bottom of the sidebar opens a small dialog with a category picker, a message box, and an optional screenshot attachment.</p>
     <p><b>Micro-features:</b></p>
@@ -760,10 +785,10 @@
       RetailFlow's own operations staff use a completely separate, internal portal to provision business accounts and provide support. It's not part of your business's experience and isn't covered module-by-module here — but see <a href="#sec-5-4">When You Need a Platform Administrator</a> for the specific tasks in this guide where you'll need to involve them.
     </div>
 
-    <h1 id="sec-4" class="section-title"><span class="num">4.</span> Granular User Flows</h1>
+    <h2 id="sec-4" class="section-title"><span class="num">4.</span> Granular User Flows</h2>
     <p class="section-intro">This is the step-by-step reference. For every micro-feature listed in Section 3, you'll find here exactly what to click, what to type, what's required versus optional, and what happens immediately afterward — including the exact wording of confirmation and error messages RetailFlow shows.</p>
 
-    <h2 id="flow-dashboard" class="mod-title">4.1 &nbsp;Dashboard Flows</h2>
+    <h3 id="flow-dashboard" class="mod-title">4.1 &nbsp;Dashboard Flows</h3>
 
     <h4 class="flow-title">Switching the Sales Trend chart range</h4>
     <div class="flow">
@@ -782,7 +807,7 @@
 
     <div class="callout note"><span class="callout-title">Note on live data</span>The Dashboard refreshes automatically every 30 seconds. If a number seems out of date, wait a moment rather than reloading the page — a reload is unnecessary and will lose your Sales Trend range/collapse selection.</div>
 
-    <h2 id="flow-pos" class="mod-title">4.2 &nbsp;Point of Sale (POS) Flows</h2>
+    <h3 id="flow-pos" class="mod-title">4.2 &nbsp;Point of Sale (POS) Flows</h3>
 
     <h4 class="flow-title">Adding a product to the cart by search</h4>
     <div class="flow">
@@ -887,7 +912,7 @@
       <p><b>System response:</b> On success, a confirmation toast shows the new invoice number and outcome. If Print Invoice was ticked, the printable invoice PDF opens automatically in a new tab and its print dialog opens after a short delay. If "No change" was used, the change amount is posted as a customer credit payment in the background. The cart clears, ready for the next sale.</p>
     </div>
 
-    <h2 id="flow-sales" class="mod-title">4.3 &nbsp;Sales Record &amp; Invoice Flows</h2>
+    <h3 id="flow-sales" class="mod-title">4.3 &nbsp;Sales Record &amp; Invoice Flows</h3>
 
     <h4 class="flow-title">Finding a past sale</h4>
     <div class="flow">
@@ -956,7 +981,7 @@
       <p><b>System response:</b> The refund is recorded against the sale, and either the customer's credit balance increases or cash is logged as paid out, depending on the method chosen.</p>
     </div>
 
-    <h2 id="flow-products" class="mod-title">4.4 &nbsp;Product Catalog Flows</h2>
+    <h3 id="flow-products" class="mod-title">4.4 &nbsp;Product Catalog Flows</h3>
 
     <h4 class="flow-title">Searching and filtering the catalog</h4>
     <div class="flow">
@@ -1034,7 +1059,7 @@
       <p><b>System response:</b> A deactivated product disappears from the billing screen's search and can no longer be sold, but its full sales/purchase history is preserved and it can be reactivated at any time.</p>
     </div>
 
-    <h2 id="flow-batches" class="mod-title">4.5 &nbsp;Batch Flows</h2>
+    <h3 id="flow-batches" class="mod-title">4.5 &nbsp;Batch Flows</h3>
 
     <h4 class="flow-title">Searching and filtering batches</h4>
     <div class="flow">
@@ -1066,7 +1091,7 @@
       <p><b>System response:</b> A deactivated batch is hidden from the billing screen's batch picker and cannot be sold from, but remains visible in reporting and can be reactivated at any time.</p>
     </div>
 
-    <h2 id="flow-categories" class="mod-title">4.6 &nbsp;Category Flows</h2>
+    <h3 id="flow-categories" class="mod-title">4.6 &nbsp;Category Flows</h3>
 
     <h4 class="flow-title">Creating a category</h4>
     <div class="flow">
@@ -1096,7 +1121,7 @@
       <p><b>System response:</b> A deactivated category is hidden from new-product forms but remains attached to any product already assigned to it.</p>
     </div>
 
-    <h2 id="flow-purchases" class="mod-title">4.7 &nbsp;Purchase Order Flows</h2>
+    <h3 id="flow-purchases" class="mod-title">4.7 &nbsp;Purchase Order Flows</h3>
 
     <h4 class="flow-title">Creating a new purchase order</h4>
     <div class="flow">
@@ -1170,7 +1195,7 @@
       <p><b>System response:</b> The order is marked <code>CANCELLED</code> and no stock is affected, since nothing had been received.</p>
     </div>
 
-    <h2 id="flow-suppliers" class="mod-title">4.8 &nbsp;Supplier Flows</h2>
+    <h3 id="flow-suppliers" class="mod-title">4.8 &nbsp;Supplier Flows</h3>
 
     <h4 class="flow-title">Creating or editing a supplier</h4>
     <div class="flow">
@@ -1201,7 +1226,7 @@
       <p><b>System response:</b> The supplier's ledger balance decreases by the refunded amount.</p>
     </div>
 
-    <h2 id="flow-customers" class="mod-title">4.9 &nbsp;Customer Flows</h2>
+    <h3 id="flow-customers" class="mod-title">4.9 &nbsp;Customer Flows</h3>
 
     <h4 class="flow-title">Creating or editing a customer</h4>
     <div class="flow">
@@ -1251,7 +1276,7 @@
       <p><b>System response:</b> Statement is a paginated, signed (+/−) ledger; Invoices lists their sales with a WhatsApp-send option per row; Products Bought summarizes quantities/spend per product for the chosen period.</p>
     </div>
 
-    <h2 id="flow-expenses" class="mod-title">4.10 &nbsp;Expense &amp; Cashbook Flows</h2>
+    <h3 id="flow-expenses" class="mod-title">4.10 &nbsp;Expense &amp; Cashbook Flows</h3>
 
     <h4 class="flow-title">Logging an expense</h4>
     <div class="flow">
@@ -1307,7 +1332,7 @@
       <p><b>System response:</b> The Cash in/Cash out and Closing balance stat cards update immediately, and the entry appears in the Entries tab.</p>
     </div>
 
-    <h2 id="flow-audits" class="mod-title">4.11 &nbsp;Stock Count Flows</h2>
+    <h3 id="flow-audits" class="mod-title">4.11 &nbsp;Stock Count Flows</h3>
 
     <h4 class="flow-title">Starting a new stock count</h4>
     <div class="flow">
@@ -1341,7 +1366,7 @@
       <p><b>System response:</b> Shows total loss/surplus value and a per-product System/Counted/Difference/Value breakdown, calculated only from completed stock counts.</p>
     </div>
 
-    <h2 id="flow-reports" class="mod-title">4.12 &nbsp;Reports &amp; Analytics Flows</h2>
+    <h3 id="flow-reports" class="mod-title">4.12 &nbsp;Reports &amp; Analytics Flows</h3>
 
     <h4 class="flow-title">Viewing the Overview tab</h4>
     <div class="flow">
@@ -1392,7 +1417,7 @@
       <p><b>System response:</b> The file downloads to your device immediately, ready to open in a spreadsheet application.</p>
     </div>
 
-    <h2 id="flow-users" class="mod-title">4.13 &nbsp;Staff &amp; User Management Flows</h2>
+    <h3 id="flow-users" class="mod-title">4.13 &nbsp;Staff &amp; User Management Flows</h3>
 
     <h4 class="flow-title">Creating a new staff user</h4>
     <div class="flow">
@@ -1457,7 +1482,7 @@
       <p><b>System response:</b> The user is immediately blocked from signing in (and signed out if currently active), but their history and any records they created remain intact and can be reactivated later.</p>
     </div>
 
-    <h2 id="flow-settings" class="mod-title">4.14 &nbsp;Settings Flows</h2>
+    <h3 id="flow-settings" class="mod-title">4.14 &nbsp;Settings Flows</h3>
 
     <h4 class="flow-title">Reviewing Business Details</h4>
     <div class="flow">
@@ -1488,10 +1513,10 @@
       <p><b>System response:</b> Your password changes immediately, and other signed-in devices/sessions are signed out for security.</p>
     </div>
 
-    <h1 id="sec-5" class="section-title"><span class="num">5.</span> Permissions &amp; Access Control</h1>
+    <h2 id="sec-5" class="section-title"><span class="num">5.</span> Permissions &amp; Access Control</h2>
     <p class="section-intro">Every staff account belongs to exactly one role. A role is simply a fixed bundle of permissions — there is no way to hand-pick individual permissions for a single user outside of the three built-in roles. Anything a user doesn't have permission for is hidden from their sidebar entirely, not merely shown-but-disabled — the interface only ever offers what you're allowed to do.</p>
 
-    <h2 id="sec-5-1" class="mod-title">5.1 &nbsp;The Three Roles</h2>
+    <h3 id="sec-5-1" class="mod-title">5.1 &nbsp;The Three Roles</h3>
     <div class="pill-row">
       <span class="pill"><span class="badge owner">OWNER</span> — full control, one per business</span>
       <span class="pill"><span class="badge manager">MANAGER</span> — full operations, no admin</span>
@@ -1508,7 +1533,7 @@
     </table>
     </div>
 
-    <h2 id="sec-5-2" class="mod-title">5.2 &nbsp;Full Permission Matrix</h2>
+    <h3 id="sec-5-2" class="mod-title">5.2 &nbsp;Full Permission Matrix</h3>
     <div class="table-scroll">
     <table>
       <thead><tr><th style="width:26%">Permission</th><th>What it controls</th><th style="width:9%">Owner</th><th style="width:9%">Manager</th><th style="width:9%">Cashier</th></tr></thead>
@@ -1541,7 +1566,7 @@
     </table>
     </div>
 
-    <h2 id="sec-5-3" class="mod-title">5.3 &nbsp;Special Rules That Apply Regardless of Role</h2>
+    <h3 id="sec-5-3" class="mod-title">5.3 &nbsp;Special Rules That Apply Regardless of Role</h3>
     <ul>
       <li><b>The Owner role cannot be assigned to anyone via the Users screen</b> — including by an Owner themselves. Every business has exactly one Owner, fixed at account creation.</li>
       <li><b>No one can deactivate their own account.</b></li>
@@ -1551,7 +1576,7 @@
       <li><b>The number of staff accounts a business may have is capped</b> (five by default) and can only be raised by a platform administrator — never by the Owner from within their own Settings.</li>
     </ul>
 
-    <h2 id="sec-5-4" class="mod-title">5.4 &nbsp;When You Need a Platform Administrator</h2>
+    <h3 id="sec-5-4" class="mod-title">5.4 &nbsp;When You Need a Platform Administrator</h3>
     <p>Platform administrators are RetailFlow's own operations staff, working outside your business's account. A handful of tasks sit outside what any role inside your business — including the Owner — can do alone. If you hit one of these, contact your onboarding contact or RetailFlow support rather than looking for the option inside the app:</p>
     <div class="table-scroll">
     <table>
@@ -1566,10 +1591,10 @@
     </div>
     <p>For anything not listed above, use the in-app <a href="#mod-feedback">Feedback &amp; Support</a> link, or reach out through the contact your business used when it was first set up on RetailFlow.</p>
 
-    <h1 id="sec-6" class="section-title"><span class="num">6.</span> Troubleshooting &amp; User Edge Cases</h1>
+    <h2 id="sec-6" class="section-title"><span class="num">6.</span> Troubleshooting &amp; User Edge Cases</h2>
     <p class="section-intro">Most error messages in RetailFlow are written in plain language and tell you exactly what to fix. This section collects the most common ones, what they mean, and how to resolve them.</p>
 
-    <h2 id="sec-6-1" class="mod-title">6.1 &nbsp;Sign-in &amp; Access Issues</h2>
+    <h3 id="sec-6-1" class="mod-title">6.1 &nbsp;Sign-in &amp; Access Issues</h3>
     <div class="table-scroll">
     <table>
       <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
@@ -1583,7 +1608,7 @@
     </table>
     </div>
 
-    <h2 id="sec-6-2" class="mod-title">6.2 &nbsp;Sales &amp; Billing Issues</h2>
+    <h3 id="sec-6-2" class="mod-title">6.2 &nbsp;Sales &amp; Billing Issues</h3>
     <div class="table-scroll">
     <table>
       <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
@@ -1598,7 +1623,7 @@
     </table>
     </div>
 
-    <h2 id="sec-6-3" class="mod-title">6.3 &nbsp;Product &amp; Inventory Issues</h2>
+    <h3 id="sec-6-3" class="mod-title">6.3 &nbsp;Product &amp; Inventory Issues</h3>
     <div class="table-scroll">
     <table>
       <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
@@ -1611,7 +1636,7 @@
     </table>
     </div>
 
-    <h2 id="sec-6-4" class="mod-title">6.4 &nbsp;Purchases &amp; Suppliers Issues</h2>
+    <h3 id="sec-6-4" class="mod-title">6.4 &nbsp;Purchases &amp; Suppliers Issues</h3>
     <div class="table-scroll">
     <table>
       <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
@@ -1626,7 +1651,7 @@
     </table>
     </div>
 
-    <h2 id="sec-6-5" class="mod-title">6.5 &nbsp;Customer Payment Issues</h2>
+    <h3 id="sec-6-5" class="mod-title">6.5 &nbsp;Customer Payment Issues</h3>
     <div class="table-scroll">
     <table>
       <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
@@ -1640,7 +1665,7 @@
     </table>
     </div>
 
-    <h2 id="sec-6-6" class="mod-title">6.6 &nbsp;Staff &amp; Account Management Issues</h2>
+    <h3 id="sec-6-6" class="mod-title">6.6 &nbsp;Staff &amp; Account Management Issues</h3>
     <div class="table-scroll">
     <table>
       <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
@@ -1656,7 +1681,7 @@
     </table>
     </div>
 
-    <h2 id="sec-6-7" class="mod-title">6.7 &nbsp;Feedback &amp; Miscellaneous</h2>
+    <h3 id="sec-6-7" class="mod-title">6.7 &nbsp;Feedback &amp; Miscellaneous</h3>
     <div class="table-scroll">
     <table>
       <thead><tr><th style="width:30%">What you see</th><th style="width:35%">What it means</th><th>How to resolve it</th></tr></thead>
