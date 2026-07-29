@@ -69,6 +69,7 @@
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
   body {
     background: var(--bg);
     color: var(--ink);
@@ -76,6 +77,7 @@
     font-size: 15.5px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
+    overflow-wrap: break-word;
   }
   ::selection { background: var(--accent-soft); }
 
@@ -130,7 +132,7 @@
 
   /* Layout */
   .layout { display: grid; grid-template-columns: 232px minmax(0,1fr); gap: 48px; align-items: start; }
-  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; gap: 0; } }
 
   nav.toc {
     position: sticky;
@@ -141,7 +143,78 @@
     font-size: 13.5px;
   }
   @media (max-width: 900px) {
-    nav.toc { position: static; max-height: none; overflow: visible; margin-bottom: 8px; }
+    nav.toc { position: static; max-height: none; overflow: visible; margin-bottom: 0; padding-right: 0; }
+  }
+
+  /* The rail is always expanded on desktop; the summary only exists for narrow screens. */
+  .toc-toggle { display: none; }
+
+  /* Narrow screens: the rail becomes an off-canvas drawer reachable from any scroll
+     position, rather than 20 entries wedged above the first stage. */
+  @media (max-width: 900px) {
+    /* The nav keeps its place in the grid but takes no height — both of its parts are fixed. */
+    nav.toc { height: 0; margin: 0; padding: 0; }
+
+    .toc-toggle {
+      position: fixed;
+      z-index: 70;
+      right: 16px;
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      cursor: pointer;
+      list-style: none;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--bg-raised);
+      border: 1px solid var(--accent-line);
+      border-radius: 999px;
+      padding: 12px 18px;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.16);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .toc-toggle::-webkit-details-marker { display: none; }
+    .toc-toggle::before { content: "☰"; font-size: 13px; line-height: 1; }
+    .toc-shell[open] > .toc-toggle::before { content: "✕"; }
+
+    /* Backdrop — clicks on it hit .toc-shell itself, which the script treats as a close. */
+    .toc-shell[open]::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(0,0,0,0.42);
+    }
+
+    .toc-body {
+      position: fixed;
+      z-index: 60;
+      top: 0;
+      left: 0;
+      width: min(320px, 84vw);
+      height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      background: var(--bg-raised);
+      border-right: 1px solid var(--line-strong);
+      box-shadow: 2px 0 18px rgba(0,0,0,0.18);
+      padding: 22px 20px calc(28px + env(safe-area-inset-bottom, 0px));
+      animation: toc-slide-in 0.18s ease-out;
+    }
+    @keyframes toc-slide-in { from { transform: translateX(-100%); } to { transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .toc-body { animation: none; }
+    }
+
+    /* Roomier tap targets than the desktop rail */
+    nav.toc li a { padding: 9px 0 9px 14px; }
+    .toc-body > .toc-label:first-child { margin-top: 0; }
   }
   nav.toc .toc-label {
     font-family: var(--font-mono);
@@ -263,6 +336,8 @@
     border: 1px solid var(--line-strong);
     color: var(--ink-soft);
     background: var(--bg-raised);
+    max-width: 100%;
+    word-break: break-word;
   }
   .chip.perm { color: var(--info); border-color: var(--info); background: var(--info-soft); }
   .chip.toggle { color: var(--ink-faint); }
@@ -357,7 +432,7 @@
   .gap-card .gap-frame { font-size: 13px; color: var(--ink-soft); }
   .gap-card .gap-frame::before { content: "Say: "; font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
 
-  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 4px; }
   table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 560px; }
   thead th {
     text-align: left;
@@ -392,6 +467,62 @@
     color: var(--ink-faint);
     font-size: 12.5px;
     font-family: var(--font-mono);
+  }
+
+  /* ---------- Tablet / mobile ---------- */
+  @media (max-width: 900px) {
+    /* Bottom padding clears the fixed TOC pill so it never covers the footer */
+    .page { padding: 0 20px calc(88px + env(safe-area-inset-bottom, 0px)); }
+    .masthead { padding: 36px 0 26px; margin-bottom: 26px; }
+    .masthead .dek { font-size: 16px; }
+    .act-divider { padding-top: 34px; }
+    .stage { padding: 30px 0 34px; }
+  }
+
+  @media (max-width: 600px) {
+    body { font-size: 15px; }
+    .page { padding: 0 16px calc(84px + env(safe-area-inset-bottom, 0px)); }
+
+    .masthead { padding: 28px 0 22px; margin-bottom: 22px; }
+    .masthead h1 { max-width: none; }
+    .masthead .dek { font-size: 15.5px; margin-bottom: 20px; }
+    .meta-row { gap: 8px; }
+    .meta-chip { font-size: 11.5px; padding: 5px 10px; }
+
+    .intro-block { margin-bottom: 36px; }
+    .intro-block h2 { font-size: 20px; }
+    .lengths { gap: 10px; margin-bottom: 24px; }
+    .length-card, .act-summary-card { padding: 13px 14px; }
+
+    .act-divider { padding-top: 30px; margin-bottom: 24px; }
+    .act-divider h2 { font-size: 22px; }
+    .act-divider p { font-size: 14px; }
+
+    .stage { padding: 26px 0 30px; }
+    /* Stage number and duration share one line, title gets its own */
+    .stage-head { align-items: center; gap: 8px 10px; margin-bottom: 8px; }
+    .stage-num { order: 1; }
+    .stage-time { order: 2; margin-left: 0; }
+    .stage h2 { order: 3; flex: 1 0 100%; font-size: 23px; }
+
+    .hook { font-size: 16.5px; padding-left: 13px; margin-bottom: 20px; }
+    .stage h3 { margin: 22px 0 8px; font-size: 13px; }
+    .feat-list li { padding: 6px 0 6px 16px; }
+
+    .callout { padding: 13px 15px; margin: 18px 0; }
+    .transition { margin-top: 22px; }
+
+    .appendix { padding-top: 30px; }
+    .appendix h2 { font-size: 21px; }
+    .appendix h3 { margin: 28px 0 12px; }
+    .gap-card { padding: 12px 14px; }
+
+    /* Tables still scroll sideways, but with less wasted width and shorter rows */
+    table { min-width: 480px; font-size: 13px; }
+    thead th { padding: 9px 11px; }
+    tbody td { padding: 8px 11px; }
+
+    footer.doc-foot { margin-top: 44px; font-size: 12px; }
   }
 
   /* ---------- Print / Save-as-PDF ---------- */
@@ -477,6 +608,9 @@
 
   <div class="layout">
     <nav class="toc" aria-label="Table of contents">
+     <details class="toc-shell" open>
+      <summary class="toc-toggle">Table of contents</summary>
+      <div class="toc-body">
       <p class="toc-label">Prep</p>
       <ol>
         <li><a href="#prep">How to use this <span class="toc-time"></span></a></li>
@@ -512,7 +646,39 @@
         <li><a href="#permissions">Permission map</a></li>
         <li><a href="#shortcuts">Shortcuts &amp; module toggles</a></li>
       </ol>
+      </div>
+     </details>
     </nav>
+    <script>
+      /* The rail ships open so it degrades to a plain visible list without JS. Here we
+         close it below 900px, where it renders as a drawer, and dismiss it on a jump,
+         a backdrop tap, or Escape. */
+      (function () {
+        var shell = document.querySelector('.toc-shell');
+        if (!shell || !window.matchMedia) return;
+        var narrow = window.matchMedia('(max-width: 900px)');
+
+        var sync = function () { shell.open = !narrow.matches; };
+        sync();
+        if (narrow.addEventListener) narrow.addEventListener('change', sync);
+        else if (narrow.addListener) narrow.addListener(sync);
+
+        /* Keep the page behind the drawer from scrolling under a swipe */
+        shell.addEventListener('toggle', function () {
+          document.body.style.overflow = (shell.open && narrow.matches) ? 'hidden' : '';
+        });
+
+        shell.addEventListener('click', function (e) {
+          if (!narrow.matches) return;
+          /* e.target === shell means the backdrop pseudo-element, not the panel */
+          if (e.target === shell || (e.target.closest && e.target.closest('a'))) shell.open = false;
+        });
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && shell.open && narrow.matches) shell.open = false;
+        });
+      })();
+    </script>
 
     <main class="content">
 
