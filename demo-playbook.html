@@ -1,0 +1,1170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RetailFlow Demo Playbook</title>
+<style>
+  @media (prefers-color-scheme: light) { :root { color-scheme: light; } }
+  @media (prefers-color-scheme: dark)  { :root { color-scheme: dark; } }
+
+  :root {
+    --bg: #F1F3EC;
+    --bg-raised: #FBFCF8;
+    --ink: #1B2320;
+    --ink-soft: #4B564F;
+    --ink-faint: #78827B;
+    --line: rgba(27,35,32,0.14);
+    --line-strong: rgba(27,35,32,0.28);
+    --accent: #B96A22;
+    --accent-soft: rgba(185,106,34,0.13);
+    --accent-line: rgba(185,106,34,0.4);
+    --success: #2F6E48;
+    --success-soft: rgba(47,110,72,0.13);
+    --danger: #A6382E;
+    --danger-soft: rgba(166,56,46,0.12);
+    --info: #2E5E82;
+    --info-soft: rgba(46,94,130,0.12);
+    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14181A;
+      --bg-raised: #1A211E;
+      --ink: #E9ECE4;
+      --ink-soft: #ABB5AD;
+      --ink-faint: #7C877E;
+      --line: rgba(233,236,228,0.14);
+      --line-strong: rgba(233,236,228,0.26);
+      --accent: #E2A257;
+      --accent-soft: rgba(226,162,87,0.16);
+      --accent-line: rgba(226,162,87,0.45);
+      --success: #6FBF8B;
+      --success-soft: rgba(111,191,139,0.14);
+      --danger: #E08585;
+      --danger-soft: rgba(224,133,133,0.14);
+      --info: #7FB3D5;
+      --info-soft: rgba(127,179,213,0.14);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14181A; --bg-raised: #1A211E; --ink: #E9ECE4; --ink-soft: #ABB5AD; --ink-faint: #7C877E;
+    --line: rgba(233,236,228,0.14); --line-strong: rgba(233,236,228,0.26);
+    --accent: #E2A257; --accent-soft: rgba(226,162,87,0.16); --accent-line: rgba(226,162,87,0.45);
+    --success: #6FBF8B; --success-soft: rgba(111,191,139,0.14);
+    --danger: #E08585; --danger-soft: rgba(224,133,133,0.14);
+    --info: #7FB3D5; --info-soft: rgba(127,179,213,0.14);
+  }
+  :root[data-theme="light"] {
+    --bg: #F1F3EC; --bg-raised: #FBFCF8; --ink: #1B2320; --ink-soft: #4B564F; --ink-faint: #78827B;
+    --line: rgba(27,35,32,0.14); --line-strong: rgba(27,35,32,0.28);
+    --accent: #B96A22; --accent-soft: rgba(185,106,34,0.13); --accent-line: rgba(185,106,34,0.4);
+    --success: #2F6E48; --success-soft: rgba(47,110,72,0.13);
+    --danger: #A6382E; --danger-soft: rgba(166,56,46,0.12);
+    --info: #2E5E82; --info-soft: rgba(46,94,130,0.12);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15.5px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent-soft); }
+
+  a { color: var(--accent); }
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; text-wrap: balance; color: var(--ink); }
+  code, .mono { font-family: var(--font-mono); }
+  strong { font-weight: 700; }
+
+  .page { max-width: 1280px; margin: 0 auto; padding: 0 24px 96px; }
+
+  /* Masthead */
+  .masthead {
+    padding: 56px 4px 32px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 32px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+  .masthead h1 {
+    font-size: clamp(32px, 5vw, 46px);
+    line-height: 1.08;
+    margin: 0 0 14px;
+    max-width: 16ch;
+  }
+  .masthead .dek {
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin: 0 0 24px;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .meta-chip {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    background: var(--bg-raised);
+    padding: 6px 12px;
+    border-radius: 3px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: 232px minmax(0,1fr); gap: 48px; align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+  nav.toc {
+    position: sticky;
+    top: 24px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    padding-right: 8px;
+    font-size: 13.5px;
+  }
+  @media (max-width: 900px) {
+    nav.toc { position: static; max-height: none; overflow: visible; margin-bottom: 8px; }
+  }
+  nav.toc .toc-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 10px;
+  }
+  nav.toc ol {
+    list-style: none;
+    margin: 0 0 10px;
+    padding: 0;
+    border-left: 1px solid var(--line);
+  }
+  nav.toc li a {
+    display: block;
+    padding: 5px 0 5px 14px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    margin-left: -1px;
+  }
+  nav.toc li a:hover { color: var(--ink); border-left-color: var(--line-strong); }
+  nav.toc .toc-num { font-family: var(--font-mono); color: var(--ink-faint); margin-right: 6px; }
+  nav.toc .toc-time { float: right; font-family: var(--font-mono); color: var(--ink-faint); font-size: 11.5px; }
+  nav.toc .toc-appendix a { color: var(--info); }
+  .toc-act { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 18px 0 6px; }
+  .toc-act:first-of-type { margin-top: 0; }
+
+  main.content { min-width: 0; }
+
+  /* Intro / prep */
+  .intro-block { margin-bottom: 48px; }
+  .intro-block h2 { font-size: 22px; margin: 0 0 12px; }
+  .intro-block p { color: var(--ink-soft); max-width: 68ch; }
+  .acts-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0 8px; }
+  @media (max-width: 800px) { .acts-summary { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .acts-summary { grid-template-columns: 1fr; } }
+  .act-summary-card { border: 1px solid var(--line); background: var(--bg-raised); border-radius: 4px; padding: 14px 16px; }
+  .act-summary-card .as-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; }
+  .act-summary-card h4 { font-size: 14.5px; margin: 5px 0 6px; }
+  .act-summary-card p { margin: 0; font-size: 13px; color: var(--ink-soft); }
+  .lengths { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 20px 0 28px; }
+  @media (max-width: 640px) { .lengths { grid-template-columns: 1fr; } }
+  .length-card { border: 1px solid var(--line); background: var(--bg-raised); border-radius: 4px; padding: 16px 18px; }
+  .length-card .len-time { font-family: var(--font-mono); font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; }
+  .length-card h4 { font-size: 15px; margin: 6px 0 8px; }
+  .length-card p { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+
+  .prep-list { margin: 0; padding-left: 0; list-style: none; }
+  .prep-list li {
+    position: relative;
+    padding: 8px 0 8px 26px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 14.5px;
+  }
+  .prep-list li:last-child { border-bottom: none; }
+  .prep-list li::before {
+    content: "✓";
+    position: absolute; left: 2px; top: 8px;
+    color: var(--accent);
+    font-size: 12px;
+    font-family: var(--font-mono);
+  }
+  .prep-list strong { color: var(--ink); }
+
+  /* Act dividers */
+  .act-divider {
+    margin: 8px 0 28px;
+    padding-top: 44px;
+    border-top: 2px solid var(--accent-line);
+  }
+  .act-divider:first-of-type { padding-top: 0; border-top: none; margin-top: 0; }
+  .act-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+  }
+  .act-divider h2 { font-size: 25px; margin: 0 0 8px; }
+  .act-divider p { color: var(--ink-soft); max-width: 62ch; margin: 0; font-size: 14.5px; }
+
+  /* Stage cards */
+  .stage {
+    padding: 36px 0 40px;
+    border-bottom: 1px solid var(--line);
+    scroll-margin-top: 20px;
+  }
+  .stage:last-of-type { border-bottom: none; }
+  .stage-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  .stage-num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-faint);
+    letter-spacing: 0.03em;
+  }
+  .stage h2 { font-size: 26px; margin: 0; }
+  .stage-time {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-line);
+    padding: 3px 9px;
+    border-radius: 3px;
+    font-variant-numeric: tabular-nums;
+    margin-left: auto;
+  }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0 20px; }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-soft);
+    background: var(--bg-raised);
+  }
+  .chip.perm { color: var(--info); border-color: var(--info); background: var(--info-soft); }
+  .chip.toggle { color: var(--ink-faint); }
+  .chip.toggle::before { content: "toggleable · "; opacity: 0.7; }
+
+  .hook {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 17.5px;
+    color: var(--ink);
+    max-width: 62ch;
+    margin: 0 0 24px;
+    padding-left: 16px;
+    border-left: 3px solid var(--accent);
+  }
+
+  .stage h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--ink-faint);
+    margin: 26px 0 10px;
+  }
+  .stage h3:first-of-type { margin-top: 0; }
+
+  .feat-list { margin: 0 0 4px; padding-left: 0; list-style: none; max-width: 74ch; }
+  .feat-list li {
+    position: relative;
+    padding: 5px 0 5px 18px;
+    color: var(--ink-soft);
+  }
+  .feat-list li::before {
+    content: "–";
+    position: absolute; left: 0; color: var(--ink-faint);
+  }
+  .feat-list b, .feat-list strong { color: var(--ink); }
+
+  .callout {
+    margin: 20px 0;
+    padding: 14px 18px;
+    border-radius: 4px;
+    max-width: 68ch;
+    font-size: 14px;
+  }
+  .callout .callout-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .callout.tip { background: var(--info-soft); border: 1px solid var(--info); }
+  .callout.tip .callout-label { color: var(--info); }
+  .callout.gap { background: var(--danger-soft); border: 1px solid var(--danger); }
+  .callout.gap .callout-label { color: var(--danger); }
+  .callout p { margin: 0; color: var(--ink); }
+
+  .transition {
+    margin-top: 26px;
+    font-size: 13.5px;
+    color: var(--ink-faint);
+    font-style: italic;
+  }
+  .transition::before { content: "→ "; color: var(--accent); font-style: normal; }
+
+  /* Appendix */
+  .appendix { padding-top: 40px; }
+  .appendix h2 { font-size: 24px; margin: 0 0 6px; }
+  .appendix .dek { color: var(--ink-soft); max-width: 64ch; margin: 0 0 28px; }
+  .appendix h3 {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 36px 0 14px;
+  }
+
+  .gaps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 720px) { .gaps-grid { grid-template-columns: 1fr; } }
+  .gap-card {
+    border: 1px solid var(--line);
+    background: var(--bg-raised);
+    border-radius: 4px;
+    padding: 13px 16px;
+  }
+  .gap-card .gap-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .gap-card .gap-frame { font-size: 13px; color: var(--ink-soft); }
+  .gap-card .gap-frame::before { content: "Say: "; font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 560px; }
+  thead th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line-strong);
+    background: var(--bg-raised);
+  }
+  tbody td { padding: 9px 14px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody td.strong { color: var(--ink); font-weight: 600; }
+  td .mono { font-size: 12.5px; }
+
+  .kbd {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 1px 6px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    background: var(--bg-raised);
+    color: var(--ink);
+  }
+
+  footer.doc-foot {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-faint);
+    font-size: 12.5px;
+    font-family: var(--font-mono);
+  }
+
+  /* ---------- Print / Save-as-PDF ---------- */
+  @media print {
+    @page { size: A4; margin: 16mm 14mm; }
+
+    :root, :root[data-theme="dark"], :root[data-theme="light"] {
+      --bg: #ffffff;
+      --bg-raised: #fafaf7;
+      --ink: #14181a;
+      --ink-soft: #3c453f;
+      --ink-faint: #6b756e;
+      --line: #d7dad2;
+      --line-strong: #b7bcb2;
+      --accent: #8a4d18;
+      --accent-soft: #f4e9dd;
+      --accent-line: #c98a4c;
+      --success: #245c39;
+      --success-soft: #e6f1e9;
+      --danger: #8a2c22;
+      --danger-soft: #f6e6e4;
+      --info: #234a63;
+      --info-soft: #e6eef3;
+    }
+
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+
+    body { font-size: 10.8pt; line-height: 1.42; }
+
+    .page { max-width: none; padding: 0; margin: 0; }
+
+    .masthead { padding: 0 0 14pt; margin-bottom: 14pt; }
+    .masthead h1 { font-size: 26pt; }
+    .masthead .dek { font-size: 11.5pt; }
+
+    /* Single column: drop the sticky rail, it has no purpose on paper */
+    .layout { display: block; }
+    nav.toc { display: none; }
+    main.content { width: 100%; }
+
+    a { color: var(--ink); text-decoration: none; }
+
+    .act-divider { page-break-before: always; padding-top: 0; border-top: none; }
+    .act-divider:first-of-type { page-break-before: avoid; }
+
+    .stage { padding: 12pt 0 14pt; page-break-inside: avoid; break-inside: avoid; }
+    .stage-head { flex-wrap: nowrap; }
+    .stage h2 { font-size: 17pt; }
+    .stage-time { margin-left: auto; }
+
+    h2, h3, h4 { page-break-after: avoid; break-after: avoid-page; }
+    .hook { font-size: 12.5pt; }
+
+    .callout, .gap-card, .length-card, .act-summary-card, table, thead, .table-wrap {
+      page-break-inside: avoid; break-inside: avoid;
+    }
+    table { min-width: 0; }
+
+    .intro-block, .appendix { page-break-inside: auto; }
+    #gaps { page-break-before: always; }
+
+    .lengths, .gaps-grid, .acts-summary { gap: 8pt; }
+
+    footer.doc-foot { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="masthead">
+    <p class="eyebrow">RetailFlow · Internal · Sales Enablement</p>
+    <h1>The Demo Playbook</h1>
+    <p class="dek">Four acts, not a sidebar scroll: the money story, the analytics payoff, the operational depth, and trust &amp; control — in the order a room of buyers actually cares about them.</p>
+    <div class="meta-row">
+      <span class="meta-chip">13 stages · 4 acts</span>
+      <span class="meta-chip">full walkthrough ≈ 58 min</span>
+      <span class="meta-chip">Act I+II only ≈ 22 min</span>
+      <span class="meta-chip">tenant app only — platform/superadmin console not included</span>
+    </div>
+  </div>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Table of contents">
+      <p class="toc-label">Prep</p>
+      <ol>
+        <li><a href="#prep">How to use this <span class="toc-time"></span></a></li>
+      </ol>
+      <p class="toc-act">Act I — A day at the counter</p>
+      <ol>
+        <li><a href="#stage-1"><span class="toc-num">01</span>POS Billing<span class="toc-time">6m</span></a></li>
+        <li><a href="#stage-2"><span class="toc-num">02</span>Sales History<span class="toc-time">4m</span></a></li>
+        <li><a href="#stage-3"><span class="toc-num">03</span>Customers<span class="toc-time">5m</span></a></li>
+        <li><a href="#stage-4"><span class="toc-num">04</span>Cashbook<span class="toc-time">4m</span></a></li>
+        <li><a href="#stage-5"><span class="toc-num">05</span>Expenses<span class="toc-time">3m</span></a></li>
+      </ol>
+      <p class="toc-act">Act II — Proof it adds up</p>
+      <ol>
+        <li><a href="#stage-6"><span class="toc-num">06</span>Dashboard<span class="toc-time">5m</span></a></li>
+        <li><a href="#stage-7"><span class="toc-num">07</span>Reports<span class="toc-time">6m</span></a></li>
+      </ol>
+      <p class="toc-act">Act III — Running the back office</p>
+      <ol>
+        <li><a href="#stage-8"><span class="toc-num">08</span>Products &amp; Catalog<span class="toc-time">9m</span></a></li>
+        <li><a href="#stage-9"><span class="toc-num">09</span>Stock Count<span class="toc-time">3m</span></a></li>
+        <li><a href="#stage-10"><span class="toc-num">10</span>Suppliers &amp; Purchases<span class="toc-time">6m</span></a></li>
+      </ol>
+      <p class="toc-act">Act IV — Trust &amp; control</p>
+      <ol>
+        <li><a href="#stage-11"><span class="toc-num">11</span>Users &amp; Roles<span class="toc-time">3m</span></a></li>
+        <li><a href="#stage-12"><span class="toc-num">12</span>Audit Log<span class="toc-time">2m</span></a></li>
+        <li><a href="#stage-13"><span class="toc-num">13</span>Settings<span class="toc-time">2m</span></a></li>
+      </ol>
+      <p class="toc-label">Reference</p>
+      <ol class="toc-appendix">
+        <li><a href="#gaps">Objection handling</a></li>
+        <li><a href="#permissions">Permission map</a></li>
+        <li><a href="#shortcuts">Shortcuts &amp; module toggles</a></li>
+      </ol>
+    </nav>
+
+    <main class="content">
+
+      <section class="intro-block" id="prep">
+        <h2>How to use this</h2>
+        <p>Going down the sidebar top-to-bottom front-loads Dashboard and back-loads the modules that actually make a prospect say yes. This script is built around four acts instead, ordered by what a buyer cares about, not by where a screen sits in the nav or which table it reads from:</p>
+        <div class="acts-summary">
+          <div class="act-summary-card">
+            <div class="as-num">Act I</div>
+            <h4>A day at the counter</h4>
+            <p>Sell something, collect a payment, watch the cash and the ledger react. The complete money story, told fast.</p>
+          </div>
+          <div class="act-summary-card">
+            <div class="as-num">Act II</div>
+            <h4>Proof it adds up</h4>
+            <p>Everything from Act I rolling up live into KPIs and a real drill-down. The payoff moment.</p>
+          </div>
+          <div class="act-summary-card">
+            <div class="as-num">Act III</div>
+            <h4>Running the back office</h4>
+            <p>Catalog, stock counts, suppliers and purchasing — the setup and upkeep behind Acts I and II.</p>
+          </div>
+          <div class="act-summary-card">
+            <div class="as-num">Act IV</div>
+            <h4>Trust &amp; control</h4>
+            <p>Roles, an audit trail, and the dials that make this business behave like itself, not a generic one.</p>
+          </div>
+        </div>
+        <p>The practical upshot: you can cut cleanly by act instead of stopping wherever the clock runs out mid-module.</p>
+        <div class="lengths">
+          <div class="length-card">
+            <div class="len-time">≈ 22 min</div>
+            <h4>Quick</h4>
+            <p>Act I in full, then Act II — Stages 1–7. Skips the back-office setup story entirely; leads with money, closes with insight.</p>
+          </div>
+          <div class="length-card">
+            <div class="len-time">≈ 40 min</div>
+            <h4>Standard</h4>
+            <p>Acts I &amp; II in full, plus a skim of Act III — Stage 8's product form and Stage 9's Stock Count (Stages 1–9).</p>
+          </div>
+          <div class="length-card">
+            <div class="len-time">≈ 58 min</div>
+            <h4>Full</h4>
+            <p>All four acts, all 13 stages. Good for a second call with an operations, finance, or IT stakeholder in the room.</p>
+          </div>
+        </div>
+        <h3 style="margin-top:32px;">Before the call</h3>
+        <ul class="prep-list">
+          <li>Log in as an <strong>Owner</strong>-role user — the only role with all 22 permissions, so nothing is hidden mid-call. If you're deliberately demonstrating role differences, decide in advance which stage you'll switch to a Manager or Cashier login for.</li>
+          <li>Confirm none of the seven toggleable modules are hidden for this tenant — <strong>Suppliers, Purchases, Expenses, Cashbook, Stock Count, Audit Log, Categories</strong>. That list is managed outside the tenant app, so check with onboarding/support ahead of time rather than discovering a missing sidebar item live.</li>
+          <li>Seed 15–20 products across 2–3 categories, a few with photos, at least one with its own batch barcode, and one sitting below its minimum stock — you need that last one for the reorder/low-stock moment in Stages 6 and 8.</li>
+          <li>Seed 2–3 customers with phone numbers (for the WhatsApp invoice and credit demo) and 1–2 suppliers.</li>
+          <li>Backdate a handful of sales, purchases, and expenses so Dashboard and Reports aren't empty on first load — an empty chart undersells the analytics story badly.</li>
+          <li>If you're demoing the camera barcode scanner, use HTTPS (or localhost) and grant camera permission before the call starts — it refuses to run in an insecure context.</li>
+          <li>If you're demoing the UPI QR at checkout, confirm the tenant has a UPI VPA configured — it shows read-only in Settings, so set it up beforehand if missing.</li>
+          <li>Keep a phone on hand to actually receive the WhatsApp invoice — it's a real <span class="mono">wa.me</span> deep link; worth tapping once in rehearsal so you're not surprised live.</li>
+        </ul>
+      </section>
+
+      <!-- ACT I -->
+      <div class="act-divider">
+        <p class="act-eyebrow">Act I · Stages 1–5</p>
+        <h2>A day at the counter</h2>
+        <p>Everything a shop owner emotionally cares about first: sell something, get paid, watch the cash and the ledger react. Told start to finish before touching a single setup screen.</p>
+      </div>
+
+      <!-- STAGE 1 -->
+      <section class="stage" id="stage-1">
+        <div class="stage-head">
+          <span class="stage-num">Stage 01</span>
+          <h2>POS Billing</h2>
+          <span class="stage-time">≈ 6 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/sales/new</span>
+          <span class="chip perm">sales.create</span>
+          <span class="chip perm">reports.profit (margin preview)</span>
+        </div>
+        <p class="hook">This is the screen a cashier lives in all day. Open here, not the dashboard — a real sale in the first sixty seconds is what makes everything after it feel earned rather than staged.</p>
+
+        <h3>Finding a product</h3>
+        <ul class="feat-list">
+          <li>Type-ahead search — press <span class="kbd">F1</span> anywhere on the screen to jump straight to it, searches active products by name with price shown inline.</li>
+          <li>Dedicated barcode field for a USB/keyboard-wedge scanner: scan, it submits on Enter automatically.</li>
+          <li>No scanner handy? Any fast keystroke sequence ending in Enter is treated as a scan — works with any wedge scanner, no setup screen needed.</li>
+          <li><b>📷 Scan</b> opens the device camera — reads EAN-13/8, UPC-A/E, Code128/39/93, ITF, Codabar and QR, with a torch toggle and an aiming guide; falls back to a WASM scanner automatically on iOS Safari where the native API isn't available.</li>
+          <li>Empty search box shows a <b>Recently sold</b> quick-add grid (12 tiles, refreshed after every sale) — a good one-tap moment for a shop's bread-and-butter items.</li>
+          <li>Out-of-stock and deactivated products are blocked with a clear toast, not a silent failure or a broken cart.</li>
+          <li>If a product has stock split across more than one active batch, a batch picker appears — batch number, remaining qty, price, and (with margin permission on) per-unit profit.</li>
+        </ul>
+
+        <h3>Building the cart</h3>
+        <ul class="feat-list">
+          <li>Qty stepper or type a quantity directly — fractional quantities work for KG/LITER-priced items, capped at total stock with a "Max stock: N" hint.</li>
+          <li>Per-line discount, toggled between <b>₹</b> and <b>%</b>.</li>
+          <li>Bill-level discount (₹ or %) spreads proportionally across lines that don't already carry their own discount — nothing gets double-discounted.</li>
+          <li>Optional warranty checkbox with a month picker (1–600 months) and a live "valid up to" date preview.</li>
+          <li>Running totals: Subtotal, Discount, Tax (GST), Final price — plus, when margin permission is on, a live projected profit and margin %, colored red if negative. Good moment to show a Manager-level login sees this and a Cashier login doesn't.</li>
+        </ul>
+
+        <h3>Taking payment — <span class="kbd">F3</span> / <span class="kbd">F4</span></h3>
+        <ul class="feat-list">
+          <li>Customer picker: search by name or phone, "Walk-in" for no account, or add a brand-new customer inline without leaving the sale.</li>
+          <li>If the customer already carries store credit, a banner offers to apply it in one click.</li>
+          <li>Methods: <b>Cash, UPI, Card, Bank Transfer</b>, or <b>Credit</b> against the customer's own balance — plus "Exact cash" and "Full credit" one-tap shortcuts.</li>
+          <li>"Split across multiple methods" reveals all four amount fields at once and keeps them balanced as you type.</li>
+          <li>"Generate QR" renders a genuine UPI deep-link QR code using the business's configured VPA.</li>
+          <li>Change owed can be handed back as cash, or — one checkbox — credited straight to the customer's account instead.</li>
+          <li>"Print Invoice" is pre-checked from a business setting; completing the sale streams a real PDF into a new tab and triggers print.</li>
+          <li>The Complete button's label updates live to say exactly what will happen — <i>"Complete — ₹40 credit," "Complete — Change ₹15"</i> — worth calling out as a small trust-building detail.</li>
+        </ul>
+
+        <div class="callout tip">
+          <span class="callout-label">Why it lands well</span>
+          <p>Nothing here is trusted from the browser — totals, batch allocation, and payment validation are all recomputed server-side. A cashier physically cannot push a discount past what a manager should see.</p>
+        </div>
+        <div class="callout gap">
+          <span class="callout-label">Know this gap</span>
+          <p>There's no hold/park-sale today — a cart is either completed or abandoned, there's no suspend-and-resume for a second customer mid-transaction. If asked, say so plainly rather than improvising around it.</p>
+        </div>
+        <p class="transition">Ring up this sale as a <b>credit sale for an existing customer</b>, paid partly in cash — you'll need both threads in the next three stages. Then walk straight into Sales.</p>
+      </section>
+
+      <!-- STAGE 2 -->
+      <section class="stage" id="stage-2">
+        <div class="stage-head">
+          <span class="stage-num">Stage 02</span>
+          <h2>Sales History</h2>
+          <span class="stage-time">≈ 4 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/sales</span>
+          <span class="chip perm">sales.view</span>
+          <span class="chip perm">sales.cancel</span>
+          <span class="chip perm">sales.refund</span>
+        </div>
+        <p class="hook">Show the sale you just rang up landing here instantly, then use that exact sale to demo void, refund, and the WhatsApp send — all from one drawer.</p>
+
+        <h3>The list</h3>
+        <ul class="feat-list">
+          <li>Columns: Invoice #, Customer, Date, Total, Paid, Balance (color-coded), Status badge (Active / Voided / Refunded).</li>
+          <li>Search by invoice number; a day-or-range date filter with a one-click "Clear dates."</li>
+          <li>Two distinct empty states — genuinely no sales, versus filters excluding everything (with its own "clear filters" link) — small detail, but it keeps a filtered demo from looking broken.</li>
+          <li>Row actions: <b>Details</b> drawer, and — only when the sale has a customer with a phone on file — a one-tap <b>Send on WhatsApp</b> that opens a prefilled, itemized invoice message.</li>
+        </ul>
+
+        <h3>The detail drawer</h3>
+        <ul class="feat-list">
+          <li>Full line items, including batch allocation when a sale spanned batches (e.g. "BATCH123 ×2, BATCH124 ×1").</li>
+          <li>Payments list, warranty block if applicable, and Print Invoice.</li>
+          <li><b>Record payment</b> — for a credit sale with a balance, reuses the same oldest-invoice-first allocation logic shown next, in Customers.</li>
+          <li><b>Void</b> — auto-disables once the business's configured void window (default 12 hours) has passed, with a tooltip explaining why.</li>
+          <li><b>Refund</b> — auto-disables once the refund window (default 7 days) has passed; choose to refund to the customer's credit balance or pay cash straight from the register.</li>
+        </ul>
+
+        <div class="callout gap">
+          <span class="callout-label">Know this gap</span>
+          <p>No bulk actions, no column sort, and no CSV export on this screen — bulk export only lives in Reports (Stage 7).</p>
+        </div>
+        <p class="transition">That sale left a balance on a real customer's account — jump to their record and show it already reflected, no refresh needed.</p>
+      </section>
+
+      <!-- STAGE 3 -->
+      <section class="stage" id="stage-3">
+        <div class="stage-head">
+          <span class="stage-num">Stage 03</span>
+          <h2>Customers</h2>
+          <span class="stage-time">≈ 5 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/customers</span>
+          <span class="chip perm">customers.manage</span>
+          <span class="chip perm">sales.view / sales.create</span>
+        </div>
+        <p class="hook">This is where the credit sale from Stage 1 pays off — pull up that exact customer and show their balance already reflecting it.</p>
+
+        <h3>The list &amp; detail</h3>
+        <ul class="feat-list">
+          <li>List: search, an <b>Outstanding</b> column color-coded (red = owes you, amber "CR" = you owe them, green = settled), status badge, quick actions.</li>
+          <li>Detail is tabbed: <b>Customer Details</b> (code, phone, email, GSTIN, address, notes), <b>Statement</b> (full running-balance ledger of every payment/refund/adjustment), <b>Invoices</b> (all sales, "unpaid only" filter, WhatsApp send per invoice), <b>Products Bought</b> (month or all-time, with purchase counts and last-purchased date).</li>
+        </ul>
+
+        <h3>Collecting a payment</h3>
+        <ul class="feat-list">
+          <li>Auto-allocates the amount received across open invoices oldest-first, with per-invoice checkboxes to override manually.</li>
+          <li>"Clear all dues" one-click prefill of the full amount owed.</li>
+          <li>If the customer already carries credit, a one-click "Apply ₹X credit" button appears with the exact safely-applicable amount already computed.</li>
+          <li>On full payoff, offers a printable "dues cleared" receipt.</li>
+        </ul>
+
+        <h3>Pay out credit</h3>
+        <ul class="feat-list">
+          <li>A separate, clearly distinct flow for handing money back to a customer sitting in credit (say, after a refund) — fully ledgered, not a workaround through a fake sale.</li>
+        </ul>
+
+        <div class="callout gap">
+          <span class="callout-label">Know this gap</span>
+          <p>No credit-limit field and no loyalty/points program. Balances are always derived live from the ledger — never a stored number, so they can't silently drift — but there's no hard credit cap enforced today. No CSV export of the customer list either.</p>
+        </div>
+        <p class="transition">Collect a small cash payment against that balance right now — some of the money from this stage, plus the cash portion of Stage 1's sale, has to land somewhere. Show exactly where.</p>
+      </section>
+
+      <!-- STAGE 4 -->
+      <section class="stage" id="stage-4">
+        <div class="stage-head">
+          <span class="stage-num">Stage 04</span>
+          <h2>Cashbook</h2>
+          <span class="stage-time">≈ 4 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/cashbook</span>
+          <span class="chip perm">payments.manage</span>
+          <span class="chip perm">settings.manage (opening balance)</span>
+          <span class="chip toggle">cashbook</span>
+        </div>
+        <p class="hook">The cash portion of Stage 1's sale, and the payment you just collected in Stage 3, are already sitting here — before you've touched Purchases or Expenses at all. This is the "does the drawer actually match" screen.</p>
+
+        <h3>What's already here, and what will be</h3>
+        <ul class="feat-list">
+          <li>Header stats: Opening, Cash in, Cash out, Closing balance — always computed from the entry log, never a cached figure.</li>
+          <li><b>Entries tab</b> — a fully cross-referenced feed; every row shows exactly which sale, customer payment, purchase, expense, or refund generated it. Every entry so far traces back to Stage 1 or Stage 3 — later, once Expenses and Purchasing are wired up, cash movements from those land here the same way.</li>
+          <li><b>Report tab</b> — a Day / Month / Range / All-time filter giving a true running daily opening-to-closing ledger, latest-first. This filter set is a very recent addition, so it's a fair, current talking point that the product is actively improving.</li>
+          <li>Manual tools: <b>+ Adjustment</b> (cash in/out with a note, for anything not sale/purchase/expense-driven) and, for anyone with settings access, <b>Set opening balance</b>.</li>
+        </ul>
+
+        <div class="callout tip">
+          <span class="callout-label">Why it lands well</span>
+          <p>Entries are append-only — corrections (an edited expense, a purchase price variance) are always a new offsetting entry, never a rewrite of history. Nothing here can quietly disappear.</p>
+        </div>
+        <p class="transition">Cash coming in from sales and collections is covered — the other side of the same coin is what goes out the door.</p>
+      </section>
+
+      <!-- STAGE 5 -->
+      <section class="stage" id="stage-5">
+        <div class="stage-head">
+          <span class="stage-num">Stage 05</span>
+          <h2>Expenses</h2>
+          <span class="stage-time">≈ 3 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/expenses</span>
+          <span class="chip perm">expenses.manage</span>
+          <span class="chip toggle">expenses</span>
+        </div>
+        <p class="hook">Quick stage, but it's what turns "gross profit" into "net profit" two stages from now on the Dashboard.</p>
+
+        <ul class="feat-list">
+          <li><b>Expenses tab</b> — date range, category, and payment-method filters; one summary card (total + entry count); inline edit/delete per row.</li>
+          <li>New expense: category (inline-create), date, amount, payment method, optional vendor, optional note.</li>
+          <li><b>Categories tab</b> — name/description, deactivate/reactivate (soft, reversible).</li>
+          <li><b>Report tab</b> — month or all-time filter, group by Category, Vendor, or Payment method, with a simple horizontal-bar breakdown.</li>
+        </ul>
+
+        <div class="callout tip">
+          <span class="callout-label">Why it lands well</span>
+          <p>Record a cash expense here, then flip straight back to Cashbook — the matching entry is already there. No separate double-entry step for the cashier or bookkeeper to remember.</p>
+        </div>
+        <div class="callout gap">
+          <span class="callout-label">Know this gap</span>
+          <p>No approval workflow and no recurring expenses today — every entry is recorded and immediately final; recurring rent/salary still has to be re-entered each period.</p>
+        </div>
+        <p class="transition">Sales, customer payments, cash, expenses — that's the whole money story for this business. Now show it roll up into one screen that updates itself.</p>
+      </section>
+
+      <!-- ACT II -->
+      <div class="act-divider">
+        <p class="act-eyebrow">Act II · Stages 6–7</p>
+        <h2>Proof it adds up</h2>
+        <p>Everything just entered across Act I, live in one KPI screen and one drill-down. This is the payoff — the moment the demo stops being a feature tour and starts looking like a decision.</p>
+      </div>
+
+      <!-- STAGE 6 -->
+      <section class="stage" id="stage-6">
+        <div class="stage-head">
+          <span class="stage-num">Stage 06</span>
+          <h2>Dashboard</h2>
+          <span class="stage-time">≈ 5 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/dashboard</span>
+          <span class="chip perm">reports.profit</span>
+          <span class="chip perm">reports.sales / reports.inventory (widgets)</span>
+        </div>
+        <p class="hook">Refreshes on its own every 30 seconds. Everything you rang up in Act I is already moving these numbers — if there's a natural pause, ring up one more small sale right now and let a figure change on screen without touching refresh.</p>
+
+        <ul class="feat-list">
+          <li><b>Hero row</b>: Today's Sales (+ order count), Today's Profit (red/green by sign), Monthly Revenue (with a growth-vs-prior-period badge), Monthly Profit.</li>
+          <li><b>Inventory alerts</b>: Reorder-soon list (with a suggested order quantity) and Low-stock list — both promoted above the fold automatically whenever there's something to act on, otherwise tucked below so they're never fully hidden. You'll set up the minimum-stock threshold behind these firsthand two stages from now, in Products.</li>
+          <li><b>Sales trend</b>: 30 / 90 / 365-day toggle, a dual revenue + gross-profit area chart with a per-day tooltip, collapsible.</li>
+          <li><b>Category chart</b>: revenue + gross profit by category, top 8, collapsible — collapsing it makes room for a Top Customers side card.</li>
+          <li><b>Financial position row</b>: Inventory value, Cash position, Receivable, Payable.</li>
+        </ul>
+
+        <div class="callout tip">
+          <span class="callout-label">Why it lands well</span>
+          <p>This screen is deliberately read-only — every number here has a matching drill-down one click away in Reports, which is exactly the next stop.</p>
+        </div>
+        <p class="transition">Every number just shown has a one-click-deeper version — go find it.</p>
+      </section>
+
+      <!-- STAGE 7 -->
+      <section class="stage" id="stage-7">
+        <div class="stage-head">
+          <span class="stage-num">Stage 07</span>
+          <h2>Reports</h2>
+          <span class="stage-time">≈ 6 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/reports</span>
+          <span class="chip perm">reports.sales</span>
+          <span class="chip perm">reports.inventory / reports.profit (per tab)</span>
+        </div>
+        <p class="hook">Six tabs, each answering a different question a different stakeholder in the room actually has.</p>
+
+        <ul class="feat-list">
+          <li><b>Overview</b> — revenue / orders / AOV / growth; gross profit / expenses / net profit / margin; category chart. Month or all-time.</li>
+          <li><b>Inventory</b> — valuation, low stock, reorder suggestions, dead stock (with a "last sale" date), full valuation table.</li>
+          <li><b>Rankings</b> — top customers, top suppliers (supplier data gets a proper introduction two stages from now, in Suppliers &amp; Purchases), ABC analysis (revenue-share classing), fast-moving products.</li>
+          <li><b>Sales</b> — products sold by day, single-day or date-range, with unit and revenue totals.</li>
+          <li><b>Financial</b> — revenue / COGS / gross profit / expenses / net profit, plus cash position and receivable/payable — clearly labeled as current-only when viewing a past month.</li>
+          <li><b>Exports</b> — one-click CSV or Excel for 10 report types: low stock, reorder, dead stock, fast-moving, slow-moving, valuation, ABC, category performance, top customers, top suppliers.</li>
+        </ul>
+
+        <div class="callout tip">
+          <span class="callout-label">Why it lands well</span>
+          <p>Every export is itself audit-logged — who exported what, and when. A nice governance detail for a compliance-minded buyer, and a preview of Act IV.</p>
+        </div>
+        <p class="transition">You've now seen every rupee this business will ever move and every KPI it will ever watch — none of it means anything without a catalog behind it. Time to build one.</p>
+      </section>
+
+      <!-- ACT III -->
+      <div class="act-divider">
+        <p class="act-eyebrow">Act III · Stages 8–10</p>
+        <h2>Running the back office</h2>
+        <p>The setup and day-to-day upkeep that made Acts I and II possible in the first place — catalog, physical stock, and where it all comes from. Less flashy, so it comes after the hook and the payoff, not before them.</p>
+      </div>
+
+      <!-- STAGE 8 -->
+      <section class="stage" id="stage-8">
+        <div class="stage-head">
+          <span class="stage-num">Stage 08</span>
+          <h2>Products &amp; Catalog</h2>
+          <span class="stage-time">≈ 9 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/products</span>
+          <span class="chip perm">products.view / create / update / delete</span>
+          <span class="chip perm">inventory.adjust</span>
+          <span class="chip toggle">categories</span>
+        </div>
+        <p class="hook">The densest screen in the app, and the one that convinces an owner the catalog will actually match their real shop — variable units, per-batch cost tracking, and a barcode-first workflow throughout.</p>
+
+        <h3>Adding / editing a product</h3>
+        <ul class="feat-list">
+          <li>Photo: gallery picker or a forced-camera capture, auto-compressed above 2MB, uploaded straight to cloud storage.</li>
+          <li>Name, SKU, Category (with inline "+ Add category"), Purchase price, Selling price.</li>
+          <li>GST toggle with slab picker — 5 / 12 / 18 / 28 / 40% — and a "Selling price is MRP" checkbox for tax-inclusive pricing.</li>
+          <li>Unit: PCS, KG, GRAM, LITER, ML, BOX, PACK, DOZEN, METER.</li>
+          <li>Min. stock — this is the threshold behind the reorder/low-stock cards you already saw on the Dashboard. Barcode (type or camera-scan), Initial stock (create only).</li>
+          <li>On edit, purchase price becomes a read-only "latest batch cost" — cost now lives at the batch level. That's the cue for the next section.</li>
+        </ul>
+
+        <h3>Batches — the lot-costing story</h3>
+        <ul class="feat-list">
+          <li>Every product's stock lives in batches — B-1, B-2, … — each carrying its own cost, sell price, barcode, and source (opening stock or a specific purchase).</li>
+          <li>Editing a batch's cost or price doesn't rewrite history — a sale already made against that batch keeps its original cost for margin reporting.</li>
+          <li>Deactivate / reactivate a single batch to pull it from the till without touching quantity or history.</li>
+          <li>A cross-product <b>All batches</b> screen — search and filter across every batch in the shop, same edit actions in one place.</li>
+          <li>New stock always lands in a fresh batch at current cost; stock removed (adjustment or count) draws down oldest-batch-first — genuine FIFO, not a single running number.</li>
+        </ul>
+
+        <h3>Categories</h3>
+        <ul class="feat-list">
+          <li>Name + description, a live product count per category, deactivate/reactivate (soft, reversible) — and can be created inline from the product form itself.</li>
+        </ul>
+
+        <h3>The product list</h3>
+        <ul class="feat-list">
+          <li>Search, category filter, an A–Z jump bar that also groups the current page into collapsible letter sections.</li>
+          <li>Low-stock rows render in bold red the moment stock falls to or below the product's minimum.</li>
+          <li>An "(MRP)" tag appears next to selling price when tax-inclusive pricing is on.</li>
+          <li>Per-row: Batches, Stock (adjust), Edit, Deactivate/Reactivate — deactivating is a reversible soft-delete, never destructive.</li>
+        </ul>
+
+        <h3>Stock adjustment</h3>
+        <ul class="feat-list">
+          <li>A single signed delta ("+add / −remove") with a live "new stock will be" preview and a free-text reason note — posts through the same batch/FIFO mechanics as everything else in the app.</li>
+        </ul>
+
+        <div class="callout gap">
+          <span class="callout-label">Know this gap</span>
+          <p>No multi-select/bulk actions and no CSV import or export on the product list — worth flagging up front if the prospect has a large existing catalog they'll want to migrate in bulk.</p>
+        </div>
+        <p class="transition">Catalog's covered — now show what happens when the shelf and the system disagree.</p>
+      </section>
+
+      <!-- STAGE 9 -->
+      <section class="stage" id="stage-9">
+        <div class="stage-head">
+          <span class="stage-num">Stage 09</span>
+          <h2>Stock Count</h2>
+          <span class="stage-time">≈ 3 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/inventory-audits</span>
+          <span class="chip perm">inventory.audit</span>
+          <span class="chip toggle">inventory_audits</span>
+        </div>
+        <p class="hook">The "trust but verify" feature — a physical count that automatically corrects system stock and tells the owner exactly what they lost or found, in rupees.</p>
+
+        <h3>Stock counts tab</h3>
+        <ul class="feat-list">
+          <li>New count: pick a date, add products (auto-fills current system stock as the starting point), type the physical count, watch a live color-coded difference column, remove rows before saving.</li>
+          <li>Detail view: count of short lines, count of over lines, one net rupee-value summary, and the full item table.</li>
+          <li><b>Complete count &amp; correct stock</b> — a single, irreversible action that reconciles every line (new batch for surplus, FIFO draw-down for shortage) and flips the count to Completed.</li>
+        </ul>
+
+        <h3>Loss report tab ("Shrinkage")</h3>
+        <ul class="feat-list">
+          <li>Month or date-range filter, one headline total loss/surplus figure, and the same product-level table aggregated across every completed count in that window.</li>
+        </ul>
+
+        <div class="callout gap">
+          <span class="callout-label">Know this gap</span>
+          <p>Once completed, a count can't be reopened — stage a deliberate demo count rather than clicking "Complete" on a real accidental one live.</p>
+        </div>
+        <p class="transition">Stock is airtight — now show where it actually comes from.</p>
+      </section>
+
+      <!-- STAGE 10 -->
+      <section class="stage" id="stage-10">
+        <div class="stage-head">
+          <span class="stage-num">Stage 10</span>
+          <h2>Suppliers &amp; Purchases</h2>
+          <span class="stage-time">≈ 6 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/suppliers, /purchases</span>
+          <span class="chip perm">suppliers.manage</span>
+          <span class="chip perm">purchases.view / create / update</span>
+          <span class="chip toggle">suppliers</span>
+          <span class="chip toggle">purchases</span>
+        </div>
+        <p class="hook">This closes the operational loop — show a purchase order arrive and turn straight into the sellable batches you saw built by hand in Stage 8.</p>
+
+        <h3>Suppliers</h3>
+        <ul class="feat-list">
+          <li>Same shape as Customers: code, contact person, GSTIN, address, notes, status — plus a Purchases tab and a Products Delivered tab on the detail page.</li>
+          <li>Statement drawer shows what's owed (or a supplier credit balance), and a "record refund received" flow for money coming back from a supplier.</li>
+        </ul>
+
+        <h3>Creating a purchase order</h3>
+        <ul class="feat-list">
+          <li>Pick or inline-create a supplier, optional supplier invoice #, add line items (pick or inline-create a product), per-line qty/cost/tax, header discount, live subtotal/tax/total.</li>
+          <li>Saved as <b>Draft</b> — posts the liability to the supplier ledger immediately, no stock movement yet.</li>
+        </ul>
+
+        <h3>Receiving goods — the batch-creation moment</h3>
+        <ul class="feat-list">
+          <li>Per line: quantity received now, unit cost (flags a live variance if it differs from the order), selling price, and a batch barcode (scan, or reuse the previous one).</li>
+          <li>Each delivery becomes its own new batch — or appends to an existing one from the same PO if the cost matches — the direct payoff of the Batches story from Stage 8.</li>
+          <li>Partial deliveries track line-by-line; status moves Draft → Partially received → Received automatically.</li>
+        </ul>
+
+        <h3>Other purchase actions</h3>
+        <ul class="feat-list">
+          <li><b>Record payment</b> — cash payments post straight to the Cashbook you saw back in Stage 4.</li>
+          <li><b>Return items</b> — per-line return qty + reason, credits the supplier.</li>
+          <li><b>Close short</b> — writes off quantity that will never arrive.</li>
+          <li>List: search by PO number, date filter; a purchase's header shows Total, Outstanding, Returned, Price variance, Written off.</li>
+        </ul>
+
+        <p class="transition">Sell, count, restock — the full operational loop is closed. Last thing left to prove: none of it can be quietly abused by staff.</p>
+      </section>
+
+      <!-- ACT IV -->
+      <div class="act-divider">
+        <p class="act-eyebrow">Act IV · Stages 11–13</p>
+        <h2>Trust &amp; control</h2>
+        <p>Who can do what, who did what, and the handful of dials that make this business behave like itself. Closes the demo on confidence rather than a feature list.</p>
+      </div>
+
+      <!-- STAGE 11 -->
+      <section class="stage" id="stage-11">
+        <div class="stage-head">
+          <span class="stage-num">Stage 11</span>
+          <h2>Users &amp; Roles</h2>
+          <span class="stage-time">≈ 3 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/users</span>
+          <span class="chip perm">users.manage</span>
+        </div>
+        <p class="hook">Three fixed roles — Owner, Manager, Cashier — and every sensitive action asks the acting admin to re-enter their own password before it goes through. Say that second part out loud; it isn't the default in most systems this size.</p>
+
+        <ul class="feat-list">
+          <li>New user: name, email, password (set directly — no email-invite step), phone, role. Seat count is capped and shown live as "N / limit accounts," enforced server-side, not just hidden in the UI.</li>
+          <li>Edit user, Reset password (someone else's), Change role, Deactivate — every one of these requires the acting admin to re-confirm their own password, and none of them can target your own account (self-service password change lives in Settings instead).</li>
+          <li>22 granular permissions sit underneath — sales, products, inventory, purchasing, suppliers, customers, payments, expenses, three flavors of reports, users, settings, and audit — bundled today into the three roles above.</li>
+        </ul>
+
+        <div class="callout gap">
+          <span class="callout-label">Know this gap</span>
+          <p>No custom role builder yet. If a prospect wants a role sitting between Manager and Cashier, be upfront that it isn't configurable today — the 22 permissions exist, but only as three fixed bundles.</p>
+        </div>
+        <p class="transition">Last stop — where every one of those actions gets a permanent paper trail.</p>
+      </section>
+
+      <!-- STAGE 12 -->
+      <section class="stage" id="stage-12">
+        <div class="stage-head">
+          <span class="stage-num">Stage 12</span>
+          <h2>Audit Log</h2>
+          <span class="stage-time">≈ 2 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/audit-logs</span>
+          <span class="chip perm">audit_logs.view</span>
+          <span class="chip toggle">audit_log</span>
+        </div>
+        <p class="hook">Point at literally anything done earlier in the call and show it landed here — timestamped, with the acting user, their role at the time, and their IP address.</p>
+
+        <ul class="feat-list">
+          <li>Filter: date range (no user or action-type filter in the UI yet).</li>
+          <li>Columns: Time, Action (color-coded), Entity, Entity ID, User, Role, IP address.</li>
+        </ul>
+
+        <div class="callout gap">
+          <span class="callout-label">Know this gap</span>
+          <p>Nearly 60 distinct action types are captured across every module shown today, plus full before/after value snapshots stored on disk — but those snapshots aren't surfaced in the UI yet. Don't promise a live diff view; it's fair to say the data already exists and a viewer is on the roadmap.</p>
+        </div>
+        <p class="transition">Last thing — the handful of dials that make this app behave like this business, not a generic one.</p>
+      </section>
+
+      <!-- STAGE 13 -->
+      <section class="stage" id="stage-13">
+        <div class="stage-head">
+          <span class="stage-num">Stage 13</span>
+          <h2>Settings</h2>
+          <span class="stage-time">≈ 2 min</span>
+        </div>
+        <div class="chip-row">
+          <span class="chip mono">/settings</span>
+          <span class="chip perm">settings.manage</span>
+          <span class="chip perm">reports.inventory</span>
+        </div>
+        <p class="hook">Deliberately short — most of what makes this business look and feel like itself is set once at onboarding, not fiddled with day to day.</p>
+
+        <ul class="feat-list">
+          <li><b>Business details</b> — read-only display (name, phone, GSTIN, address, UPI ID/name); changes go through support, keeping the business's legal/financial identity stable.</li>
+          <li><b>Inventory &amp; sales settings</b> (editable here) — lead time, safety-stock days, dead-stock days, low-stock threshold, void window (days + hours), refund window (days), and "print invoice by default."</li>
+          <li><b>Change password</b>.</li>
+        </ul>
+
+        <div class="callout gap">
+          <span class="callout-label">Know this gap</span>
+          <p>No invoice-number customization (auto <span class="mono">INV-YYYY-NNNNNN</span>), no receipt template editor, no multi-currency (₹ / en-IN fixed), no timezone setting (Asia/Kolkata fixed), no notification/alert settings. If any of these is a hard requirement, surface it before the call ends rather than let it be a surprise later.</p>
+        </div>
+      </section>
+
+      <!-- APPENDIX -->
+      <section class="appendix" id="gaps">
+        <h2>Objection handling</h2>
+        <p class="dek">Every gap called out inline above, in one place for a five-minute pre-call review. Nothing here is a weakness to hide — each one has a straight, honest answer.</p>
+
+        <div class="gaps-grid">
+          <div class="gap-card">
+            <div class="gap-title">No hold / park sale</div>
+            <div class="gap-frame">A cart is completed or abandoned today — no suspend-and-resume mid-transaction.</div>
+          </div>
+          <div class="gap-card">
+            <div class="gap-title">No loyalty / points program</div>
+            <div class="gap-frame">Credit and ledger tracking exist; a points/rewards layer doesn't, today.</div>
+          </div>
+          <div class="gap-card">
+            <div class="gap-title">No hard credit-limit enforcement</div>
+            <div class="gap-frame">Balances are always live from the ledger — accurate, just not capped.</div>
+          </div>
+          <div class="gap-card">
+            <div class="gap-title">No custom roles</div>
+            <div class="gap-frame">22 permissions exist under the hood, bundled into three fixed roles only.</div>
+          </div>
+          <div class="gap-card">
+            <div class="gap-title">No bulk actions / CSV import</div>
+            <div class="gap-frame">Sales, Products, Customers and Suppliers lists are single-row actions only; bulk export lives solely in Reports.</div>
+          </div>
+          <div class="gap-card">
+            <div class="gap-title">No recurring expenses or approval workflow</div>
+            <div class="gap-frame">Every expense entry is final and manually re-entered each period.</div>
+          </div>
+          <div class="gap-card">
+            <div class="gap-title">No invoice/receipt customization</div>
+            <div class="gap-frame">Invoice numbering is auto-sequenced; no template/branding editor yet.</div>
+          </div>
+          <div class="gap-card">
+            <div class="gap-title">No multi-currency or timezone setting</div>
+            <div class="gap-frame">Fixed to ₹ / en-IN / Asia-Kolkata today.</div>
+          </div>
+          <div class="gap-card">
+            <div class="gap-title">Audit log has no drill-down</div>
+            <div class="gap-frame">Before/after values are captured and stored, just not rendered in the UI yet.</div>
+          </div>
+          <div class="gap-card">
+            <div class="gap-title">Module visibility isn't tenant-editable</div>
+            <div class="gap-frame">The seven toggleable modules are hidden/shown by RetailFlow, not by the business itself — frame this as "contact support," never demo it live.</div>
+          </div>
+        </div>
+
+        <h3 id="permissions">Permission map</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Module</th><th>Permission</th><th>Gates</th></tr></thead>
+            <tbody>
+              <tr><td class="strong">Sales / POS</td><td class="mono">sales.create</td><td>POS Billing screen, checkout, customer quick-add, payments</td></tr>
+              <tr><td></td><td class="mono">sales.view</td><td>Sales history, customer statement/invoices/products-bought tabs</td></tr>
+              <tr><td></td><td class="mono">sales.cancel</td><td>Void a sale</td></tr>
+              <tr><td></td><td class="mono">sales.refund</td><td>Refund a sale</td></tr>
+              <tr><td class="strong">Products</td><td class="mono">products.view / create / update / delete</td><td>Product &amp; category CRUD, batch edit</td></tr>
+              <tr><td class="strong">Inventory</td><td class="mono">inventory.view / adjust / audit</td><td>Stock view, manual adjustment, Stock Count module</td></tr>
+              <tr><td class="strong">Purchasing</td><td class="mono">purchases.view / create / update</td><td>Purchase orders, receiving, payments, returns</td></tr>
+              <tr><td class="strong">Suppliers</td><td class="mono">suppliers.manage</td><td>Supplier CRUD &amp; statements</td></tr>
+              <tr><td class="strong">Customers</td><td class="mono">customers.manage</td><td>Customer CRUD &amp; balances list</td></tr>
+              <tr><td class="strong">Payments/Cashbook</td><td class="mono">payments.manage</td><td>Cashbook module</td></tr>
+              <tr><td class="strong">Expenses</td><td class="mono">expenses.manage</td><td>Expenses module (single permission, no view/manage split)</td></tr>
+              <tr><td class="strong">Reports</td><td class="mono">reports.sales / inventory / profit</td><td>Dashboard, Reports tabs, exports (gated on reports.inventory)</td></tr>
+              <tr><td class="strong">Users</td><td class="mono">users.manage</td><td>Users &amp; role management</td></tr>
+              <tr><td class="strong">Settings</td><td class="mono">settings.manage</td><td>Business/inventory settings, cashbook opening balance</td></tr>
+              <tr><td class="strong">Audit</td><td class="mono">audit_logs.view</td><td>Audit Log module</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 id="shortcuts">Keyboard shortcuts (POS)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Key</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td class="mono strong">F1</td><td>Focus product search from anywhere on the POS screen</td></tr>
+              <tr><td class="mono strong">F3 / F4</td><td>Open payment (cart must have at least one line)</td></tr>
+              <tr><td class="mono strong">Esc</td><td>Close the payment modal or camera scanner</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Toggleable modules</h3>
+        <p style="color:var(--ink-soft); max-width:64ch; font-size:14px;">These seven can be hidden per business by RetailFlow — check with onboarding before a call rather than discovering one missing live: <b>Suppliers, Purchases, Expenses, Cashbook, Stock Count, Audit Log, Categories.</b></p>
+      </section>
+
+      <footer class="doc-foot">RetailFlow — internal sales enablement. Covers the tenant application only; the platform/superadmin console is intentionally out of scope for this demo.</footer>
+
+    </main>
+  </div>
+</div>
+</body>
+</html>
