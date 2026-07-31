@@ -33,24 +33,27 @@ function countUp(el, target, duration) {
   })(start);
 }
 
-// Fire counters when stats enter view
+// Fire counters when stats enter view (stats-ticker only exists on index.html)
 const statsEl = document.getElementById('stats-ticker');
-let counted = false;
-new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting && !counted) {
-    counted = true;
-    countUp(document.getElementById('s-rev'),   84320, 1800);
-    countUp(document.getElementById('s-sales'),  1247,  1600);
-    countUp(document.getElementById('s-sku'),     892,  1400);
-  }
-}, { threshold: 0.4 }).observe(statsEl);
+if (statsEl) {
+  let counted = false;
+  new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !counted) {
+      counted = true;
+      countUp(document.getElementById('s-rev'),   84320, 1800);
+      countUp(document.getElementById('s-sales'),  1247,  1600);
+      countUp(document.getElementById('s-sku'),     892,  1400);
+    }
+  }, { threshold: 0.4 }).observe(statsEl);
+}
 
-// Contact form submission
+// Contact form submission (contact-form only exists on index.html)
 const contactForm = document.getElementById('contact-form');
 const cfSubmit    = document.getElementById('cf-submit');
 const cfStatus    = document.getElementById('cf-status');
 const APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbxkP34rnMkmx9lzefeQh6ngo39kTa_C52g9dzQy0CEyHxdvsRVJB2islV07HJmnV8zs/exec';
 
+if (contactForm) {
 contactForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const name     = document.getElementById('cf-name').value.trim();
@@ -83,6 +86,7 @@ contactForm.addEventListener('submit', async (e) => {
     cfSubmit.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
   }
 });
+}
 
 // Scroll reveal
 new IntersectionObserver((entries) => {
