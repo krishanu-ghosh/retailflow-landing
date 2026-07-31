@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="80%" cy="0%" r="90%">
+      <stop offset="0%" stop-color="#7C6FFF" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#7C6FFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0D0B1E"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect x="1" y="1" width="1198" height="628" fill="none" stroke="#231F3D" stroke-width="2"/>
+
+  <text x="90" y="240" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="22" font-weight="700" fill="#F5A523" letter-spacing="1">// retail operating system</text>
+
+  <text x="88" y="330" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="72" font-weight="800" fill="#F5F3FF">Retail<tspan fill="#7C6FFF">Flow</tspan></text>
+
+  <text x="90" y="400" font-family="Inter, ui-sans-serif, sans-serif" font-size="30" font-weight="500" fill="#B7B2D9">POS billing, inventory, GST compliance,</text>
+  <text x="90" y="440" font-family="Inter, ui-sans-serif, sans-serif" font-size="30" font-weight="500" fill="#B7B2D9">accounting &amp; analytics — one app.</text>
+
+  <text x="90" y="500" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="20" font-weight="600" fill="#4ADE80">Built for Indian retail</text>
+</svg>
