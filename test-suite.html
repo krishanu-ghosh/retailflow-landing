@@ -118,7 +118,7 @@
   }
   .badge.pos{background:var(--pass-bg); color:var(--pass);}
   .badge.neg{background:var(--fail-bg); color:var(--fail);}
-  .badge.role{background:var(--accent-weak); color:var(--accent);}
+  .badge.role{background:var(--accent-weak); color:var(--accent); white-space:normal; max-width:100%; vertical-align:top;}
   .badge.id{background:var(--code-bg); color:var(--muted); font-family:ui-monospace,monospace;}
 
   section.module{margin-bottom:26px;}
@@ -194,7 +194,8 @@
   }
   .toast{
     background:var(--text); color:var(--bg); padding:9px 16px; border-radius:20px; font-size:13px; font-weight:600;
-    box-shadow:var(--shadow); opacity:0; transform:translateY(-8px); transition:opacity .2s ease, transform .2s ease; white-space:nowrap;
+    box-shadow:var(--shadow); opacity:0; transform:translateY(-8px); transition:opacity .2s ease, transform .2s ease;
+    max-width:calc(100vw - 32px); text-align:center;
   }
   .toast.show{opacity:1; transform:translateY(0);}
   .toast.toast-pass{background:var(--pass); color:#fff;}
@@ -235,6 +236,13 @@
   }
   @media (max-width:640px){
     .focus-nav .kbd-hint{display:none;}
+  }
+  @media (max-width:600px){
+    .mod-head{flex-direction:column; align-items:stretch; gap:8px;}
+    .mod-side{text-align:left;}
+    .mod-head .mod-progress{white-space:normal;}
+    .mini-bar{margin-left:0;}
+    .focus-section-btn{display:block; width:max-content; margin:8px 0 0;}
   }
 </style>
 </head>
@@ -1387,7 +1395,7 @@ function triggerConfetti(){
   for(let i=0;i<26;i++){
     const piece = document.createElement("div");
     piece.className = "confetti-piece";
-    piece.style.left = (Math.random()*100)+"vw";
+    piece.style.left = (Math.random()*96)+"vw";
     piece.style.background = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
     piece.style.animationDuration = (1.4 + Math.random()*1.2)+"s";
     piece.style.animationDelay = (Math.random()*0.3)+"s";
