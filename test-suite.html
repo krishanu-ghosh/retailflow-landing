@@ -60,7 +60,7 @@
   }
   .mini-stats-bar{
     position:sticky; top:0; z-index:55; background:var(--panel); border-bottom:1px solid var(--border);
-    box-shadow:var(--shadow); display:flex; justify-content:center; gap:28px; padding:9px 16px;
+    box-shadow:var(--shadow); display:flex; flex-wrap:wrap; justify-content:center; gap:8px 22px; padding:9px 16px;
   }
   .mini-stat{display:flex; align-items:center; gap:6px; font-size:13px; color:var(--muted);}
   .mini-stat .mini-num{font-size:16px; font-weight:700; color:var(--text);}
@@ -260,7 +260,7 @@
     .stat{padding:7px 9px;}
     .stat .num{font-size:17px;}
     .stat .lbl{font-size:10px;}
-    .mini-stats-bar{gap:16px; padding:7px 10px;}
+    .mini-stats-bar{gap:6px 14px; padding:7px 10px;}
     .mini-stat{font-size:11.5px;}
     .mini-stat .mini-num{font-size:14px;}
   }
@@ -293,9 +293,11 @@
 </header>
 
 <div class="mini-stats-bar" id="miniStatsBar">
+  <div class="mini-stat"><span class="mini-num js-mini-tested">0/0</span><span class="mini-lbl">Tested</span></div>
   <div class="mini-stat mini-pass"><span class="mini-num js-mini-pass">0</span><span class="mini-lbl">Passed</span></div>
   <div class="mini-stat mini-fail"><span class="mini-num js-mini-fail">0</span><span class="mini-lbl">Failed</span></div>
   <div class="mini-stat"><span class="mini-num js-mini-complete">0%</span><span class="mini-lbl">Complete</span></div>
+  <div class="mini-stat"><span class="mini-num js-mini-left">0</span><span class="mini-lbl">Left</span></div>
 </div>
 
 <main class="wrap">
@@ -1571,7 +1573,8 @@ function renderFocusOverlay(){
   const sec = SECTION_BY_TEST[t.id];
   overlay.style.display = "block";
 
-  const {pass, fail, pct} = overallStats();
+  const {pass, fail, na, total, untested, pct} = overallStats();
+  const tested = pass+fail+na;
   let html = '<div class="focus-header-wrap">';
   html += '<div class="focus-header">';
   html += '<div><div class="focus-title">'+escapeHTML(sec ? sec.title : "")+'</div>';
@@ -1579,9 +1582,11 @@ function renderFocusOverlay(){
   html += '<button type="button" id="focusCloseBtn">✕ Exit Focus Mode</button>';
   html += '</div>';
   html += '<div class="mini-stats-bar">'
+    + '<div class="mini-stat"><span class="mini-num js-mini-tested">'+tested+'/'+total+'</span><span class="mini-lbl">Tested</span></div>'
     + '<div class="mini-stat mini-pass"><span class="mini-num js-mini-pass">'+pass+'</span><span class="mini-lbl">Passed</span></div>'
     + '<div class="mini-stat mini-fail"><span class="mini-num js-mini-fail">'+fail+'</span><span class="mini-lbl">Failed</span></div>'
     + '<div class="mini-stat"><span class="mini-num js-mini-complete">'+pct+'%</span><span class="mini-lbl">Complete</span></div>'
+    + '<div class="mini-stat"><span class="mini-num js-mini-left">'+untested+'</span><span class="mini-lbl">Left</span></div>'
     + '</div>';
   html += '</div>';
   html += '<div class="focus-body">'+testCardHTML(t, "focus-card-")+'</div>';
@@ -1760,9 +1765,11 @@ function renderDashboard(){
       + '<span class="b-na" style="width:'+pNa+'%"></span>';
   }
 
+  document.querySelectorAll(".js-mini-tested").forEach(el => el.textContent = (pass+fail+na)+"/"+total);
   document.querySelectorAll(".js-mini-pass").forEach(el => el.textContent = pass);
   document.querySelectorAll(".js-mini-fail").forEach(el => el.textContent = fail);
   document.querySelectorAll(".js-mini-complete").forEach(el => el.textContent = pct+"%");
+  document.querySelectorAll(".js-mini-left").forEach(el => el.textContent = untested);
 
   // refresh module progress badges (+ mini bar, + focus-section button) without a full rebuild
   SECTIONS.forEach(sec=>{
