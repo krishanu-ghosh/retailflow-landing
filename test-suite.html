@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RetailFlow — Tenant Portal Manual Test Guide</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --panel:#ffffff; --text:#1a1d23; --muted:#5b6270; --border:#dfe3e8;
+    --accent:#2c5cf6; --accent-weak:#e8edff;
+    --pass:#1f8a4c; --pass-bg:#e5f6ec;
+    --fail:#c62b3a; --fail-bg:#fbe7e9;
+    --na:#8a8f98; --na-bg:#eceef1;
+    --warn:#9a6300; --warn-bg:#fff4dd;
+    --code-bg:#eef0f4;
+    --shadow: 0 1px 2px rgba(20,20,30,.06), 0 1px 8px rgba(20,20,30,.04);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#14161a; --panel:#1c1f26; --text:#e7e9ee; --muted:#9aa1ac; --border:#2b2f38;
+      --accent:#6d8dff; --accent-weak:#1c2542;
+      --pass:#3ecb7c; --pass-bg:#123023;
+      --fail:#ff6b78; --fail-bg:#3a1418;
+      --na:#9aa1ac; --na-bg:#242730;
+      --warn:#e8b34d; --warn-bg:#3a2c0c;
+      --code-bg:#22252c;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 10px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14161a; --panel:#1c1f26; --text:#e7e9ee; --muted:#9aa1ac; --border:#2b2f38;
+    --accent:#6d8dff; --accent-weak:#1c2542;
+    --pass:#3ecb7c; --pass-bg:#123023;
+    --fail:#ff6b78; --fail-bg:#3a1418;
+    --na:#9aa1ac; --na-bg:#242730;
+    --warn:#e8b34d; --warn-bg:#3a2c0c;
+    --code-bg:#22252c;
+  }
+  :root[data-theme="light"]{
+    --bg:#f5f6f8; --panel:#ffffff; --text:#1a1d23; --muted:#5b6270; --border:#dfe3e8;
+    --accent:#2c5cf6; --accent-weak:#e8edff;
+    --pass:#1f8a4c; --pass-bg:#e5f6ec;
+    --fail:#c62b3a; --fail-bg:#fbe7e9;
+    --na:#8a8f98; --na-bg:#eceef1;
+    --warn:#9a6300; --warn-bg:#fff4dd;
+    --code-bg:#eef0f4;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.5; padding-bottom:80px;
+  }
+  a{color:var(--accent);}
+  .wrap{max-width:980px; margin:0 auto; padding:0 16px;}
+  header.top{
+    background:var(--panel); border-bottom:1px solid var(--border);
+    padding:20px 0 16px; position:sticky; top:0; z-index:50; box-shadow:var(--shadow);
+  }
+  h1{font-size:22px; margin:0 0 4px;}
+  .subtitle{color:var(--muted); font-size:14px; margin:0 0 14px;}
+  .dash{
+    display:grid; grid-template-columns: repeat(4,1fr); gap:10px; margin-bottom:14px;
+  }
+  @media (max-width:640px){ .dash{grid-template-columns: repeat(2,1fr);} }
+  .stat{
+    background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:10px 12px;
+  }
+  .stat .num{font-size:20px; font-weight:700;}
+  .stat .lbl{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.03em;}
+  .stat.pass .num{color:var(--pass);}
+  .stat.fail .num{color:var(--fail);}
+  .bar{height:8px; border-radius:6px; background:var(--border); overflow:hidden; display:flex;}
+  .bar > span{height:100%; display:block;}
+  .bar .b-pass{background:var(--pass);}
+  .bar .b-fail{background:var(--fail);}
+  .bar .b-na{background:var(--na);}
+  .controls{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:10px;}
+  input[type="search"], select, textarea, input[type="text"]{
+    font-family:inherit; font-size:13px; border:1px solid var(--border); background:var(--panel);
+    color:var(--text); border-radius:8px; padding:7px 10px;
+  }
+  input[type="search"]{flex:1; min-width:160px;}
+  button{
+    font-family:inherit; font-size:13px; border:1px solid var(--border); background:var(--panel);
+    color:var(--text); border-radius:8px; padding:7px 12px; cursor:pointer;
+  }
+  button:hover{border-color:var(--accent);}
+  button.primary{background:var(--accent); color:#fff; border-color:var(--accent);}
+  button.danger{color:var(--fail); border-color:var(--fail);}
+  button.danger:hover{background:var(--fail-bg);}
+  button:disabled{opacity:.5; cursor:not-allowed;}
+  nav.jump{
+    display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; max-height:0; overflow:hidden; transition:max-height .2s ease;
+  }
+  nav.jump.open{max-height:400px;}
+  nav.jump a{
+    font-size:12px; padding:4px 8px; border:1px solid var(--border); border-radius:20px; text-decoration:none; color:var(--text);
+    background:var(--bg);
+  }
+  nav.jump a .n{color:var(--muted); margin-left:4px;}
+
+  main{padding-top:18px;}
+  .intro-card{
+    background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px 18px; margin-bottom:20px; box-shadow:var(--shadow);
+  }
+  .intro-card h2{margin-top:0; font-size:16px;}
+  .intro-card ol, .intro-card ul{padding-left:20px; margin:8px 0;}
+  .intro-card li{margin-bottom:4px; font-size:14px;}
+  .prereq{list-style:none; padding-left:0; margin:10px 0;}
+  .prereq li{display:flex; gap:8px; align-items:flex-start; padding:6px 0; border-bottom:1px dashed var(--border); font-size:14px;}
+  .prereq li:last-child{border-bottom:none;}
+  .prereq input{margin-top:3px;}
+  .badge{
+    display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.03em; text-transform:uppercase;
+    padding:2px 7px; border-radius:5px; margin-right:6px; white-space:nowrap;
+  }
+  .badge.pos{background:var(--pass-bg); color:var(--pass);}
+  .badge.neg{background:var(--fail-bg); color:var(--fail);}
+  .badge.role{background:var(--accent-weak); color:var(--accent);}
+  .badge.id{background:var(--code-bg); color:var(--muted); font-family:ui-monospace,monospace;}
+
+  section.module{margin-bottom:26px;}
+  .mod-head{
+    display:flex; justify-content:space-between; align-items:center; cursor:pointer;
+    background:var(--panel); border:1px solid var(--border); border-radius:12px 12px 0 0; padding:14px 16px;
+  }
+  .mod-head:hover{background:var(--accent-weak);}
+  .mod-head h2{margin:0; font-size:16px;}
+  .mod-head .mod-sub{font-size:12.5px; color:var(--muted); margin-top:2px;}
+  .mod-head .mod-progress{font-size:12px; color:var(--muted); white-space:nowrap; margin-left:12px;}
+  .mod-body{
+    border:1px solid var(--border); border-top:none; border-radius:0 0 12px 12px; background:var(--bg);
+    padding:6px 16px 16px;
+  }
+  .mod-body.collapsed{display:none;}
+  .chevron{transition:transform .15s ease; display:inline-block;}
+  .collapsed-head .chevron{transform:rotate(-90deg);}
+
+  .group-title{font-size:13px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; margin:18px 0 8px;}
+
+  .test-card{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:10px; box-shadow:var(--shadow);
+  }
+  .test-card.st-pass{border-color:var(--pass);}
+  .test-card.st-fail{border-color:var(--fail);}
+  .test-card.hidden{display:none;}
+  .test-title{font-size:14.5px; font-weight:600; margin:4px 0 6px;}
+  .test-meta{margin-bottom:4px;}
+  .test-pre{font-size:12.5px; color:var(--muted); margin-bottom:6px;}
+  .sample-data{
+    background:var(--code-bg); border-radius:8px; padding:8px 10px; margin:6px 0; font-size:12.5px; font-family:ui-monospace, monospace;
+  }
+  .sample-data div{padding:1px 0;}
+  ol.steps{margin:6px 0 8px; padding-left:20px; font-size:13.5px;}
+  ol.steps li{margin-bottom:3px;}
+  .expected{
+    background:var(--accent-weak); border-left:3px solid var(--accent); border-radius:6px; padding:7px 10px; font-size:13px; margin:8px 0;
+  }
+  .expected b{color:var(--accent);}
+  .heads-up{
+    background:var(--warn-bg); border-left:3px solid var(--warn); border-radius:6px; padding:7px 10px; font-size:12.5px; margin:8px 0; color:var(--text);
+  }
+  .heads-up b{color:var(--warn);}
+  .status-row{display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-top:10px;}
+  .status-btn{padding:6px 12px; font-weight:600; border-radius:20px;}
+  .status-btn.pass-btn.active{background:var(--pass); color:#fff; border-color:var(--pass);}
+  .status-btn.fail-btn.active{background:var(--fail); color:#fff; border-color:var(--fail);}
+  .status-btn.na-btn.active{background:var(--na); color:#fff; border-color:var(--na);}
+  textarea.notes{width:100%; margin-top:8px; min-height:40px; resize:vertical; font-size:13px;}
+
+  footer.bottom{
+    position:fixed; bottom:0; left:0; right:0; background:var(--panel); border-top:1px solid var(--border);
+    padding:10px 16px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap; box-shadow:0 -2px 10px rgba(0,0,0,.08); z-index:40;
+  }
+  .empty-note{font-size:13px; color:var(--muted); padding:10px 0;}
+  .top-actions{display:flex; gap:8px; flex-wrap:wrap;}
+  @media print{
+    footer.bottom, header.top .controls, header.top nav.jump, .status-row, #toastContainer, .focus-overlay{display:none !important;}
+  }
+
+  /* ---- interactivity additions ---- */
+  .mod-side{text-align:right;}
+  .mini-bar{height:5px; width:100px; border-radius:4px; background:var(--border); overflow:hidden; display:flex; margin-top:5px; margin-left:auto;}
+  .mini-bar > span{height:100%; display:block;}
+  .focus-section-btn{font-size:11px; padding:3px 9px; border-radius:20px; margin-left:8px; vertical-align:middle;}
+
+  .copy-btn{font-size:11px; padding:3px 8px; border-radius:6px; margin-left:6px; vertical-align:middle;}
+
+  #toastContainer{
+    position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:400;
+    display:flex; flex-direction:column; gap:8px; align-items:center; pointer-events:none;
+  }
+  .toast{
+    background:var(--text); color:var(--bg); padding:9px 16px; border-radius:20px; font-size:13px; font-weight:600;
+    box-shadow:var(--shadow); opacity:0; transform:translateY(-8px); transition:opacity .2s ease, transform .2s ease; white-space:nowrap;
+  }
+  .toast.show{opacity:1; transform:translateY(0);}
+  .toast.toast-pass{background:var(--pass); color:#fff;}
+  .toast.toast-fail{background:var(--fail); color:#fff;}
+  .toast.toast-info{background:var(--accent); color:#fff;}
+
+  @keyframes flashHighlight{
+    0%{ box-shadow:0 0 0 0 var(--accent); }
+    40%{ box-shadow:0 0 0 6px var(--accent-weak); }
+    100%{ box-shadow:0 0 0 0 rgba(0,0,0,0); }
+  }
+  .test-card.flash{animation:flashHighlight 1.1s ease-out;}
+
+  .focus-overlay{
+    position:fixed; inset:0; background:var(--bg); z-index:150; overflow-y:auto; padding:0 0 110px;
+  }
+  .focus-header{
+    position:sticky; top:0; background:var(--panel); border-bottom:1px solid var(--border); padding:12px 16px;
+    display:flex; justify-content:space-between; align-items:center; gap:10px; z-index:10;
+  }
+  .focus-header .focus-title{font-weight:700; font-size:14px;}
+  .focus-header .focus-progress{font-size:12px; color:var(--muted); margin-top:2px;}
+  .focus-body{max-width:640px; margin:24px auto; padding:0 16px;}
+  .focus-nav{
+    position:fixed; bottom:0; left:0; right:0; background:var(--panel); border-top:1px solid var(--border);
+    padding:12px 16px; display:flex; justify-content:space-between; align-items:center; gap:10px; z-index:160;
+  }
+  .focus-nav .kbd-hint{font-size:11px; color:var(--muted); text-align:center; flex:1;}
+  kbd{background:var(--code-bg); border:1px solid var(--border); border-radius:4px; padding:1px 5px; font-size:11px; font-family:ui-monospace,monospace;}
+
+  .confetti-piece{
+    position:fixed; top:-10px; width:8px; height:14px; z-index:300; pointer-events:none; opacity:.9;
+    animation-name:confettiFall; animation-timing-function:ease-in; animation-fill-mode:forwards;
+  }
+  @keyframes confettiFall{
+    0%{ transform:translateY(0) rotate(0deg); opacity:1; }
+    100%{ transform:translateY(100vh) rotate(540deg); opacity:0.4; }
+  }
+  @media (max-width:640px){
+    .focus-nav .kbd-hint{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <h1>RetailFlow — Tenant Portal Manual Test Guide</h1>
+    <p class="subtitle">A step-by-step checklist for testing the shop-owner / staff side of the app by hand. No technical knowledge required — just follow each step and mark what happened.</p>
+
+    <div class="dash" id="dashStats"></div>
+    <div class="bar" id="dashBar"></div>
+
+    <div class="controls">
+      <input type="search" id="searchBox" placeholder="Search test steps (e.g. 'password', 'discount', 'barcode')…">
+      <select id="statusFilter">
+        <option value="all">Show: All tests</option>
+        <option value="untested">Show: Not tested yet</option>
+        <option value="pass">Show: Passed</option>
+        <option value="fail">Show: Failed</option>
+        <option value="na">Show: N/A</option>
+      </select>
+      <button id="expandAllBtn">Expand all</button>
+      <button id="collapseAllBtn">Collapse all</button>
+      <button id="jumpToggleBtn">Jump to section ▾</button>
+      <button id="focusModeBtn" class="primary">🎯 Focus Mode</button>
+      <button id="nextUntestedBtn">⏭ Next untested</button>
+      <button id="randomBtn">🎲 Random test</button>
+    </div>
+    <nav class="jump" id="jumpNav"></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="intro-card">
+    <h2>Before you begin</h2>
+    <ul>
+      <li>Use a <b>test / staging business</b>, not one real customers actually use. Several steps below create test sales, customers, expenses etc. on purpose.</li>
+      <li>You'll need login details for at least an <b>Owner</b> account. Tests marked <span class="badge role">Manager</span> or <span class="badge role">Cashier</span> need those accounts too — ask your team for them if you don't have them. If you only have an Owner login, you can skip role-specific tests (mark them N/A).</li>
+      <li>Each test has: what data to type in (if any), the exact steps to click through, and what you should see if everything is working. Tick <b>Pass</b> if it matches, <b>Fail</b> if it doesn't (write what happened in the notes box), or <b>N/A</b> if you can't run it (e.g. no Cashier login available).</li>
+      <li>Your answers are saved automatically in this browser as you go — closing the tab or restarting your computer will not lose your progress. Use <b>Reset All Test Data</b> (bottom of the page) only when you want to start completely over.</li>
+      <li>When you're done (or want to hand off progress), click <b>Download Results</b> at the bottom to save a text file summary you can send to your team.</li>
+      <li>Prefer a guided, one-at-a-time flow? Click <b>🎯 Focus Mode</b> (top of the page) to step through tests one by one, or the small <b>🎯 Focus this section</b> button on any section header to walk through just that section. While it's open you can use <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> to mark Pass/Fail/N-A, <kbd>←</kbd>/<kbd>→</kbd> to move between tests, <kbd>C</kbd> to copy the sample data, and <kbd>Esc</kbd> to exit. <b>⏭ Next untested</b> and <b>🎲 Random test</b> jump you straight to a test without scrolling.</li>
+    </ul>
+    <h2 style="margin-top:16px;">Quick checklist before you start</h2>
+    <ul class="prereq" id="prereqList"></ul>
+  </div>
+
+  <div id="sectionsRoot"></div>
+</main>
+
+<div id="toastContainer"></div>
+<div id="focusOverlay" class="focus-overlay" style="display:none"></div>
+
+<footer class="bottom">
+  <div class="top-actions">
+    <button id="downloadBtn" class="primary">⬇ Download Results (.txt)</button>
+    <button id="resetBtn" class="danger">↺ Reset All Test Data</button>
+  </div>
+</footer>
+
+<script>
+/* ======================================================================
+   DATA — every test case, grouped into sections. Edit this array to
+   add/change tests; the rest of the file renders it automatically.
+   ====================================================================== */
+const PREREQ_ITEMS = [
+  "I am using a test / staging business, not a live one real customers use",
+  "I have an Owner-level login for this business",
+  "I have a Manager-level login (or I know I'll skip Manager-only tests)",
+  "I have a Cashier-level login (or I know I'll skip Cashier-only tests)",
+  "I know whether this business is on the 'Early Access Program' plan (affects Section 2)",
+  "I'm okay with this run creating some obviously-test-named records (customers, products, sales, expenses) that may need cleaning up afterward"
+];
+
+const SECTIONS = [
+{
+  id:"login", title:"1. Logging In & Sessions", sub:"The sign-in page and what happens to your session over time.",
+  groups:[
+    { title:"Signing in", tests:[
+      {id:"LOGIN-01", type:"positive", role:"Any", title:"Sign in with the correct email and password",
+        steps:["Open the login page.","Type your account's email into the Email box.","Type your correct password into the Password box.","Click 'Sign in'."],
+        expected:"You land on the Dashboard (or the first page you have access to) and briefly see a 'Welcome &lt;your name&gt;' pop-up message."},
+      {id:"LOGIN-02", type:"negative", role:"Any", title:"Sign in with the wrong password",
+        data:["Email: your real account email","Password: any wrong password, e.g. 'wrongpass123'"],
+        steps:["Type your correct email.","Type an incorrect password.","Click 'Sign in'."],
+        expected:"You stay on the login page and see an error message saying something like \"Invalid email or password.\" It should NOT say specifically that the password is wrong (only that the combination is wrong)."},
+      {id:"LOGIN-03", type:"negative", role:"Any", title:"Sign in with an email that doesn't exist",
+        data:["Email: nobody-like-this-exists@example.com","Password: anything"],
+        steps:["Type an email you're sure isn't registered.","Type any password.","Click 'Sign in'."],
+        expected:"Same generic \"Invalid email or password\" message as LOGIN-02 — the app should not reveal whether the email exists or not.",
+        note:"If the message is different from a wrong-password attempt (e.g. says 'no account found'), note that down — it could let someone guess which emails are registered."},
+      {id:"LOGIN-04", type:"negative", role:"Any", title:"Try to submit the login form with empty fields",
+        steps:["Leave both Email and Password blank.","Click 'Sign in' (or press Enter)."],
+        expected:"The form refuses to submit and highlights the empty field(s) — you should not see a network error or be taken anywhere."},
+      {id:"LOGIN-05", type:"positive", role:"Any", title:"Show/hide password toggle",
+        steps:["Type a password into the Password box.","Look for an eye icon next to the field and click it.","Click it again."],
+        expected:"The first click reveals your password as plain text; the second click masks it again as dots."},
+      {id:"LOGIN-06", type:"negative", role:"Any", title:"Repeatedly submit wrong logins very quickly (rate limiting)",
+        steps:["Within about 5 seconds, try to sign in with a wrong password around 12–15 times in a row (fastest way: keep clicking 'Sign in' with the same wrong details)."],
+        expected:"After roughly the first 10 attempts, the app should start refusing your requests with a \"Too many requests\" style message instead of the normal invalid-credentials message — this protects against automated password guessing.",
+        note:"If nothing changes even after 15+ rapid attempts, that's worth flagging — it means there's no protection against fast repeated guessing."},
+      {id:"LOGIN-07", type:"negative", role:"Any", title:"Sign in to a deactivated staff account",
+        pre:"Needs a staff account that an Owner has deactivated (see Section 20, USR-11) beforehand.",
+        steps:["Ask an Owner to deactivate a test staff user first (Users page).","Try to log in as that deactivated user."],
+        expected:"Login is refused with a message like \"This user account is not active,\" even though the password is correct."},
+      {id:"LOGIN-08", type:"positive", role:"Any", title:"No 'Sign up' or 'Forgot password' link exists",
+        steps:["Look over the entire login page carefully."],
+        expected:"There should be no self-service 'Create an account' / 'Sign up' link and no 'Forgot password?' link. Instead there should be a line pointing you to contact the company for a new account. This is expected current behavior, not a bug — just confirm it's actually the case."}
+    ]},
+    { title:"Staying signed in / signing out", tests:[
+      {id:"LOGIN-09", type:"positive", role:"Any", title:"Session survives closing and reopening the browser tab",
+        steps:["Log in normally.","Close the browser tab completely (not just navigate away).","Reopen the site in a new tab."],
+        expected:"You are still signed in and land on your usual page — you should not be asked to log in again."},
+      {id:"LOGIN-10", type:"positive", role:"Any", title:"Logging in on two browsers at once",
+        steps:["Log in on your normal browser.","Open a second, different browser (or an incognito/private window) and log in with the SAME account.","Use both windows for a minute — click around in each."],
+        expected:"Both sessions keep working independently; using one does not sign the other out."},
+      {id:"LOGIN-11", type:"positive", role:"Any", title:"Signing out",
+        steps:["While logged in, find 'Sign out' (usually in the sidebar/menu).","Click it."],
+        expected:"You're returned to the login page, and clicking your browser's Back button does not let you see any app pages again without logging back in."},
+      {id:"LOGIN-12", type:"positive", role:"Any", title:"Leaving the app open and idle for a long time (advanced/optional)",
+        steps:["Log in and then leave the tab open without touching anything for at least 20 minutes.","Come back and click on any menu item."],
+        expected:"The app should quietly keep you logged in (it refreshes your session in the background) — you should NOT be forced to log in again just from being idle for 20 minutes."}
+    ]}
+  ]
+},
+{
+  id:"eap", title:"2. Early Access Program (EAP) Agreement", sub:"Only applies if your test business is on the 'Early Access Program' plan. If you're not sure, ask your team, or check Settings once logged in. Otherwise, mark this whole section N/A.",
+  groups:[
+    { title:"The agreement screen", tests:[
+      {id:"EAP-01", type:"positive", role:"Any (EAP business)", title:"Agreement blocks the whole app until accepted",
+        pre:"Log in to a business on the Early Access Program plan that has not yet accepted the agreement.",
+        steps:["Log in with any account on that business."],
+        expected:"Instead of the normal app, you see a full-screen 'Beta Software Evaluation Agreement' with no menu/sidebar visible at all — you cannot get to any other page."},
+      {id:"EAP-02", type:"negative", role:"Any (EAP business)", title:"Can't accept before scrolling to the end",
+        steps:["On the agreement screen, without scrolling, try clicking the 'I Accept' button right away."],
+        expected:"The Accept button is greyed out/disabled and there's a hint like \"Scroll to the end…\" until you actually scroll the text down to the bottom."},
+      {id:"EAP-03", type:"positive", role:"Owner", title:"Owner can accept after scrolling to the bottom",
+        steps:["Scroll the agreement text all the way down.","Click 'I Accept'."],
+        expected:"You see a success confirmation (e.g. \"Agreement accepted\"), and you're taken into the normal app with the sidebar/menu visible."},
+      {id:"EAP-04", type:"negative", role:"Manager or Cashier (EAP business, not yet accepted)", title:"Non-owner roles cannot accept, only decline",
+        steps:["Log in as a Manager or Cashier on a business that has NOT yet accepted the agreement."],
+        expected:"There is no 'I Accept' button for this role — only a message saying only an owner/admin can accept, plus a 'Decline' button."},
+      {id:"EAP-05", type:"positive", role:"Manager or Cashier", title:"Declining signs you out",
+        steps:["On the agreement screen (as a non-owner, or as owner before accepting), click 'Decline'."],
+        expected:"You're signed out immediately with a message explaining you must accept to continue, and returned to the login page."},
+      {id:"EAP-06", type:"positive", role:"Owner (after accepting)", title:"Printing the agreement",
+        steps:["Go to Settings and find the 'Beta agreement' / EAP card.","Click 'View agreement', then find the Print option."],
+        expected:"A print preview/window opens showing the exact same agreement text you saw on screen, plus your acceptance date."},
+      {id:"EAP-07", type:"positive", role:"Any", title:"Non-EAP businesses never see this screen",
+        pre:"Use a normal (non-EAP) test business for this one.",
+        steps:["Log in to a business that is NOT on the Early Access Program plan."],
+        expected:"You go straight into the app as normal — no agreement screen ever appears."},
+      {id:"EAP-08", type:"positive", role:"Owner", title:"Once accepted, it stays accepted",
+        steps:["After accepting (EAP-03), log out and log back in.","Also try visiting several different pages."],
+        expected:"You never see the agreement screen again for this business, and Settings shows 'Accepted on &lt;date&gt;'."}
+    ]}
+  ]
+},
+{
+  id:"dash", title:"3. Dashboard", sub:"The read-only overview screen you land on after logging in.",
+  groups:[
+    { title:"Visibility & basic content", tests:[
+      {id:"DASH-01", type:"positive", role:"Owner or Manager", title:"Dashboard loads with all its widgets",
+        steps:["Log in as Owner or Manager.","Go to the Dashboard."],
+        expected:"You see: today's sales & profit, this month's revenue & profit (with a growth arrow), a sales trend chart, low-stock/reorder/expiring-soon boxes, and a financial position summary (cash, receivable, payable)."},
+      {id:"DASH-02", type:"negative", role:"Cashier", title:"Cashier cannot see the Dashboard at all",
+        steps:["Log in as a Cashier.","Try to open the Dashboard (from the menu, or by typing its address directly)."],
+        expected:"You see a \"You don't have access\" page instead of any dashboard numbers — not even a stripped-down version."},
+      {id:"DASH-03", type:"positive", role:"Owner or Manager", title:"Switching the sales trend chart range",
+        steps:["On the Dashboard, find the sales trend chart.","Click through its '30d' / '90d' / '1y' options."],
+        expected:"The chart and the summary line under it (revenue, orders, days) update to match the range picked, without the whole page reloading or flashing blank."},
+      {id:"DASH-04", type:"positive", role:"Owner or Manager", title:"Collapsing a widget remembers your choice after reload",
+        steps:["Collapse the sales trend chart (there should be a collapse/expand arrow).","Reload the whole page."],
+        expected:"The chart stays collapsed after the reload — your preference was remembered."},
+      {id:"DASH-05", type:"positive", role:"Owner or Manager", title:"Empty state wording when there's nothing to flag",
+        pre:"Best tested on a fresh test business with little/no data, or with everything well-stocked.",
+        steps:["Look at the 'Reorder soon', 'Low stock', and 'Expiring soon' boxes when there's genuinely nothing to show."],
+        expected:"Each box shows a friendly empty message (e.g. \"Nothing to reorder\", \"All items above minimum\") instead of looking broken or blank."},
+      {id:"DASH-06", type:"negative", role:"Owner or Manager", title:"Numbers turn red when negative",
+        pre:"Needs a day/month where profit is actually negative (e.g. after recording a large expense with no matching sales).",
+        steps:["Record an expense larger than today's sales (see Section 15) so today's profit goes negative.","Return to the Dashboard."],
+        expected:"The 'Today's Profit' figure is shown in red/negative styling instead of the normal green."}
+    ]}
+  ]
+},
+{
+  id:"pos", title:"4. Making a Sale (Point of Sale)", sub:"The screen used to ring up a sale — adding products, discounts, and taking payment.",
+  groups:[
+    { title:"Finding & adding products", tests:[
+      {id:"POS-01", type:"positive", role:"Owner, Manager or Cashier", title:"Search for a product by name and add it",
+        steps:["Open 'New Sale'.","Type part of a real product's name into the search box.","Click the matching product."],
+        expected:"The product is added as a new line in the cart on the right, with quantity 1 and the correct price."},
+      {id:"POS-02", type:"positive", role:"Any", title:"Add a product by scanning/typing its barcode",
+        steps:["Click into the barcode field.","Type (or scan) a real product's barcode and press Enter."],
+        expected:"That exact product is added to the cart immediately without you needing to click anything else."},
+      {id:"POS-03", type:"negative", role:"Any", title:"Scan a barcode that doesn't belong to any product",
+        data:["Barcode: 0000000000000 (or any made-up number)"],
+        steps:["Type a barcode you're sure isn't registered to any product.","Press Enter."],
+        expected:"A message pops up saying something like \"No product for barcode 0000000000000\" — nothing is added to the cart."},
+      {id:"POS-04", type:"negative", role:"Any", title:"Try to sell a product that's out of stock",
+        pre:"Needs a product whose stock is at 0 (adjust one down first via Products > Stock, see PROD tests).",
+        steps:["Search for or scan a product that currently has 0 stock."],
+        expected:"A message says \"&lt;product&gt; is out of stock\" and it does not get added to the cart."},
+      {id:"POS-05", type:"negative", role:"Any", title:"Try to sell a deactivated product",
+        pre:"Needs a product an Owner/Manager has deactivated first (Products page).",
+        steps:["Scan or search for a deactivated product."],
+        expected:"A message says the product is deactivated and cannot be sold, and it's rejected."},
+      {id:"POS-06", type:"positive", role:"Any", title:"Product with multiple batches — choose which one",
+        pre:"Needs a product that currently has more than one active batch with stock (e.g. received two separate deliveries).",
+        steps:["Add that product to the cart."],
+        expected:"A 'Choose batch' popup appears showing each batch's remaining quantity, expiry (if any), and price, letting you pick one."},
+      {id:"POS-07", type:"positive", role:"Any", title:"Recently sold quick-add grid",
+        steps:["Clear the search box completely (don't type anything).","Look below/around the search box."],
+        expected:"A grid of recently-sold products appears that you can tap to quickly add, without needing to search."}
+    ]},
+    { title:"Editing the cart", tests:[
+      {id:"POS-08", type:"positive", role:"Any", title:"Change quantity with + / - buttons",
+        steps:["Add a product to the cart.","Click the '+' button next to its quantity a few times, then '-'."],
+        expected:"The quantity and the line total update instantly and correctly each time."},
+      {id:"POS-09", type:"negative", role:"Any", title:"Type a quantity larger than what's in stock",
+        pre:"Needs a product with a small, known stock level (e.g. 5 units).",
+        data:["Try typing a quantity clearly higher than the stock, e.g. 999"],
+        steps:["Add that product.","Type 999 directly into its quantity box."],
+        expected:"The quantity automatically snaps back down to the maximum available stock, with a message like \"Only 5 of &lt;product&gt; in stock\" — it should NOT let the line stay at 999."},
+      {id:"POS-10", type:"positive", role:"Any", title:"Remove a line by setting quantity to 0",
+        steps:["Add a product to the cart.","Clear its quantity box or set it to 0."],
+        expected:"The line disappears from the cart entirely."},
+      {id:"POS-11", type:"positive", role:"Any", title:"Fractional quantities for weighed/measured items",
+        pre:"Needs a product sold in KG, GRAM, LITER, ML or METER.",
+        data:["Quantity: 0.5, then try 1.257"],
+        steps:["Add a product sold by weight/volume/length.","Type a decimal quantity like 0.5, then 1.257."],
+        expected:"Decimal quantities are accepted and the line total is calculated correctly (rounded sensibly to money value)."},
+      {id:"POS-12", type:"positive", role:"Any", title:"Per-line discount in ₹ and in %",
+        data:["Try a ₹10 discount, then switch to a 10% discount on the same line"],
+        steps:["Add a product with a known price.","Find the discount control on that line and enter a ₹ amount.","Switch the toggle to % and enter 10."],
+        expected:"The line total drops by the discount amount each time, and switching modes keeps a sensible equivalent value rather than resetting to zero."},
+      {id:"POS-13", type:"negative", role:"Any", title:"Try a percentage discount over 100%",
+        data:["Try typing 150 into a % discount field"],
+        steps:["Set a line discount to % mode.","Try to type 150 (i.e. 150%)."],
+        expected:"The field should not accept a value above 100 — it should cap or reject it, not create a negative line total."},
+      {id:"POS-14", type:"positive", role:"Any", title:"Bill-level discount on top of line discounts",
+        steps:["Add two or three products, each with its own line discount already applied.","Also enter a bill-level discount (₹ or %) below the cart."],
+        expected:"The final total reflects both the individual line discounts AND the extra bill-level discount stacked together — check the maths adds up using the on-screen subtotal/discount/tax breakdown."},
+      {id:"POS-15", type:"positive", role:"Any", title:"Adding a warranty period",
+        data:["Months: try 12, then try 601 (should be rejected/clamped)"],
+        steps:["Tick the 'Warranty' checkbox.","Enter 12 in the Months field.","Note the 'valid up to' date shown.","Try changing it to 601."],
+        expected:"With 12 months, a correct 'valid up to' date one year ahead is shown. Entering 601 should be blocked/clamped, since the maximum allowed is 600 months (50 years)."}
+    ]},
+    { title:"Taking payment", tests:[
+      {id:"POS-16", type:"positive", role:"Any", title:"Simple cash sale, exact amount",
+        steps:["Add at least one product to the cart.","Open Payment.","Choose 'Cash' as the method.","Click the 'Exact cash' shortcut (or type the exact total).","Click 'Complete'."],
+        expected:"The sale completes successfully with a confirmation toast, the cart clears, and (if enabled) the invoice opens for printing."},
+      {id:"POS-17", type:"positive", role:"Any", title:"Cash sale with change given",
+        data:["Pay with more cash than the total, e.g. total ₹85, cash given ₹100"],
+        steps:["Add products totalling some amount, e.g. ₹85.","In Payment, type ₹100 as the cash amount.","Complete the sale."],
+        expected:"The button/summary shows the change due (₹15), and after completing, you're told the change amount to hand back."},
+      {id:"POS-18", type:"positive", role:"Any", title:"Split payment across two methods",
+        steps:["Add products to the cart.","Open Payment and switch on 'Split payment'.","Enter part of the total under Card, and let the rest auto-fill under Cash."],
+        expected:"Cash automatically fills in with (total − amount entered elsewhere), and the two amounts add up exactly to the total."},
+      {id:"POS-19", type:"negative", role:"Any", title:"Enter more payment than the total (non-cash)",
+        data:["Total ₹100 — enter ₹150 as a Card payment"],
+        steps:["Add products totalling ₹100.","In Payment, choose Card and type ₹150."],
+        expected:"You cannot complete the sale — a message says it exceeds the total, telling you to reduce the amount. (This restriction is specific to non-cash methods, since cash can have 'change'.)"},
+      {id:"POS-20", type:"negative", role:"Any", title:"Try to leave a balance on credit with no customer selected",
+        steps:["Add products to the cart.","Open Payment, leave the customer as 'Walk-in' (none selected).","Enter a payment amount less than the total, leaving a balance.","Try to complete the sale."],
+        expected:"You're blocked with a message like \"Select a customer — credit can't go to a walk-in\" — the sale cannot complete until you pick a real customer."},
+      {id:"POS-21", type:"positive", role:"Any", title:"Sell on credit to a real customer",
+        steps:["Add products to the cart.","Open Payment and select an existing (or newly created) customer.","Set the cash/card amount to less than the total, or click 'Full credit'.","Complete the sale."],
+        expected:"The sale completes, and the outstanding balance shows up against that customer afterward (check their profile / Customers page)."},
+      {id:"POS-22", type:"positive", role:"Any", title:"Existing customer credit auto-applies to a new sale",
+        pre:"Needs a customer who already has some account credit (e.g. from a prior overpayment/refund).",
+        steps:["Start a sale for a customer who already has credit on their account, for an amount at or below that credit.","Open Payment."],
+        expected:"The existing credit is automatically applied toward the new balance without you needing to click anything extra, and this is clearly noted on screen."},
+      {id:"POS-23", type:"positive", role:"Any", title:"Print the invoice after a sale",
+        steps:["Make sure 'Print Invoice' is checked in the Payment popup before completing.","Complete a sale."],
+        expected:"A print-ready invoice opens automatically in a new tab/window showing the correct items, totals, and payment method."},
+      {id:"POS-24", type:"positive", role:"Any (with permission)", title:"Profit line only shows for permitted roles",
+        steps:["As Owner/Manager, look at the cart total area for a profit/margin figure.","Repeat as Cashier."],
+        expected:"Owner/Manager see a profit and margin % line; Cashier does not see any profit figure at all in the POS screen."},
+      {id:"POS-25", type:"positive", role:"Any", title:"Keyboard shortcuts",
+        steps:["On the New Sale screen, press F1.","Add something to the cart, then press F4 (or F3).","Press Escape while a popup is open."],
+        expected:"F1 jumps your cursor to the product search box; F3/F4 opens the Payment popup (only if the cart isn't empty); Escape closes whatever popup/scanner is currently open."}
+    ]}
+  ]
+},
+{
+  id:"sales", title:"5. Sales List, Details, Void & Refund", sub:"Reviewing past sales, printing them again, and cancelling or refunding them.",
+  groups:[
+    { title:"Finding a sale", tests:[
+      {id:"SALE-01", type:"positive", role:"Any", title:"Search by invoice number",
+        steps:["Go to the Sales page.","Type part of a real invoice number into the search box."],
+        expected:"The list narrows down to matching invoices as you type."},
+      {id:"SALE-02", type:"positive", role:"Any", title:"Filter by date range",
+        steps:["Use the date filter to pick a 'From' and 'To' date covering a period with known sales.","Also try 'Single day' mode for today."],
+        expected:"Only sales within the chosen dates are shown; switching to 'Single day' for today shows only today's sales."},
+      {id:"SALE-03", type:"negative", role:"Any", title:"Pick an end date before the start date",
+        data:["From: today, To: yesterday"],
+        steps:["Set the 'From' date to today and the 'To' date to yesterday."],
+        expected:"An inline message tells you the range is invalid (e.g. \"'To' can't be before 'From'\"), and the list simply doesn't refresh rather than showing an error page."},
+      {id:"SALE-04", type:"positive", role:"Any", title:"Balance/status coloring",
+        steps:["Look at the Sales list for an unpaid/partly-paid invoice and a fully paid one."],
+        expected:"An invoice with money still owed shows the balance in red; a fully settled one shows green 'Paid' (or similar); voided/refunded sales show a red status badge."}
+    ]},
+    { title:"Sale details, payments, void & refund", tests:[
+      {id:"SALE-05", type:"positive", role:"Any", title:"Open a sale's details",
+        steps:["Click 'Details' on any sale in the list."],
+        expected:"A panel opens showing the line items, batch info, totals, payments made so far, and (if set) warranty details."},
+      {id:"SALE-06", type:"positive", role:"Any", title:"Send invoice on WhatsApp",
+        pre:"Sale must be linked to a customer who has a phone number.",
+        steps:["Open a sale linked to a customer with a phone number.","Click 'Send on WhatsApp'."],
+        expected:"It opens WhatsApp (web or app) with a pre-filled message referencing the invoice, ready to send to that customer's number."},
+      {id:"SALE-07", type:"positive", role:"Any", title:"Record a partial payment against an open invoice",
+        pre:"Needs a credit/partly-paid sale.",
+        data:["Enter an amount less than the full outstanding balance"],
+        steps:["Open a sale that still has a balance due.","Click 'Record payment'.","Enter an amount smaller than the full balance and confirm."],
+        expected:"The payment is recorded, the balance shown on the invoice reduces accordingly, and the invoice's status updates (e.g. from unpaid to partially paid)."},
+      {id:"SALE-08", type:"negative", role:"Any", title:"Try to record more payment than is owed",
+        data:["Outstanding balance ₹50 — try entering ₹200"],
+        steps:["Open a sale with a known outstanding balance.","Try to enter a payment amount larger than that balance."],
+        expected:"You're blocked with a message like \"Amount exceeds the balance due on this invoice.\""},
+      {id:"SALE-09", type:"positive", role:"Owner or Manager", title:"Void a recent sale",
+        pre:"Sale must be within the business's configured 'void window' (check Settings for how many hours/days that is).",
+        steps:["Open a sale made recently (within the void window).","Click 'Void' and confirm."],
+        expected:"The sale's status changes to Voided, and the stock/money effects of that sale are reversed."},
+      {id:"SALE-10", type:"negative", role:"Owner or Manager", title:"Try to void a sale after the void window has expired",
+        pre:"Needs an old sale outside the configured void window (or temporarily shorten the window in Settings to 0 hours/0 days to test quickly, then restore it).",
+        steps:["Open a sale older than the void window.","Look for the 'Void' button."],
+        expected:"The Void button is disabled/greyed out with a tooltip like \"Void window has expired.\""},
+      {id:"SALE-11", type:"negative", role:"Cashier", title:"Cashier never sees Void/Refund buttons",
+        steps:["Log in as Cashier.","Open the details of any sale."],
+        expected:"There is no 'Void' or 'Refund' button visible at all for this role, even on a very recent sale."},
+      {id:"SALE-12", type:"positive", role:"Owner or Manager", title:"Refund a sale",
+        steps:["Open an ACTIVE sale within the refund window.","Click 'Refund'.","Choose whether the money goes back as cash or as the customer's account credit.","Confirm."],
+        expected:"The sale's status changes to Refunded, and either cash-in-hand or the customer's credit balance updates depending on what you chose."},
+      {id:"SALE-13", type:"negative", role:"Owner or Manager", title:"Try to void or refund an already-voided/refunded sale",
+        steps:["Open a sale that is already Voided or Refunded."],
+        expected:"Void/Refund buttons are not shown at all for a sale that isn't currently Active."}
+    ]}
+  ]
+},
+{
+  id:"pur", title:"6. Purchases", sub:"Ordering stock from suppliers, receiving deliveries, returns, and payments.",
+  groups:[
+    { title:"Creating a purchase order", tests:[
+      {id:"PUR-01", type:"negative", role:"Cashier", title:"Cashier cannot access Purchases at all",
+        steps:["Log in as Cashier.","Try to open the Purchases page directly."],
+        expected:"Access is denied — the page and its nav item should not be reachable."},
+      {id:"PUR-02", type:"positive", role:"Owner or Manager", title:"Create a purchase order with an existing supplier and product",
+        data:["Pick any active supplier and any active product; Quantity: 10; Unit cost: use the suggested/default price"],
+        steps:["Go to Purchases and click '+ New Purchase Order'.","Select a supplier.","Add a product with a quantity and cost.","Click 'Create purchase'."],
+        expected:"The purchase order is created with status 'Draft', showing correct subtotal/tax/total."},
+      {id:"PUR-03", type:"negative", role:"Owner or Manager", title:"Try to create a purchase order with no supplier",
+        steps:["Open the New Purchase Order form.","Add a product line but leave the Supplier field empty.","Try to submit."],
+        expected:"You're blocked with a message like \"Select a supplier\" — no purchase is created."},
+      {id:"PUR-04", type:"negative", role:"Owner or Manager", title:"Try to create a purchase order with zero items",
+        steps:["Open the New Purchase Order form.","Pick a supplier but don't add any products.","Try to submit."],
+        expected:"You're blocked with a message like \"Add at least one item.\""},
+      {id:"PUR-05", type:"negative", role:"Owner or Manager", title:"Enter a discount bigger than the order total",
+        data:["Order subtotal ₹500 (incl. tax) — try a discount of ₹5000"],
+        steps:["Build a small purchase order.","In the Discount field, type an amount far larger than the total."],
+        expected:"Submitting should fail with an error about the discount being invalid — check whether you got a clear message or a confusing one (there's no on-screen limit stopping you from typing it, so this should be caught when you try to save)."},
+      {id:"PUR-06", type:"positive", role:"Owner or Manager", title:"Create a brand-new product from inside the purchase form",
+        steps:["In the product search box on the New Purchase form, type a name that doesn't exist yet.","Choose the '+ Create new product' option that appears.","Fill in the required fields and save."],
+        expected:"The new product is created and added as a line to this purchase order in one flow, without needing to leave the page."},
+      {id:"PUR-07", type:"positive", role:"Owner or Manager", title:"Create a brand-new supplier from inside the purchase form",
+        steps:["On the New Purchase form, click the inline '+ new supplier' option.","Fill in a name (required) and any optional details.","Save."],
+        expected:"The new supplier is created and immediately selected for this purchase order."},
+      {id:"PUR-08", type:"positive", role:"Owner or Manager", title:"Adding the same product twice shows a warning, not a duplicate line",
+        steps:["Add a product to a new purchase order.","Try adding the exact same product again."],
+        expected:"A message like \"Already added\" appears, and the product is not added as a second, separate line."}
+    ]},
+    { title:"Receiving, returns, payments, closing", tests:[
+      {id:"PUR-09", type:"positive", role:"Owner or Manager", title:"Receive goods in full",
+        pre:"Needs a Draft purchase order.",
+        steps:["Open a Draft purchase order.","Click 'Receive goods'.","For each line, enter the full ordered quantity and confirm the selling price for new batches.","Submit."],
+        expected:"The purchase's status becomes 'Received', new stock batches are created, and product stock levels increase by the received quantities."},
+      {id:"PUR-10", type:"positive", role:"Owner or Manager", title:"Receive goods partially",
+        data:["Receive less than the ordered quantity on at least one line"],
+        steps:["Open a Draft purchase order with multiple items.","Receive less than the full ordered quantity on at least one line.","Submit."],
+        expected:"Status becomes 'Partially received', and only the received quantities are added to stock — the rest remains outstanding."},
+      {id:"PUR-11", type:"negative", role:"Owner or Manager", title:"Try to receive more than what was ordered",
+        data:["Ordered quantity 10 — try to receive 50"],
+        steps:["Open a purchase order.","On a line, try entering a 'Receiving now' quantity larger than what's left to receive."],
+        expected:"Blocked with a message like \"Received quantity exceeds what's left on a line.\""},
+      {id:"PUR-12", type:"negative", role:"Owner or Manager", title:"Try to receive with a quantity of 0 on every line",
+        steps:["Open Receive goods on a purchase order.","Leave every 'Receiving now' box at 0.","Submit."],
+        expected:"Blocked with a message like \"Enter a quantity to receive.\""},
+      {id:"PUR-13", type:"positive", role:"Owner or Manager", title:"Close a partially-received order as 'short'",
+        pre:"Needs a purchase currently in 'Partially received' status.",
+        steps:["Open a partially-received purchase order.","Click 'Close short' and confirm the warning about writing off the missing value."],
+        expected:"Status changes to 'Closed short', and the still-outstanding ordered value is written off (no longer counted as owed to the supplier)."},
+      {id:"PUR-14", type:"positive", role:"Owner or Manager", title:"Cancel a Draft order",
+        steps:["Open a purchase order still in 'Draft' status (nothing received yet).","Click 'Cancel' and confirm."],
+        expected:"Status changes to 'Cancelled'."},
+      {id:"PUR-15", type:"negative", role:"Owner or Manager", title:"Cancel button is hidden once anything is paid/received",
+        steps:["Open a purchase order that has already had something received or paid against it."],
+        expected:"There is no 'Cancel' button available for it any more."},
+      {id:"PUR-16", type:"positive", role:"Owner or Manager", title:"Return part of a delivery",
+        pre:"Needs a purchase with received quantity on at least one line.",
+        steps:["Open a purchase that has received stock.","Click 'Return items'.","Enter a return quantity (less than or equal to what was received) and an optional reason.","Submit."],
+        expected:"A return is recorded, stock decreases by the returned quantity, and the supplier is credited for that amount."},
+      {id:"PUR-17", type:"negative", role:"Owner or Manager", title:"Try to return more than was received",
+        steps:["On the Return items form, try entering a return quantity larger than what's actually been received on that line."],
+        expected:"Blocked with a message like \"Return quantity exceeds what's left on a line.\""},
+      {id:"PUR-18", type:"positive", role:"Owner or Manager", title:"Record a payment to the supplier",
+        steps:["Open any purchase order with an outstanding balance.","Click 'Record payment'.","Enter an amount and a payment method, then confirm."],
+        expected:"The payment is recorded and the outstanding balance on the purchase order reduces accordingly."},
+      {id:"PUR-19", type:"negative", role:"Owner or Manager", title:"Try to pay more than the outstanding balance",
+        data:["Outstanding ₹200 — try paying ₹500"],
+        steps:["On Record payment, type an amount clearly higher than what's owed on that purchase."],
+        expected:"The payment should be rejected. Check carefully whether the app stops you before submitting or only after — note down exactly what happens."},
+      {id:"PUR-20", type:"positive", role:"Owner or Manager", title:"Advance payment on an order with nothing received yet",
+        steps:["Open a Draft purchase order (nothing received).","Click 'Record payment' and pay something."],
+        expected:"An informational note explains this will be recorded as an advance payment, since nothing has been received yet."}
+    ]}
+  ]
+},
+{
+  id:"prod", title:"7. Products & Categories", sub:"The product catalog: creating, editing, photos, pricing, expiry, and organizing into categories.",
+  groups:[
+    { title:"Finding products", tests:[
+      {id:"PROD-01", type:"positive", role:"Any", title:"Search products by name",
+        steps:["Go to Products.","Type part of a known product's name into the search box."],
+        expected:"Matching products appear as you type."},
+      {id:"PROD-02", type:"positive", role:"Any", title:"Filter by category",
+        steps:["Use the category filter dropdown and pick a specific category."],
+        expected:"Only products in that category are shown."},
+      {id:"PROD-03", type:"positive", role:"Any", title:"A–Z letter jump",
+        steps:["Click a specific letter in the A–Z bar above the product list."],
+        expected:"The list filters to products starting with that letter; clicking the same letter again clears the filter."},
+      {id:"PROD-04", type:"positive", role:"Any", title:"Scan a barcode to find a product",
+        steps:["Click the scan/camera icon (or type a barcode in the scan box) and use a real product's barcode."],
+        expected:"The matching product is found and highlighted/selected."}
+    ]},
+    { title:"Creating a product", tests:[
+      {id:"PROD-05", type:"positive", role:"Owner or Manager", title:"Create a basic product with valid data",
+        data:["Name: QA Test Product 1","Purchase price: 50","Selling price: 80","Unit: PCS","GST: 18%","Min. stock: 5"],
+        steps:["Click '+ New product'.","Fill in the fields above.","Save."],
+        expected:"The product appears in the list with the correct price, unit, and GST shown."},
+      {id:"PROD-06", type:"negative", role:"Owner or Manager", title:"Try to save with no name",
+        steps:["Open the New Product form.","Leave Name blank, fill in prices.","Try to save."],
+        expected:"Blocked — Name is required."},
+      {id:"PROD-07", type:"negative", role:"Owner or Manager", title:"Try a selling price or purchase price of 0",
+        data:["Purchase price: 0, Selling price: 0"],
+        steps:["Fill in a product with both prices at 0.","Try to save."],
+        expected:"Blocked with a message like \"Enter a purchase price and a selling price greater than 0\" — 0 should not be accepted for either price."},
+      {id:"PROD-08", type:"negative", role:"Owner or Manager", title:"Try a negative price",
+        data:["Purchase price: -10"],
+        steps:["Try to type a negative number into the purchase price field."],
+        expected:"The field should not accept a negative value (browser blocks it going below the minimum)."},
+      {id:"PROD-09", type:"negative", role:"Owner or Manager", title:"GST rate of 40% (known issue)",
+        data:["GST: select 40% from the dropdown"],
+        steps:["Create or edit a product.","In the GST dropdown, select 40%.","Save."],
+        expected:"This SHOULD be rejected with an error about GST needing to be one of 0/5/12/18/28.",
+        note:"Known issue: the dropdown currently offers 40% as an option even though it always fails when saved. If it actually saves successfully instead of erroring, that's an even bigger problem — note exactly what you see."},
+      {id:"PROD-10", type:"negative", role:"Owner or Manager", title:"Duplicate SKU",
+        data:["Create two different products using the exact same SKU, e.g. 'QATEST-SKU-1'"],
+        steps:["Create a product with a specific SKU.","Create a second, different product using that same SKU.","Save."],
+        expected:"The second save is blocked with a message like \"Sku already in use.\""},
+      {id:"PROD-11", type:"negative", role:"Owner or Manager", title:"Duplicate barcode",
+        data:["Use the same barcode value on two different products"],
+        steps:["Create a product with a specific barcode.","Create a second product using that same barcode.","Save."],
+        expected:"The second save is blocked with a message like \"Barcode already in use.\""},
+      {id:"PROD-12", type:"positive", role:"Owner or Manager", title:"Leaving SKU/barcode blank on multiple products is fine",
+        steps:["Create two or three products, leaving SKU and barcode empty on all of them.","Save each."],
+        expected:"All save successfully — blank SKUs/barcodes don't conflict with each other."},
+      {id:"PROD-13", type:"positive", role:"Owner or Manager", title:"Set an opening stock quantity when creating",
+        data:["Initial stock: 25"],
+        steps:["Create a new product and set 'Initial stock' to 25.","Save."],
+        expected:"The product's stock shows 25 immediately, with an automatically-created opening batch."},
+      {id:"PROD-14", type:"positive", role:"Owner or Manager", title:"Set an expiry date directly",
+        data:["Check 'Can the product expire?', choose 'Expiry date' mode, pick a date next month"],
+        steps:["Create a product that can expire.","Choose 'Expiry date' and pick a future date.","Save."],
+        expected:"Product saves successfully and shows that expiry date wherever batch expiry is displayed."},
+      {id:"PROD-15", type:"positive", role:"Owner or Manager", title:"Set expiry using 'best before X months'",
+        data:["Manufacturing date: today, Best-before: 6 months"],
+        steps:["Create a product that can expire.","Choose 'Best before (months)' mode.","Enter a manufacturing date and 6 months.","Save."],
+        expected:"The expiry date is automatically calculated as 6 months from the manufacturing date."},
+      {id:"PROD-16", type:"negative", role:"Owner or Manager", title:"Best-before months without a manufacturing date",
+        steps:["Choose 'Best before (months)' mode.","Enter a number of months but leave manufacturing date empty.","Try to save."],
+        expected:"Blocked with \"Enter a manufacturing date for the best-before calculation.\""},
+      {id:"PROD-17", type:"negative", role:"Owner or Manager", title:"Expiry date earlier than manufacturing date",
+        data:["Manufacturing date: today, Expiry date: a date before today"],
+        steps:["Set a manufacturing date of today.","Set an expiry date earlier than that.","Try to save."],
+        expected:"Blocked with \"Expiry date cannot be before the manufacturing date.\""}
+    ]},
+    { title:"Photos", tests:[
+      {id:"PROD-18", type:"positive", role:"Owner or Manager", title:"Upload a valid product photo",
+        steps:["Open a product for editing.","Upload a normal JPEG or PNG photo from your device.","Save."],
+        expected:"The photo appears as the product's thumbnail in the list after saving. If it's a large photo, you should briefly see a 'Compressing…' indicator first."},
+      {id:"PROD-19", type:"negative", role:"Owner or Manager", title:"Try uploading an unsupported file type",
+        data:["Try a .gif, .bmp, or .pdf file"],
+        steps:["Try to upload a file that isn't a JPEG/PNG/WebP image."],
+        expected:"You get a message like \"Please select a JPEG, PNG or WebP image\" and the file is rejected."}
+    ]},
+    { title:"Editing, stock, deactivating", tests:[
+      {id:"PROD-20", type:"positive", role:"Owner or Manager", title:"Purchase price is read-only when editing",
+        steps:["Open an existing product for editing.","Look at the Purchase price field."],
+        expected:"It's shown as disabled/read-only labelled something like 'Latest batch cost' — cost changes happen through batch editing instead (see Section 8), not here."},
+      {id:"PROD-21", type:"positive", role:"Owner or Manager (needs inventory.adjust)", title:"Adjust stock upward",
+        data:["Adjustment: +10"],
+        steps:["Click 'Stock' on a product.","Enter +10 as the adjustment, add a note.","Apply."],
+        expected:"The stock total increases by 10, and a new batch is created at the product's current prices."},
+      {id:"PROD-22", type:"negative", role:"Owner or Manager", title:"Adjust stock down below zero (known issue)",
+        pre:"Use a test product with a small known stock, e.g. 5 units.",
+        data:["Adjustment: -20 (more than current stock of 5)"],
+        steps:["Click 'Stock' on a product with 5 units.","Enter -20 as the adjustment.","Apply."],
+        expected:"Ideally this should be blocked or capped at 0. Currently it's expected to succeed and leave the stock at a negative number (-15) — confirm whether that's what actually happens and note it either way."},
+      {id:"PROD-23", type:"negative", role:"Owner or Manager", title:"Try a zero-quantity stock adjustment",
+        steps:["Open Adjust Stock.","Leave the adjustment at 0.","Try to apply."],
+        expected:"Blocked with \"Enter a non-zero quantity.\""},
+      {id:"PROD-24", type:"positive", role:"Owner or Manager (needs products.delete)", title:"Deactivate and reactivate a product",
+        steps:["Click 'Deactivate' on an active product and confirm.","Verify it can no longer be sold (try POS-05 against it).","Find it again and click 'Reactivate'."],
+        expected:"Deactivating sets it to Inactive status (unsellable, but old sales records are untouched); reactivating restores it to Active and sellable again."}
+    ]},
+    { title:"Categories", tests:[
+      {id:"PROD-25", type:"positive", role:"Owner or Manager", title:"Create a category",
+        data:["Name: QA Test Category"],
+        steps:["Go to the Categories tab.","Click '+ New category', enter a name, save."],
+        expected:"The category appears in the list with a product count of 0."},
+      {id:"PROD-26", type:"negative", role:"Owner or Manager", title:"Duplicate category name",
+        steps:["Create a category with a specific name.","Try to create a second category with the exact same name."],
+        expected:"Blocked with \"Name already exists.\""},
+      {id:"PROD-27", type:"positive", role:"Owner or Manager", title:"Deactivating a category doesn't touch its products",
+        pre:"Needs a category with at least one active product in it.",
+        steps:["Deactivate a category that has products assigned to it.","Check those products afterward."],
+        expected:"The confirmation text warns 'Products in this category will stay active' — and indeed, the products remain Active and untouched, only the category itself becomes Inactive."}
+    ]}
+  ]
+},
+{
+  id:"batch", title:"8. Inventory Batches", sub:"Viewing and editing individual stock batches (cost, price, expiry, barcode) across all products.",
+  groups:[
+    { title:"", tests:[
+      {id:"BATCH-01", type:"positive", role:"Any", title:"View all batches and filter by status",
+        steps:["Go to Products, click 'All batches' (or navigate to the Batches page directly).","Use the Status filter to switch between Active / Depleted / Inactive."],
+        expected:"The list updates to show only batches matching the selected status."},
+      {id:"BATCH-02", type:"positive", role:"Any", title:"Search batches",
+        steps:["Type a product name, batch number, or barcode into the search box on the Batches page."],
+        expected:"Matching batches appear."},
+      {id:"BATCH-03", type:"positive", role:"Owner or Manager", title:"Edit a batch's cost and selling price",
+        data:["New cost: 55, New selling price: 90"],
+        steps:["Click 'Edit' on any batch.","Change the cost and selling price.","Save."],
+        expected:"The batch shows the updated prices; if this was the product's most-recently-created batch, the product list's displayed cost also updates to match."},
+      {id:"BATCH-04", type:"negative", role:"Owner or Manager", title:"Try to save a batch with a selling price of 0",
+        data:["Selling price: 0"],
+        steps:["Edit a batch and set its selling price to 0.","Try to save."],
+        expected:"Blocked with \"Enter a selling price.\""},
+      {id:"BATCH-05", type:"positive", role:"Owner or Manager", title:"Deactivate and reactivate a batch",
+        steps:["Click 'Deactivate' on an Active batch and confirm.","Find it again and click 'Reactivate'."],
+        expected:"Deactivating hides the batch from being sold at the till until you reactivate it; reactivating brings it back."},
+      {id:"BATCH-06", type:"positive", role:"Owner or Manager", title:"Editing expiry on a batch replaces the old value",
+        pre:"Needs a batch that already has expiry info set.",
+        steps:["Edit a batch that already has an expiry date or best-before months set.","Clear all the expiry fields and save with them empty."],
+        expected:"The batch's expiry information is cleared entirely (this is expected — editing expiry is a full replace, not a partial update)."}
+    ]}
+  ]
+},
+{
+  id:"stock", title:"9. Inventory Audits (Stock Counts & Loss Report)", sub:"Physically counting stock and correcting the system to match, plus a loss/surplus report.",
+  groups:[
+    { title:"Doing a stock count", tests:[
+      {id:"STOCK-01", type:"positive", role:"Owner or Manager", title:"Start a new stock count and add products",
+        steps:["Go to Inventory Audits and click '+ New count'.","Search for and add 2–3 products.","For each, type in the quantity you actually counted.","Save."],
+        expected:"A new count is created showing a Difference column (counted minus system) for each product, colored to show short (red) or over (green)."},
+      {id:"STOCK-02", type:"negative", role:"Owner or Manager", title:"Try to save a count with no products added",
+        steps:["Start a new count.","Don't add any products.","Try to save."],
+        expected:"Blocked with \"Add at least one product to count.\""},
+      {id:"STOCK-03", type:"positive", role:"Owner or Manager", title:"Adding the same product twice is silently ignored",
+        steps:["In a new count, add a product.","Try adding that same product again."],
+        expected:"No second row is added and no confusing error appears — it's just silently ignored."},
+      {id:"STOCK-04", type:"positive", role:"Owner or Manager", title:"Complete a count and check stock corrects itself",
+        pre:"Use a count where at least one product's counted quantity differs from system stock.",
+        steps:["Open a saved (not-yet-completed) count's details.","Click 'Complete count & correct stock' and confirm the warning.","Go check that product's stock level afterward."],
+        expected:"The count is marked Completed, and the product's stock now matches exactly what you counted."},
+      {id:"STOCK-05", type:"negative", role:"Owner or Manager", title:"Try to complete an already-completed count",
+        steps:["Open a count you already completed in STOCK-04.","Look for the 'Complete' button."],
+        expected:"The button should no longer be shown at all once a count is completed."}
+    ]},
+    { title:"Loss report", tests:[
+      {id:"STOCK-06", type:"positive", role:"Owner or Manager", title:"View the loss/surplus report for a date range",
+        steps:["Go to the 'Loss report' tab.","Pick a month or date range that includes at least one completed count."],
+        expected:"A table lists each variance line from completed counts in that period, with a total value figure at the top (red if it's a net loss)."},
+      {id:"STOCK-07", type:"negative", role:"Owner or Manager", title:"Reversed date range on the loss report",
+        steps:["Set an end date earlier than the start date."],
+        expected:"An error about the date range being invalid (to before from) is shown."}
+    ]}
+  ]
+},
+{
+  id:"cust", title:"10. Customers", sub:"Customer records, balances, collecting payments, and paying out credit.",
+  groups:[
+    { title:"Creating & editing customers", tests:[
+      {id:"CUST-01", type:"positive", role:"Owner or Manager", title:"Create a customer with valid details",
+        data:["Name: QA Test Customer 1","Phone: 9876543210","Email: qatest.customer1@example.com"],
+        steps:["Click '+ New customer'.","Fill in the fields above.","Save."],
+        expected:"The customer appears in the list with a 'Settled' (₹0) balance."},
+      {id:"CUST-02", type:"negative", role:"Owner or Manager", title:"Try to save with no name",
+        steps:["Leave the Name field blank.","Try to save."],
+        expected:"Blocked with \"Name is required.\""},
+      {id:"CUST-03", type:"negative", role:"Owner or Manager", title:"Name of only spaces",
+        data:["Name: '   ' (just spaces)"],
+        steps:["Type only spaces into the Name field.","Try to save."],
+        expected:"Blocked the same as an empty name — spaces-only should count as blank."},
+      {id:"CUST-04", type:"negative", role:"Owner or Manager", title:"Invalid phone number formats",
+        data:["Try: '12345' (too short), '98765abcde' (letters), '+91 98765 43210' (with symbols/spaces)"],
+        steps:["Try each of the sample phone values above in turn.","Try to save each time."],
+        expected:"All should be rejected with \"Enter a 10-digit phone number\" — only a plain 10-digit number is accepted (even a valid number with a country code or spaces/dashes should be rejected here)."},
+      {id:"CUST-05", type:"negative", role:"Owner or Manager", title:"Invalid email formats",
+        data:["Try: 'abc@', 'abc.com', 'abc@@x.com'"],
+        steps:["Try each sample email in turn.","Try to save each time."],
+        expected:"All rejected with \"Enter a valid email address.\""},
+      {id:"CUST-06", type:"positive", role:"Owner or Manager", title:"Duplicate phone/email across two customers is allowed",
+        data:["Create two different customers using the exact same phone number and/or email"],
+        steps:["Create Customer A with a specific phone/email.","Create Customer B using the exact same phone/email.","Save both."],
+        expected:"Both save successfully — this is expected: phone and email are not required to be unique between customers (unlike staff-user emails)."},
+      {id:"CUST-07", type:"positive", role:"Owner or Manager", title:"Special characters and long text in optional fields",
+        data:["Name: O'Brien & Sons 🎉", "Notes: a long paragraph of a few hundred characters"],
+        steps:["Create a customer using special characters/emoji in the name and a long note.","Save."],
+        expected:"Saves successfully and displays the text correctly, without breaking the layout."}
+    ]},
+    { title:"Balances & payments", tests:[
+      {id:"CUST-08", type:"positive", role:"Owner, Manager or Cashier", title:"Collect a payment against open invoices",
+        pre:"Needs a customer with at least one unpaid/partly-paid invoice (see POS-21).",
+        steps:["Find a customer with an outstanding balance.","Click 'Collect payment'.","Enter the amount, choose a payment method, and record it."],
+        expected:"The payment is applied to their open invoice(s) (oldest first) and their outstanding balance decreases correctly."},
+      {id:"CUST-09", type:"positive", role:"Owner, Manager or Cashier", title:"Use the 'Clear all dues' shortcut",
+        steps:["Open Collect Payment for a customer with a balance.","Click 'Clear all dues'."],
+        expected:"The amount field auto-fills with exactly the customer's total due across all open invoices."},
+      {id:"CUST-10", type:"negative", role:"Owner, Manager or Cashier", title:"Try to collect ₹0",
+        steps:["Open Collect Payment.","Leave the amount at 0.","Try to record."],
+        expected:"Blocked with \"Enter an amount.\""},
+      {id:"CUST-11", type:"positive", role:"Owner, Manager or Cashier", title:"Pay out existing credit to a customer",
+        pre:"Needs a customer who has credit on their account (e.g. from a refund, see SALE-12).",
+        steps:["Find a customer showing a credit ('CR') balance.","Click 'Pay out credit'.","Confirm the amount and payment method."],
+        expected:"The 'Pay out credit' option only appears for customers who actually have credit; after paying out, their credit balance reduces accordingly."},
+      {id:"CUST-12", type:"negative", role:"Owner, Manager or Cashier", title:"Try to pay out more credit than is available",
+        data:["Available credit ₹50 — try entering ₹500"],
+        steps:["On Pay out credit, try entering an amount larger than the customer's available credit."],
+        expected:"Blocked with \"Settlement exceeds the customer's available credit.\""}
+    ]},
+    { title:"Customer detail page", tests:[
+      {id:"CUST-13", type:"positive", role:"Any", title:"View a customer's Statement, Invoices, and Products Bought tabs",
+        steps:["Open a customer's details.","Click through the Statement, Invoices, and Products Bought tabs."],
+        expected:"Statement shows a running-balance ledger; Invoices lists their sales with a 'balance due only' filter option; Products Bought shows what they've purchased, filterable by month or all-time."},
+      {id:"CUST-14", type:"positive", role:"Any", title:"These extra tabs are hidden without sales permission",
+        pre:"Needs a role without permission to view sales (uncommon — check with your team if any exists in your setup).",
+        steps:["Open a customer's details with a role that lacks sales-viewing permission, if one is available to test with."],
+        expected:"Only the basic 'Customer Details' tab shows — Statement/Invoices/Products Bought are hidden. (Mark N/A if no such role exists in your business.)"},
+      {id:"CUST-15", type:"negative", role:"Any", title:"Open a customer page with a bad/missing ID",
+        steps:["Manually edit the page address to use a made-up customer ID, or one that's been removed."],
+        expected:"You see a clear \"Customer not found\" message instead of a blank page or crash."}
+    ]}
+  ]
+},
+{
+  id:"supp", title:"11. Suppliers", sub:"Supplier records, statements, and refunds.",
+  groups:[
+    { title:"", tests:[
+      {id:"SUPP-01", type:"positive", role:"Owner or Manager", title:"Create a supplier with valid details",
+        data:["Name: QA Test Supplier 1","Contact person: Jane Doe","Phone: 9876543210","Email: qatestsupplier1@example.com"],
+        steps:["Click '+ New supplier'.","Fill in the fields.","Save."],
+        expected:"Supplier appears in the list."},
+      {id:"SUPP-02", type:"negative", role:"Owner or Manager", title:"Blank name is blocked",
+        steps:["Leave Name empty.","Try to save."],
+        expected:"Blocked (though the message may look like a plain browser pop-up rather than a custom in-app message — that's expected here)."},
+      {id:"SUPP-03", type:"positive", role:"Owner or Manager", title:"Invalid-looking phone numbers ARE currently accepted (documented behavior)",
+        data:["Phone: 'abc123'"],
+        steps:["Create/edit a supplier and type 'abc123' into the Phone field.","Save."],
+        expected:"Unlike Customers (see CUST-04), the Supplier form has no phone format check — this should save successfully as-is. This is a known inconsistency between the two forms, not something to 'fix' yourself, just confirm it's actually the current behavior."},
+      {id:"SUPP-04", type:"positive", role:"Owner or Manager", title:"Duplicate phone/email across suppliers is allowed",
+        steps:["Create two different suppliers with the same phone/email."],
+        expected:"Both save successfully, same as Customers."},
+      {id:"SUPP-05", type:"positive", role:"Owner or Manager", title:"View a supplier's Statement",
+        steps:["Click 'Statement' on any supplier row."],
+        expected:"A drawer opens showing their running balance and full transaction ledger."},
+      {id:"SUPP-06", type:"positive", role:"Owner or Manager", title:"Record a refund received from a supplier",
+        pre:"Needs a supplier who is owed money to you (credit balance) — e.g. after a purchase return, see PUR-16.",
+        steps:["Open that supplier's Statement.","Click 'Record refund received'.","Enter the amount and method, confirm."],
+        expected:"The refund is recorded and their credit balance decreases; if paid by cash, your Cashbook's 'cash in' also increases (see CASH tests)."},
+      {id:"SUPP-07", type:"negative", role:"Owner or Manager", title:"Try to refund more than the available credit",
+        data:["Available credit ₹100 — try ₹1000"],
+        steps:["Try entering a refund amount larger than the supplier's actual credit."],
+        expected:"Blocked with \"Refund exceeds the supplier's available credit.\""},
+      {id:"SUPP-08", type:"positive", role:"Owner or Manager", title:"View a supplier's Purchases and Products Delivered tabs",
+        steps:["Open a supplier's detail page.","Click through the Purchases and Products Delivered tabs."],
+        expected:"Purchases lists their purchase orders; Products Delivered summarizes what's been delivered by them, filterable by month or all-time."}
+    ]}
+  ]
+},
+{
+  id:"exp", title:"12. Expenses & Expense Categories", sub:"Recording business expenses and organizing them into categories.",
+  groups:[
+    { title:"Recording expenses", tests:[
+      {id:"EXP-01", type:"positive", role:"Owner or Manager", title:"Record a valid expense",
+        data:["Category: pick any existing one (or create one first)","Amount: 500","Payment method: Cash","Vendor: QA Test Vendor","Note: test expense"],
+        steps:["Go to Expenses, click '+ New expense'.","Fill in the fields.","Save."],
+        expected:"The expense appears in the list with the correct amount and category, and (since it's Cash) the Cashbook's 'cash out' should increase by ₹500 (check Section 13)."},
+      {id:"EXP-02", type:"negative", role:"Owner or Manager", title:"Try an amount of 0",
+        data:["Amount: 0"],
+        steps:["Fill in an expense with amount 0.","Try to save."],
+        expected:"Should be rejected with a message that the amount must be greater than zero. (You may be able to type 0 into the field itself before saving — that's expected; the important thing is that saving is blocked.)"},
+      {id:"EXP-03", type:"negative", role:"Owner or Manager", title:"Try a negative amount",
+        data:["Amount: -50"],
+        steps:["Try typing a negative amount."],
+        expected:"The field itself should not accept a value below 0."},
+      {id:"EXP-04", type:"positive", role:"Owner or Manager", title:"Future-dated expense is currently allowed",
+        data:["Expense date: a date next year"],
+        steps:["Set the expense date to sometime next year.","Save."],
+        expected:"This is expected to save successfully — there's no check preventing a future date, by design. Just confirm that's what happens."},
+      {id:"EXP-05", type:"positive", role:"Owner or Manager", title:"Filter expenses by date range, category, and payment method",
+        steps:["Use the filters above the expenses list to narrow by date, category, and payment method one at a time."],
+        expected:"The list and the 'Total' / 'Entries' summary cards update to match your filters."},
+      {id:"EXP-06", type:"positive", role:"Owner or Manager", title:"Edit and delete an expense",
+        steps:["Click 'Edit' on an expense, change the amount, save.","Then click 'Delete' on an expense and confirm."],
+        expected:"Edits save correctly; deleting removes it from the list. If it was a cash expense, check the Cashbook reflects the reversal correctly afterward."},
+      {id:"EXP-07", type:"positive", role:"Owner or Manager", title:"Switching a cash expense to a different payment method",
+        pre:"Needs an existing Cash expense.",
+        steps:["Edit a Cash expense and change its payment method to UPI.","Save.","Check the Cashbook."],
+        expected:"The Cashbook shows a compensating entry adding the amount back to cash (since it's no longer a cash expense)."}
+    ]},
+    { title:"Expense categories", tests:[
+      {id:"EXP-08", type:"positive", role:"Owner or Manager", title:"Create a category",
+        data:["Name: QA Test Category"],
+        steps:["Go to the Categories tab (within Expenses).","Click '+ New category', name it, save."],
+        expected:"Appears in the list as Active."},
+      {id:"EXP-09", type:"positive", role:"Owner or Manager", title:"Deactivate a category and confirm it can't be used for new expenses",
+        steps:["Deactivate a test category.","Try to create a new expense using that category."],
+        expected:"The deactivated category no longer appears as a choice for new expenses (it may still show for existing expenses that already used it, so they stay visible)."}
+    ]},
+    { title:"Expense report", tests:[
+      {id:"EXP-10", type:"positive", role:"Owner or Manager", title:"Group the expense report by Category / Vendor / Payment method",
+        steps:["Go to the Report tab.","Try each 'Group by' option in turn: Category, Vendor, Payment method."],
+        expected:"The table regroups accordingly, each row showing a count and a spend bar/amount."},
+      {id:"EXP-11", type:"negative", role:"Owner or Manager", title:"Report with a reversed date range",
+        steps:["Set an end date before the start date on the Report tab."],
+        expected:"An invalid-range error/behavior appears rather than a broken report."}
+    ]}
+  ]
+},
+{
+  id:"cash", title:"13. Cashbook", sub:"Tracking cash in/out and the day's opening/closing balance.",
+  groups:[
+    { title:"", tests:[
+      {id:"CASH-01", type:"positive", role:"Owner or Manager", title:"Set the opening balance",
+        pre:"Requires the specific permission to manage settings — typically Owner only.",
+        data:["Opening balance: 1000"],
+        steps:["Click 'Set opening balance'.","Enter 1000.","Save."],
+        expected:"The 'Opening balance' stat card updates to ₹1000."},
+      {id:"CASH-02", type:"negative", role:"Owner", title:"Try a negative opening balance",
+        data:["Opening balance: -500"],
+        steps:["Try to enter a negative opening balance."],
+        expected:"Blocked/rejected — should not accept a value below 0."},
+      {id:"CASH-03", type:"positive", role:"Owner, Manager or Cashier (with permission)", title:"Record a manual cash adjustment",
+        data:["Type: Cash in, Amount: 200, Notes: found extra change"],
+        steps:["Click '+ Adjustment'.","Choose Cash in, enter 200, add a note.","Record."],
+        expected:"The Cash In and Closing balance stat cards increase by ₹200."},
+      {id:"CASH-04", type:"negative", role:"Any (with access)", title:"Try a ₹0 adjustment",
+        steps:["Open '+ Adjustment'.","Leave amount at 0.","Try to record."],
+        expected:"Blocked with \"Enter an amount.\""},
+      {id:"CASH-05", type:"negative", role:"Any (with access)", title:"Record a cash-out adjustment larger than the current balance",
+        data:["If closing balance is ₹500, try a Cash out adjustment of ₹5000"],
+        steps:["Note the current closing balance.","Record a 'Cash out' adjustment bigger than that balance."],
+        expected:"This is currently expected to succeed — the closing balance simply goes negative and turns red, with no blocking warning beforehand. Confirm that's what happens, and flag it if instead it's silently blocked or crashes."},
+      {id:"CASH-06", type:"positive", role:"Owner or Manager", title:"View the cashbook report for a date range",
+        steps:["Go to the Report tab.","Try Day / Range / Month / All time modes."],
+        expected:"A daily breakdown table (opening/cash in/cash out/closing per day) appears, matching the chosen period."},
+      {id:"CASH-07", type:"negative", role:"Owner or Manager", title:"'Set opening balance' is hidden for roles without settings permission",
+        pre:"Needs a Manager (or other non-Owner) test login.",
+        steps:["Log in as a Manager (or any role other than Owner) and open the Cashbook page."],
+        expected:"The '+ Adjustment' button is visible, but 'Set opening balance' should NOT be — that action needs a higher permission level than everyday cashbook access.",
+        note:"If a Manager DOES see and can successfully use 'Set opening balance', that lines up with a known cross-permission mismatch also seen in Settings (Section 18) — note it either way."}
+    ]}
+  ]
+},
+{
+  id:"rep", title:"14. Reports", sub:"All the reporting tabs: overview, inventory, rankings, sales, purchases, financial, and exports.",
+  groups:[
+    { title:"", tests:[
+      {id:"REP-01", type:"positive", role:"Owner or Manager", title:"Overview tab loads KPIs and chart",
+        steps:["Go to Reports > Overview.","Toggle between Month and All-time."],
+        expected:"Revenue, orders, average order value, growth %, and profit figures update, plus a bar chart of revenue/profit by category."},
+      {id:"REP-02", type:"positive", role:"Owner or Manager", title:"Inventory tab's five cards",
+        steps:["Go to the Inventory tab.","Review Low stock, Reorder suggestions, Dead stock, Expiring & expired batches, and Inventory valuation."],
+        expected:"Each card shows relevant data or a friendly 'nothing to show' message if empty; Inventory valuation shows total value/unit/product counts plus a table."},
+      {id:"REP-03", type:"positive", role:"Owner or Manager", title:"Rankings tab",
+        steps:["Go to Rankings.","Review Top customers, Top suppliers, ABC analysis, and Fast-moving products."],
+        expected:"Each list is populated (top 10) based on real sales/purchase data, with ABC analysis showing A/B/C classes."},
+      {id:"REP-04", type:"positive", role:"Owner or Manager", title:"Sales & Purchase tabs — products by day range",
+        steps:["Go to the Sales tab, pick a date range, and check 'Products sold by day'.","Do the same on the Purchase tab for 'Products delivered'."],
+        expected:"Both show correct totals (units, revenue/amount paid) for the chosen range; changing to a single day removes the 'Last delivered/sold' column where it would be redundant."},
+      {id:"REP-05", type:"positive", role:"Owner or Manager", title:"Financial tab — current month vs past month",
+        steps:["On the Financial tab, view the CURRENT month.","Then switch to a PAST month."],
+        expected:"For the current month, you see Cash position and Outstanding receivable/payable cards. For a past month, those specific cards disappear and are replaced with a note explaining that cash position only reflects the current position, not history."},
+      {id:"REP-06", type:"positive", role:"Owner or Manager", title:"Export a report as CSV and as Excel",
+        steps:["Go to Exports.","Pick any report (e.g. Low stock) and click CSV.","Then click Excel for the same report."],
+        expected:"Both downloads succeed and open correctly in a spreadsheet program, matching what's shown elsewhere in the app."},
+      {id:"REP-07", type:"positive", role:"Owner or Manager", title:"Export a report that currently has no data",
+        pre:"Pick a report you're confident has zero matching rows right now (e.g. Low stock, if nothing is low).",
+        steps:["Export a report you expect to be empty."],
+        expected:"The download still succeeds and opens as a valid file with just a header row — it should not show an error just because there's no data."},
+      {id:"REP-08", type:"negative", role:"Owner or Manager", title:"Reversed date ranges anywhere in Reports",
+        steps:["Wherever a From/To date range appears in Reports, set To earlier than From."],
+        expected:"A clear invalid-range message appears consistently across every tab that has a range filter."}
+    ]}
+  ]
+},
+{
+  id:"alog", title:"15. Audit Log", sub:"The read-only history of who did what and when.",
+  groups:[
+    { title:"", tests:[
+      {id:"ALOG-01", type:"positive", role:"Owner", title:"View recent activity",
+        steps:["Go to Audit Log.","Look at the most recent entries."],
+        expected:"Recent actions you performed elsewhere in the app (e.g. creating an expense, exporting a report) show up here with a timestamp, action, entity, your name/role, and IP address."},
+      {id:"ALOG-02", type:"positive", role:"Owner", title:"Filter by date",
+        steps:["Use the date filter to narrow to today only, then to a wider range."],
+        expected:"The list updates to match; the page resets back to the first page whenever you change the date filter."},
+      {id:"ALOG-03", type:"positive", role:"Owner", title:"Color-coded action badges",
+        steps:["Look for a 'created' action (should be green), an 'updated' action (blue), and a 'deleted'/'void'/'refund' action (red)."],
+        expected:"Badge colors follow that pattern consistently."},
+      {id:"ALOG-04", type:"positive", role:"Owner", title:"Cross-module check — one action, one log entry",
+        steps:["Perform one clearly identifiable action elsewhere (e.g. export a specific report from Reports > Exports).","Immediately check the Audit Log."],
+        expected:"Exactly one new entry appears at the top matching that action, with the correct entity/user."},
+      {id:"ALOG-05", type:"negative", role:"Owner", title:"Pagination at the very end of the list",
+        pre:"Works best on a business with a lot of log history; otherwise just try 'Next' near the end and note what you see.",
+        steps:["Page through the Audit Log using 'Next' until you reach the last page with entries.","Check whether 'Next' is still clickable, and click it once more if so."],
+        expected:"Ideally 'Next' becomes disabled once you're on the true last page. If it stays clickable and takes you to a page with zero entries and no 'end of list' message, note that down as confusing behavior."},
+      {id:"ALOG-06", type:"negative", role:"Owner or Manager", title:"Non-owner access to the Audit Log",
+        pre:"Needs a Manager or Cashier login.",
+        steps:["Log in as Manager or Cashier.","Try to open the Audit Log page."],
+        expected:"Only a role with the specific audit-log permission (typically Owner) can see this page — everyone else should be denied."}
+    ]}
+  ]
+},
+{
+  id:"set", title:"16. Settings", sub:"Business details, your password, the beta agreement, and inventory/sales configuration.",
+  groups:[
+    { title:"Business details & password", tests:[
+      {id:"SET-01", type:"positive", role:"Owner", title:"View read-only business details",
+        steps:["Go to Settings.","Look at the Business details card."],
+        expected:"Shows business name, plan tier, phone, GSTIN, address, UPI details — all read-only, with a note that changes require contacting support."},
+      {id:"SET-02", type:"negative", role:"Manager or Cashier", title:"Business details card is hidden for non-owners",
+        steps:["Log in as Manager or Cashier and open Settings."],
+        expected:"The Business details card should not appear at all for these roles (not just greyed out — fully absent)."},
+      {id:"SET-03", type:"positive", role:"Any", title:"Change your own password successfully",
+        data:["Current password: your real password","New password: something at least 8 characters, e.g. 'NewPass123'","Confirm: same as new"],
+        steps:["Go to Settings > Change password.","Fill in current, new, and confirm fields matching each other.","Submit."],
+        expected:"Success message shown, and a note that other devices will be signed out. Try using the app on a second device/browser afterward — it should be logged out."},
+      {id:"SET-04", type:"negative", role:"Any", title:"Mismatched new/confirm password",
+        data:["New: 'NewPass123', Confirm: 'NewPass124'"],
+        steps:["Enter different values in New password and Confirm new password.","Try to submit."],
+        expected:"Blocked immediately with \"New passwords do not match\" — before any network request happens."},
+      {id:"SET-05", type:"negative", role:"Any", title:"Wrong current password",
+        steps:["Enter an incorrect value in 'Current password', with valid new/confirm values.","Submit."],
+        expected:"Blocked with \"Your password is incorrect.\""},
+      {id:"SET-06", type:"negative", role:"Any", title:"New password shorter than 8 characters",
+        data:["New: 'short1' (6 characters)"],
+        steps:["Try a new password under 8 characters."],
+        expected:"Blocked — 8 characters is the minimum."},
+      {id:"SET-07", type:"positive", role:"Any", title:"A simple, low-complexity password is accepted (documented gap)",
+        data:["New password: '12345678' (8 digits, no letters/symbols)"],
+        steps:["Set your password to exactly '12345678'.","Submit."],
+        expected:"This is expected to succeed — there's currently no rule requiring letters, numbers, and symbols to be mixed, only a minimum length. Confirm this is indeed accepted (not necessarily a bug to fix yourself, just worth being aware of)."}
+    ]},
+    { title:"Inventory & sales settings", tests:[
+      {id:"SET-08", type:"positive", role:"Owner", title:"Change inventory/sales settings",
+        data:["Low-stock threshold: 5","Refund window (days): 14"],
+        steps:["Go to Settings > Inventory & sales settings.","Change a couple of values.","Save."],
+        expected:"Save button is disabled until you actually change something; after saving, the new values persist on reload."},
+      {id:"SET-09", type:"positive", role:"Owner", title:"Void window hour roll-over",
+        data:["Void window hours: 30"],
+        steps:["In the Void window 'hours' box, type 30."],
+        expected:"It should automatically roll over — e.g. 30 hours becomes +1 day and 6 hours shown across the two fields, rather than staying at an invalid 30 hours."},
+      {id:"SET-10", type:"positive", role:"Owner", title:"Setting void/refund windows to 0 means 'no limit'",
+        data:["Void window days: 0, hours: 0"],
+        steps:["Set both void window fields to 0 and save.","Try voiding a very old sale afterward."],
+        expected:"With both at 0, the Void button should never be disabled due to time, on any sale, however old."},
+      {id:"SET-11", type:"negative", role:"Manager", title:"Manager can see and edit this card, but Save may silently fail (known issue)",
+        pre:"Needs a Manager login.",
+        steps:["Log in as Manager.","Open Settings — check whether the Inventory & sales settings card is visible and editable.","Change a value and click Save."],
+        expected:"Watch closely here: the card may be fully visible/editable for Manager, but clicking Save might fail with a permission-denied message instead of actually saving. If that happens, that's a known inconsistency — note exactly what you saw (did it fail silently, show an error, or actually save?)."}
+    ]},
+    { title:"EAP agreement card (if applicable)", tests:[
+      {id:"SET-12", type:"positive", role:"Any", title:"View the EAP agreement from Settings",
+        pre:"Only applies to Early Access Program businesses — see Section 2.",
+        steps:["On an EAP business (already accepted), go to Settings and find the Beta agreement card.","Click 'View agreement'."],
+        expected:"Shows acceptance status and date, and opens a read-only copy of the agreement with a Print option."}
+    ]}
+  ]
+},
+{
+  id:"usr", title:"17. Users & Roles", sub:"Managing staff accounts, roles, and passwords. Owner-only page.",
+  groups:[
+    { title:"Access", tests:[
+      {id:"USR-01", type:"negative", role:"Manager or Cashier", title:"Non-owners cannot open the Users page",
+        steps:["Log in as Manager or Cashier.","Try to open the Users page directly."],
+        expected:"A \"You don't have access\" page is shown, and there's no 'Users' item in the sidebar for these roles at all."}
+    ]},
+    { title:"Creating & managing staff", tests:[
+      {id:"USR-02", type:"positive", role:"Owner", title:"Create a new staff user",
+        data:["First name: Priya","Last name: Sharma","Email: qatest.priya@example.com","Password: TempPass1","Phone: 9876543210","Role: Cashier","Confirm with your password: your own real password"],
+        steps:["Click '+ New user'.","Fill in the fields above.","Create."],
+        expected:"The new user appears in the list with the Cashier role, and can log in using the email/password you set."},
+      {id:"USR-03", type:"negative", role:"Owner", title:"Duplicate email",
+        steps:["Try to create a new user using an email that's already registered to any account (even in a different business, if you can test that)."],
+        expected:"Blocked with a message like \"Email already registered.\""},
+      {id:"USR-04", type:"negative", role:"Owner", title:"Password shorter than 8 characters",
+        data:["Password: 'short1'"],
+        steps:["Try a password under 8 characters when creating a user."],
+        expected:"Blocked — minimum 8 characters."},
+      {id:"USR-05", type:"negative", role:"Owner", title:"Leave Role unselected",
+        steps:["Fill in every field except Role.","Try to submit."],
+        expected:"Blocked with \"Select a role.\""},
+      {id:"USR-06", type:"negative", role:"Owner", title:"Wrong 'Confirm with your password' value",
+        steps:["Fill in a valid new user, but type the wrong password in the 'Confirm with your password' field.","Submit."],
+        expected:"Blocked with \"Your password is incorrect.\" (this re-checks YOUR password, not the new user's)."},
+      {id:"USR-07", type:"positive", role:"Owner", title:"The role dropdown never offers 'Owner'",
+        steps:["Open the Role dropdown on New user, Edit, or Change role."],
+        expected:"Owner is never a selectable option anywhere in this UI — a business can only ever have the one original owner."},
+      {id:"USR-08", type:"negative", role:"Owner", title:"Hit the maximum number of user accounts",
+        pre:"Check your current cap first (shown as '&lt;count&gt; / &lt;max&gt; accounts' at the top of the Users page — default is 5).",
+        steps:["Create test users until you reach the maximum shown.","Try to create one more."],
+        expected:"The '+ New user' button becomes disabled with a tooltip explaining the limit has been reached and to contact support to raise it."},
+      {id:"USR-09", type:"positive", role:"Owner", title:"Edit a user's name/phone",
+        steps:["Click 'Edit' on any staff user.","Change their phone number.","Confirm with your password and save."],
+        expected:"Change is saved and reflected in the list."},
+      {id:"USR-10", type:"positive", role:"Owner", title:"Change a user's role",
+        steps:["Click 'Change role' on a staff user (not yourself).","Pick a different role.","Confirm with your password and save."],
+        expected:"Their role updates in the list, and they get the new role's permissions on their next login/refresh."},
+      {id:"USR-11", type:"positive", role:"Owner", title:"Reset another user's password",
+        steps:["Click 'Password' on a staff user.","Set a new password (min 8 characters), confirm with your own password, save.","Try logging in as that user with the new password."],
+        expected:"The reset works, and logging in with the new password succeeds. If that user had an active session open elsewhere, it should stop working immediately (not wait for it to naturally expire)."},
+      {id:"USR-12", type:"positive", role:"Owner", title:"Deactivate a user",
+        steps:["Click 'Deactivate' on a staff user (not yourself), confirm with your password."],
+        expected:"Their status becomes Inactive, and they can no longer log in (see LOGIN-07)."},
+      {id:"USR-13", type:"negative", role:"Owner", title:"No way to reactivate a deactivated user (known gap)",
+        pre:"Uses the user you just deactivated in USR-12.",
+        steps:["Try to find any button or option in the Users page to reactivate that user."],
+        expected:"Currently there is no such option anywhere in this screen — the confirmation text when deactivating says the account can be reactivated, but no self-service way to actually do it exists yet. Confirm this is indeed the case and note it if you find a way that does work."}
+    ]},
+    { title:"Self-service restrictions", tests:[
+      {id:"USR-14", type:"positive", role:"Owner", title:"You cannot deactivate, reset the password of, or change the role of your own account",
+        steps:["Find your own row in the Users list."],
+        expected:"Only 'Edit' is available for your own row — 'Password', 'Change role', and 'Deactivate' should not be shown for yourself at all."}
+    ]}
+  ]
+},
+{
+  id:"gen", title:"18. Everything Else (Cross-Cutting Checks)", sub:"Small things that show up across the whole app rather than one specific page.",
+  groups:[
+    { title:"", tests:[
+      {id:"GEN-01", type:"positive", role:"Any", title:"Sidebar collapse persists across reload",
+        steps:["Collapse the sidebar menu (usually a small arrow/icon).","Reload the page."],
+        expected:"The sidebar stays collapsed after reloading."},
+      {id:"GEN-02", type:"positive", role:"Any", title:"Theme toggle cycles correctly",
+        steps:["Find the theme toggle (usually in the sidebar footer).","Click it repeatedly."],
+        expected:"It cycles through Light → Dark → System (matching your device) and remembers your last choice after reloading."},
+      {id:"GEN-03", type:"positive", role:"Any", title:"Sending feedback with a screenshot",
+        data:["Type: Idea","Message: at least a full sentence (a few words alone will be rejected)"],
+        steps:["Open the feedback option (often a floating button in the sidebar).","Pick a type, write a message, attach or paste a screenshot image.","Send."],
+        expected:"A very short message (1-2 characters) is rejected asking for more detail; a proper message with a reasonably-sized image attaches and sends successfully."},
+      {id:"GEN-04", type:"negative", role:"Any", title:"Attach an oversized or wrong-type file to feedback",
+        data:["Try a non-image file, and/or an image file larger than roughly 8 MB"],
+        steps:["Try attaching a non-image file to the feedback form.","Try attaching a very large image (&gt;8 MB) if you have one handy."],
+        expected:"Non-image files are rejected with \"Only image files can be attached\"; very large images are rejected with a message about the 8 MB size limit."},
+      {id:"GEN-05", type:"positive", role:"Any", title:"Going offline shows a banner (advanced/optional)",
+        steps:["Turn off your device's Wi-Fi/network completely for a few seconds while the app is open.","Try clicking something that needs the network."],
+        expected:"A banner appears saying you're offline and changes won't be saved until you're back online."},
+      {id:"GEN-06", type:"positive", role:"Any", title:"Modals discard unsaved input without warning (documented behavior)",
+        steps:["Open any 'New' or 'Edit' form/modal anywhere in the app.","Type something into a field.","Press Escape or click outside the modal (on the dark background) without saving."],
+        expected:"The modal closes immediately and your typed input is lost, with no 'are you sure you want to discard changes?' warning. This is current behavior everywhere in the app — just confirm it's consistent rather than treating it as a one-off bug."},
+      {id:"GEN-07", type:"positive", role:"Any", title:"Currency and number formatting is consistent",
+        steps:["Look at money values across several different pages (Sales, Products, Reports, Cashbook)."],
+        expected:"All money values consistently show a ₹ symbol, thousands separators, and exactly 2 decimal places, everywhere in the app."}
+    ]}
+  ]
+}
+];
+
+/* ======================================================================
+   ENGINE — persistence, rendering, filtering. No edits needed below
+   unless you're changing how the page behaves.
+   ====================================================================== */
+const STATE_KEY = "rf_qa_state_v1";
+const UI_KEY = "rf_qa_ui_v1";
+const PREREQ_KEY = "rf_qa_prereq_v1";
+const CELEB_KEY = "rf_qa_celebrated_v1";
+
+function loadJSON(key, fallback){
+  try{ const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch(e){ return fallback; }
+}
+function saveJSON(key, val){
+  try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){}
+}
+
+let state = loadJSON(STATE_KEY, {});       // { [testId]: {status:'pass'|'fail'|'na', notes:''} }
+let uiState = loadJSON(UI_KEY, {collapsed:{}, search:"", filter:"all", focusOpen:false, focusTestId:null, focusScope:null});
+let prereqState = loadJSON(PREREQ_KEY, {});
+let celebrated = loadJSON(CELEB_KEY, {}); // { [sectionId]: true } — used to fire the completion animation once
+
+function allTests(){
+  const out = [];
+  SECTIONS.forEach(sec => sec.groups.forEach(g => g.tests.forEach(t => out.push(t))));
+  return out;
+}
+
+/* Quick lookup maps built once from SECTIONS, used by Focus Mode & navigation helpers */
+const TESTS_BY_ID = {};
+const SECTION_BY_TEST = {};
+SECTIONS.forEach(sec=>{
+  sec.groups.forEach(g=>g.tests.forEach(t=>{
+    TESTS_BY_ID[t.id] = t;
+    SECTION_BY_TEST[t.id] = sec;
+  }));
+});
+
+function setStatus(id, status){
+  const cur = state[id] || {status:null, notes:""};
+  cur.status = (cur.status === status) ? null : status; // click again to un-set
+  state[id] = cur;
+  saveJSON(STATE_KEY, state);
+  renderDashboard();
+  refreshCardVisual(id);
+  if(cur.status){
+    const label = cur.status==="pass" ? "✓ Marked Pass" : cur.status==="fail" ? "✕ Marked Fail" : "— Marked N/A";
+    showToast(label, cur.status);
+  }
+  checkSectionCelebration(id);
+}
+function setNotes(id, notes){
+  const cur = state[id] || {status:null, notes:""};
+  cur.notes = notes;
+  state[id] = cur;
+  saveJSON(STATE_KEY, state);
+}
+
+function refreshCardVisual(id){
+  const card = document.getElementById("card-"+id);
+  if(!card) return;
+  const st = (state[id]||{}).status;
+  card.classList.remove("st-pass","st-fail","st-na");
+  if(st === "pass") card.classList.add("st-pass");
+  if(st === "fail") card.classList.add("st-fail");
+  ["pass","fail","na"].forEach(s=>{
+    const btn = card.querySelector(".status-btn."+s+"-btn");
+    if(btn) btn.classList.toggle("active", st===s);
+  });
+  applyFilters();
+}
+
+function renderPrereq(){
+  const ul = document.getElementById("prereqList");
+  ul.innerHTML = "";
+  PREREQ_ITEMS.forEach((label, idx)=>{
+    const id = "PREP-"+idx;
+    const li = document.createElement("li");
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.checked = !!prereqState[id];
+    cb.addEventListener("change", ()=>{
+      prereqState[id] = cb.checked;
+      saveJSON(PREREQ_KEY, prereqState);
+    });
+    const span = document.createElement("span");
+    span.textContent = label;
+    li.appendChild(cb);
+    li.appendChild(span);
+    ul.appendChild(li);
+  });
+}
+
+function testCardHTML(t, idPrefix){
+  idPrefix = idPrefix || "card-";
+  const typeBadge = t.type === "negative"
+    ? '<span class="badge neg">Negative test</span>'
+    : '<span class="badge pos">Positive test</span>';
+  const roleBadge = t.role ? '<span class="badge role">'+escapeHTML(t.role)+'</span>' : "";
+  const idBadge = '<span class="badge id">'+t.id+'</span>';
+  let html = '<div class="test-card" id="'+idPrefix+t.id+'" data-id="'+t.id+'">';
+  html += '<div class="test-meta">'+idBadge+typeBadge+roleBadge+'</div>';
+  html += '<div class="test-title">'+escapeHTML(t.title)+'</div>';
+  if(t.pre) html += '<div class="test-pre"><b>Before you start:</b> '+escapeHTML(t.pre)+'</div>';
+  if(t.data && t.data.length){
+    html += '<div class="sample-data">'+t.data.map(d=>'<div>'+escapeHTML(d)+'</div>').join("")
+      + '<button type="button" class="copy-btn" data-copy-id="'+t.id+'">📋 Copy sample data</button></div>';
+  }
+  html += '<ol class="steps">'+t.steps.map(s=>'<li>'+escapeHTML(s)+'</li>').join("")+'</ol>';
+  html += '<div class="expected"><b>You should see:</b> '+escapeHTML(t.expected)+'</div>';
+  if(t.note) html += '<div class="heads-up"><b>Heads up:</b> '+escapeHTML(t.note)+'</div>';
+  html += '<div class="status-row">';
+  html += '<button type="button" class="status-btn pass-btn" data-id="'+t.id+'" data-status="pass">✓ Pass</button>';
+  html += '<button type="button" class="status-btn fail-btn" data-id="'+t.id+'" data-status="fail">✕ Fail</button>';
+  html += '<button type="button" class="status-btn na-btn" data-id="'+t.id+'" data-status="na">— N/A</button>';
+  html += '</div>';
+  html += '<textarea class="notes" data-id="'+t.id+'" placeholder="Notes — what actually happened, screenshots taken, etc.">'+escapeHTML((state[t.id]||{}).notes||"")+'</textarea>';
+  html += '</div>';
+  return html;
+}
+
+function escapeHTML(s){
+  return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+}
+
+/* ---- toasts ---- */
+function showToast(msg, kind){
+  const container = document.getElementById("toastContainer");
+  const el = document.createElement("div");
+  el.className = "toast" + (kind ? " toast-"+kind : "");
+  el.textContent = msg;
+  container.appendChild(el);
+  requestAnimationFrame(()=> el.classList.add("show"));
+  setTimeout(()=>{
+    el.classList.remove("show");
+    setTimeout(()=> el.remove(), 250);
+  }, 1700);
+}
+
+/* ---- copy sample data to clipboard, with a fallback for restricted contexts ---- */
+function legacyCopy(text){
+  try{
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(ta);
+    return ok;
+  }catch(e){ return false; }
+}
+function copySampleData(id){
+  const t = TESTS_BY_ID[id];
+  if(!t || !t.data || !t.data.length){ showToast("No sample data on this test", "info"); return; }
+  const text = t.data.join("\n");
+  const done = ()=> showToast("Copied sample data", "info");
+  const fail = ()=> showToast("Couldn't copy — select and copy manually", "fail");
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(()=> legacyCopy(text) ? done() : fail());
+  } else {
+    legacyCopy(text) ? done() : fail();
+  }
+}
+
+/* ---- confetti + one-time per-section celebration ---- */
+const CONFETTI_COLORS = ["#2c5cf6","#1f8a4c","#e8b34d","#c62b3a","#6d8dff","#3ecb7c"];
+function triggerConfetti(){
+  for(let i=0;i<26;i++){
+    const piece = document.createElement("div");
+    piece.className = "confetti-piece";
+    piece.style.left = (Math.random()*100)+"vw";
+    piece.style.background = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+    piece.style.animationDuration = (1.4 + Math.random()*1.2)+"s";
+    piece.style.animationDelay = (Math.random()*0.3)+"s";
+    document.body.appendChild(piece);
+    piece.addEventListener("animationend", ()=> piece.remove());
+  }
+}
+function checkSectionCelebration(testId){
+  const sec = SECTION_BY_TEST[testId];
+  if(!sec) return;
+  const c = sectionCounts(sec);
+  const tested = c.pass + c.fail + c.na;
+  if(tested === c.total && c.total > 0){
+    if(!celebrated[sec.id]){
+      celebrated[sec.id] = true;
+      saveJSON(CELEB_KEY, celebrated);
+      triggerConfetti();
+      showToast("🎉 "+sec.title.replace(/^\d+\.\s*/,"")+" — section complete!", "pass");
+    }
+  } else if(celebrated[sec.id]){
+    celebrated[sec.id] = false;
+    saveJSON(CELEB_KEY, celebrated);
+  }
+}
+
+/* ---- shared filter predicate + smart navigation ---- */
+function testMatchesFilters(t){
+  const q = (uiState.search||"").toLowerCase().trim();
+  const filter = uiState.filter||"all";
+  if(filter !== "all"){
+    const st = (state[t.id]||{}).status;
+    if(filter === "untested"){ if(st) return false; }
+    else if(st !== filter){ return false; }
+  }
+  if(q){
+    const hay = (t.id+" "+t.title+" "+(t.expected||"")+" "+(t.steps||[]).join(" ")+" "+(t.data||[]).join(" ")).toLowerCase();
+    if(!hay.includes(q)) return false;
+  }
+  return true;
+}
+function getFilteredTestList(scopeSectionId){
+  let tests = allTests().filter(testMatchesFilters);
+  if(scopeSectionId){
+    tests = tests.filter(t => SECTION_BY_TEST[t.id] && SECTION_BY_TEST[t.id].id === scopeSectionId);
+  }
+  return tests;
+}
+function isFocusOpen(){ return !!uiState.focusOpen; }
+
+function jumpToTest(id){
+  const sec = SECTION_BY_TEST[id];
+  if(sec && uiState.collapsed[sec.id]){
+    uiState.collapsed[sec.id] = false;
+    saveJSON(UI_KEY, uiState);
+    renderSections();
+  }
+  const card = document.getElementById("card-"+id);
+  if(!card) return;
+  card.scrollIntoView({behavior:"smooth", block:"center"});
+  card.classList.remove("flash");
+  requestAnimationFrame(()=> card.classList.add("flash"));
+}
+function jumpToNextUntested(scopeSectionId){
+  const list = getFilteredTestList(scopeSectionId);
+  const next = list.find(t => !(state[t.id]||{}).status);
+  if(!next){ showToast("Everything in this view is already marked!", "info"); return; }
+  if(isFocusOpen()) focusGoTo(next.id); else jumpToTest(next.id);
+}
+function jumpToRandomTest(scopeSectionId){
+  const list = getFilteredTestList(scopeSectionId);
+  if(!list.length){ showToast("No tests match the current view", "info"); return; }
+  const pick = list[Math.floor(Math.random()*list.length)];
+  if(isFocusOpen()) focusGoTo(pick.id); else jumpToTest(pick.id);
+}
+
+/* ---- per-section mini progress bar + inline "Focus this section" button ---- */
+function miniBar(c){
+  if(!c.total) return "";
+  const pPass = c.pass/c.total*100, pFail = c.fail/c.total*100, pNa = c.na/c.total*100;
+  return '<div class="mini-bar">'
+    + '<span style="width:'+pPass+'%;background:var(--pass)"></span>'
+    + '<span style="width:'+pFail+'%;background:var(--fail)"></span>'
+    + '<span style="width:'+pNa+'%;background:var(--na)"></span>'
+    + '</div>';
+}
+function modHeadRightHTML(sec){
+  const c = sectionCounts(sec);
+  const tested = c.pass+c.fail+c.na;
+  return '<div class="mod-progress">'+tested+'/'+c.total+' tested'
+    + (c.fail ? ' · <span style="color:var(--fail)">'+c.fail+' failed</span>' : '')
+    + '<button type="button" class="focus-section-btn" data-sec="'+sec.id+'">🎯 Focus this section</button>'
+    + '</div>' + miniBar(c);
+}
+
+/* ---- Focus Mode: guided one-test-at-a-time walkthrough ---- */
+function openFocusMode(startId, scopeSectionId){
+  uiState.focusScope = scopeSectionId || null;
+  const list = getFilteredTestList(uiState.focusScope);
+  if(!list.length){ showToast("No tests match the current view", "info"); return; }
+  let id = startId;
+  if(!id || !list.some(t=>t.id===id)){
+    const firstUntested = list.find(t => !(state[t.id]||{}).status);
+    id = firstUntested ? firstUntested.id : list[0].id;
+  }
+  uiState.focusOpen = true;
+  uiState.focusTestId = id;
+  saveJSON(UI_KEY, uiState);
+  renderFocusOverlay();
+}
+function closeFocusMode(){
+  uiState.focusOpen = false;
+  saveJSON(UI_KEY, uiState);
+  const overlay = document.getElementById("focusOverlay");
+  overlay.style.display = "none";
+  overlay.innerHTML = "";
+}
+function focusGoTo(id){
+  uiState.focusTestId = id;
+  saveJSON(UI_KEY, uiState);
+  renderFocusOverlay();
+}
+function focusStep(delta){
+  const list = getFilteredTestList(uiState.focusScope);
+  if(!list.length) return;
+  let idx = list.findIndex(t=>t.id===uiState.focusTestId);
+  if(idx === -1) idx = 0;
+  idx = (idx + delta + list.length) % list.length;
+  focusGoTo(list[idx].id);
+}
+function focusStepIfPossible(){
+  const list = getFilteredTestList(uiState.focusScope);
+  if(!list.length) return;
+  const idx = list.findIndex(t=>t.id===uiState.focusTestId);
+  if(idx === -1 || idx >= list.length-1){
+    showToast("You've reached the end of this list", "info");
+    return;
+  }
+  focusStep(1);
+}
+function focusMarkStatus(status){
+  const id = uiState.focusTestId;
+  if(!id) return;
+  setStatus(id, status);
+  refreshFocusStatusButtons(id);
+  if((state[id]||{}).status) setTimeout(focusStepIfPossible, 450);
+}
+function refreshFocusStatusButtons(id){
+  const overlay = document.getElementById("focusOverlay");
+  const st = (state[id]||{}).status;
+  ["pass","fail","na"].forEach(s=>{
+    const btn = overlay.querySelector(".status-btn."+s+"-btn");
+    if(btn) btn.classList.toggle("active", st===s);
+  });
+}
+function renderFocusOverlay(){
+  const overlay = document.getElementById("focusOverlay");
+  const list = getFilteredTestList(uiState.focusScope);
+  if(!list.length){ closeFocusMode(); showToast("Nothing left to show in Focus Mode with the current filters", "info"); return; }
+  let idx = list.findIndex(t=>t.id===uiState.focusTestId);
+  if(idx === -1){ idx = 0; uiState.focusTestId = list[0].id; saveJSON(UI_KEY, uiState); }
+  const t = list[idx];
+  const sec = SECTION_BY_TEST[t.id];
+  overlay.style.display = "block";
+
+  let html = '<div class="focus-header">';
+  html += '<div><div class="focus-title">'+escapeHTML(sec ? sec.title : "")+'</div>';
+  html += '<div class="focus-progress">Test '+(idx+1)+' of '+list.length+(uiState.focusScope ? ' · this section only' : ' · matching current filters')+'</div></div>';
+  html += '<button type="button" id="focusCloseBtn">✕ Exit Focus Mode</button>';
+  html += '</div>';
+  html += '<div class="focus-body">'+testCardHTML(t, "focus-card-")+'</div>';
+  html += '<div class="focus-nav">';
+  html += '<button type="button" id="focusPrevBtn">◀ Previous</button>';
+  html += '<div class="kbd-hint"><kbd>1</kbd> Pass · <kbd>2</kbd> Fail · <kbd>3</kbd> N/A · <kbd>←</kbd><kbd>→</kbd> Navigate · <kbd>C</kbd> Copy data · <kbd>Esc</kbd> Exit</div>';
+  html += '<button type="button" id="focusNextBtn">Next ▶</button>';
+  html += '</div>';
+  overlay.innerHTML = html;
+
+  overlay.querySelectorAll(".status-btn").forEach(btn=>{
+    btn.addEventListener("click", (e)=>{ e.stopPropagation(); focusMarkStatus(btn.dataset.status); });
+  });
+  overlay.querySelectorAll("textarea.notes").forEach(ta=>{
+    ta.addEventListener("input", ()=> setNotes(ta.dataset.id, ta.value));
+  });
+  overlay.querySelectorAll(".copy-btn").forEach(btn=>{
+    btn.addEventListener("click", (e)=>{ e.stopPropagation(); copySampleData(btn.dataset.copyId); });
+  });
+  document.getElementById("focusCloseBtn").addEventListener("click", closeFocusMode);
+  document.getElementById("focusPrevBtn").addEventListener("click", ()=> focusStep(-1));
+  document.getElementById("focusNextBtn").addEventListener("click", ()=> focusStep(1));
+
+  // restore this test's saved Pass/Fail/N-A state visually (testCardHTML itself is stateless)
+  refreshFocusStatusButtons(t.id);
+  const focusCardEl = document.getElementById("focus-card-"+t.id);
+  if(focusCardEl){
+    const st = (state[t.id]||{}).status;
+    focusCardEl.classList.remove("st-pass","st-fail","st-na");
+    if(st === "pass") focusCardEl.classList.add("st-pass");
+    if(st === "fail") focusCardEl.classList.add("st-fail");
+  }
+}
+
+document.addEventListener("keydown", (e)=>{
+  if(!uiState.focusOpen) return;
+  const tag = (e.target && e.target.tagName) || "";
+  if(tag === "TEXTAREA" || tag === "INPUT" || tag === "SELECT") return; // don't hijack typing in notes/search
+  if(e.key === "Escape"){ e.preventDefault(); closeFocusMode(); return; }
+  if(e.key === "ArrowRight"){ e.preventDefault(); focusStep(1); return; }
+  if(e.key === "ArrowLeft"){ e.preventDefault(); focusStep(-1); return; }
+  if(e.key === "1"){ e.preventDefault(); focusMarkStatus("pass"); return; }
+  if(e.key === "2"){ e.preventDefault(); focusMarkStatus("fail"); return; }
+  if(e.key === "3"){ e.preventDefault(); focusMarkStatus("na"); return; }
+  if(e.key.toLowerCase() === "c"){ e.preventDefault(); copySampleData(uiState.focusTestId); return; }
+});
+
+function sectionCounts(sec){
+  let total=0, pass=0, fail=0, na=0;
+  sec.groups.forEach(g=>g.tests.forEach(t=>{
+    total++;
+    const st = (state[t.id]||{}).status;
+    if(st==="pass") pass++;
+    else if(st==="fail") fail++;
+    else if(st==="na") na++;
+  }));
+  return {total,pass,fail,na};
+}
+
+function renderSections(){
+  const root = document.getElementById("sectionsRoot");
+  root.innerHTML = "";
+  SECTIONS.forEach(sec=>{
+    const c = sectionCounts(sec);
+    const tested = c.pass+c.fail+c.na;
+    const collapsed = !!uiState.collapsed[sec.id];
+
+    const secEl = document.createElement("section");
+    secEl.className = "module";
+    secEl.id = "sec-"+sec.id;
+
+    const head = document.createElement("div");
+    head.className = "mod-head" + (collapsed ? " collapsed-head" : "");
+    head.innerHTML = '<div><h2><span class="chevron">▾</span> '+escapeHTML(sec.title)+'</h2>'
+      + '<div class="mod-sub">'+escapeHTML(sec.sub||"")+'</div></div>'
+      + '<div class="mod-side">'+modHeadRightHTML(sec)+'</div>';
+    head.addEventListener("click", ()=>{
+      uiState.collapsed[sec.id] = !uiState.collapsed[sec.id];
+      saveJSON(UI_KEY, uiState);
+      renderSections();
+    });
+
+    const body = document.createElement("div");
+    body.className = "mod-body" + (collapsed ? " collapsed" : "");
+
+    sec.groups.forEach(g=>{
+      if(g.title){
+        const gt = document.createElement("div");
+        gt.className = "group-title";
+        gt.textContent = g.title;
+        body.appendChild(gt);
+      }
+      g.tests.forEach(t=>{
+        const div = document.createElement("div");
+        div.innerHTML = testCardHTML(t);
+        body.appendChild(div.firstChild);
+      });
+    });
+
+    secEl.appendChild(head);
+    secEl.appendChild(body);
+    root.appendChild(secEl);
+  });
+
+  // wire up buttons/textareas
+  root.querySelectorAll(".status-btn").forEach(btn=>{
+    btn.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      setStatus(btn.dataset.id, btn.dataset.status);
+    });
+  });
+  root.querySelectorAll("textarea.notes").forEach(ta=>{
+    ta.addEventListener("input", ()=> setNotes(ta.dataset.id, ta.value));
+  });
+  root.querySelectorAll(".copy-btn").forEach(btn=>{
+    btn.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      copySampleData(btn.dataset.copyId);
+    });
+  });
+  root.querySelectorAll(".focus-section-btn").forEach(btn=>{
+    btn.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      openFocusMode(null, btn.dataset.sec);
+    });
+  });
+
+  // apply saved statuses visually
+  allTests().forEach(t=>refreshCardVisualSilent(t.id));
+  applyFilters();
+}
+
+function refreshCardVisualSilent(id){
+  const card = document.getElementById("card-"+id);
+  if(!card) return;
+  const st = (state[id]||{}).status;
+  card.classList.remove("st-pass","st-fail","st-na");
+  if(st === "pass") card.classList.add("st-pass");
+  if(st === "fail") card.classList.add("st-fail");
+  ["pass","fail","na"].forEach(s=>{
+    const btn = card.querySelector(".status-btn."+s+"-btn");
+    if(btn) btn.classList.toggle("active", st===s);
+  });
+}
+
+function renderDashboard(){
+  const tests = allTests();
+  let pass=0, fail=0, na=0;
+  tests.forEach(t=>{
+    const st = (state[t.id]||{}).status;
+    if(st==="pass") pass++;
+    else if(st==="fail") fail++;
+    else if(st==="na") na++;
+  });
+  const total = tests.length;
+  const untested = total - pass - fail - na;
+  const pct = total ? Math.round(((pass+fail+na)/total)*100) : 0;
+
+  document.getElementById("dashStats").innerHTML =
+    '<div class="stat"><div class="num">'+total+'</div><div class="lbl">Total tests</div></div>'+
+    '<div class="stat pass"><div class="num">'+pass+'</div><div class="lbl">Passed</div></div>'+
+    '<div class="stat fail"><div class="num">'+fail+'</div><div class="lbl">Failed</div></div>'+
+    '<div class="stat"><div class="num">'+pct+'%</div><div class="lbl">Complete ('+untested+' left)</div></div>';
+
+  const bar = document.getElementById("dashBar");
+  bar.innerHTML = "";
+  if(total){
+    const pPass = pass/total*100, pFail = fail/total*100, pNa = na/total*100;
+    bar.innerHTML = '<span class="b-pass" style="width:'+pPass+'%"></span>'
+      + '<span class="b-fail" style="width:'+pFail+'%"></span>'
+      + '<span class="b-na" style="width:'+pNa+'%"></span>';
+  }
+
+  // refresh module progress badges (+ mini bar, + focus-section button) without a full rebuild
+  SECTIONS.forEach(sec=>{
+    const side = document.querySelector('#sec-'+sec.id+' .mod-side');
+    if(!side) return;
+    side.innerHTML = modHeadRightHTML(sec);
+    const btn = side.querySelector(".focus-section-btn");
+    if(btn) btn.addEventListener("click", (e)=>{ e.stopPropagation(); openFocusMode(null, btn.dataset.sec); });
+  });
+
+  // keep an open Focus Mode overlay's progress line & status buttons in sync
+  if(uiState.focusOpen) refreshFocusStatusButtons(uiState.focusTestId);
+}
+
+function renderJumpNav(){
+  const nav = document.getElementById("jumpNav");
+  nav.innerHTML = SECTIONS.map(sec=>{
+    const c = sectionCounts(sec);
+    return '<a href="#sec-'+sec.id+'">'+escapeHTML(sec.title)+'<span class="n">('+c.total+')</span></a>';
+  }).join("");
+}
+
+function applyFilters(){
+  allTests().forEach(t=>{
+    const card = document.getElementById("card-"+t.id);
+    if(!card) return;
+    card.classList.toggle("hidden", !testMatchesFilters(t));
+  });
+  // hide groups/sections with nothing visible
+  document.querySelectorAll("section.module").forEach(sec=>{
+    const cards = sec.querySelectorAll(".test-card");
+    const anyVisible = Array.from(cards).some(c=>!c.classList.contains("hidden"));
+    sec.style.display = anyVisible ? "" : "none";
+  });
+}
+
+function downloadResults(){
+  const tests = allTests();
+  let pass=0, fail=0, na=0, untested=0;
+  const lines = [];
+  lines.push("RetailFlow Tenant Portal — Manual Test Results");
+  lines.push("Generated: " + new Date().toString());
+  lines.push("");
+  SECTIONS.forEach(sec=>{
+    let secHasContent = false;
+    const secLines = [];
+    sec.groups.forEach(g=>g.tests.forEach(t=>{
+      const rec = state[t.id] || {};
+      const st = rec.status || "untested";
+      if(st==="pass") pass++; else if(st==="fail") fail++; else if(st==="na") na++; else untested++;
+      secLines.push("  ["+st.toUpperCase().padEnd(9)+"] "+t.id+" — "+t.title + (rec.notes ? ("\n            Notes: "+rec.notes.replace(/\n/g," ")) : ""));
+      secHasContent = true;
+    }));
+    if(secHasContent){
+      lines.push(sec.title);
+      lines.push(secLines.join("\n"));
+      lines.push("");
+    }
+  });
+  const total = tests.length;
+  const summary = [
+    "SUMMARY",
+    "Total: "+total,
+    "Passed: "+pass,
+    "Failed: "+fail,
+    "N/A: "+na,
+    "Not tested: "+untested,
+    ""
+  ];
+  const out = summary.join("\n") + "\n" + lines.join("\n");
+  const blob = new Blob([out], {type:"text/plain"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "retailflow-tenant-qa-results.txt";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function resetAll(){
+  if(!confirm("This will erase every Pass/Fail/N-A answer and note you've entered, and reset all filters. This cannot be undone. Continue?")) return;
+  state = {};
+  uiState = {collapsed:{}, search:"", filter:"all", focusOpen:false, focusTestId:null, focusScope:null};
+  prereqState = {};
+  celebrated = {};
+  saveJSON(STATE_KEY, state);
+  saveJSON(UI_KEY, uiState);
+  saveJSON(PREREQ_KEY, prereqState);
+  saveJSON(CELEB_KEY, celebrated);
+  document.getElementById("searchBox").value = "";
+  document.getElementById("statusFilter").value = "all";
+  closeFocusMode();
+  renderPrereq();
+  renderSections();
+  renderDashboard();
+  renderJumpNav();
+}
+
+/* ---- wire up top-level controls ---- */
+document.getElementById("searchBox").value = uiState.search||"";
+document.getElementById("statusFilter").value = uiState.filter||"all";
+
+document.getElementById("searchBox").addEventListener("input", (e)=>{
+  uiState.search = e.target.value;
+  saveJSON(UI_KEY, uiState);
+  applyFilters();
+});
+document.getElementById("statusFilter").addEventListener("change", (e)=>{
+  uiState.filter = e.target.value;
+  saveJSON(UI_KEY, uiState);
+  applyFilters();
+});
+document.getElementById("expandAllBtn").addEventListener("click", ()=>{
+  SECTIONS.forEach(s=> uiState.collapsed[s.id] = false);
+  saveJSON(UI_KEY, uiState);
+  renderSections();
+});
+document.getElementById("collapseAllBtn").addEventListener("click", ()=>{
+  SECTIONS.forEach(s=> uiState.collapsed[s.id] = true);
+  saveJSON(UI_KEY, uiState);
+  renderSections();
+});
+document.getElementById("jumpToggleBtn").addEventListener("click", ()=>{
+  document.getElementById("jumpNav").classList.toggle("open");
+});
+document.getElementById("downloadBtn").addEventListener("click", downloadResults);
+document.getElementById("resetBtn").addEventListener("click", resetAll);
+document.getElementById("focusModeBtn").addEventListener("click", ()=> openFocusMode(null, null));
+document.getElementById("nextUntestedBtn").addEventListener("click", ()=> jumpToNextUntested(null));
+document.getElementById("randomBtn").addEventListener("click", ()=> jumpToRandomTest(null));
+
+/* ---- initial render ---- */
+renderPrereq();
+renderJumpNav();
+renderSections();
+renderDashboard();
+if(uiState.focusOpen){ renderFocusOverlay(); }
+</script>
+</body>
+</html>
