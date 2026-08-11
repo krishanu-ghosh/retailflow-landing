@@ -88,6 +88,30 @@ contactForm.addEventListener('submit', async (e) => {
 });
 }
 
+// Show-all-features toggle (feat-toggle only exists on index.html)
+const featToggle = document.getElementById('feat-toggle');
+const featPanel  = document.getElementById('feat-more-panel');
+if (featToggle && featPanel) {
+  let open = false;
+  featToggle.addEventListener('click', () => {
+    open = !open;
+    featToggle.setAttribute('aria-expanded', String(open));
+    featToggle.querySelector('.feat-toggle-txt').textContent = open ? 'Show less' : 'Show all 48 features';
+    featToggle.classList.toggle('is-open', open);
+    featPanel.classList.toggle('open', open);
+    if (open) {
+      featPanel.style.maxHeight = featPanel.scrollHeight + 'px';
+      featPanel.querySelectorAll('.fmini').forEach(el => el.classList.add('on'));
+    } else {
+      featPanel.style.maxHeight = featPanel.scrollHeight + 'px';
+      requestAnimationFrame(() => { featPanel.style.maxHeight = '0px'; });
+    }
+  });
+  featPanel.addEventListener('transitionend', (e) => {
+    if (e.propertyName === 'max-height' && open) featPanel.style.maxHeight = 'none';
+  });
+}
+
 // Scroll reveal
 new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
