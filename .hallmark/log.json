@@ -1,0 +1,34 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "site",
+  "shape": "composed (Index, Figures, Table, Split, Rows)",
+  "theme": "coral",
+  "axes": "light/grotesk-sans/warm",
+  "hero": "Stage (index.html), plain header (pricing.html)",
+  "nav": "edge-aligned",
+  "footer": "mast",
+  "imagery": "product built (paperwork, in data-slot), none photographed",
+  "sections": [
+   "hero",
+   "figures",
+   "index",
+   "table",
+   "split",
+   "rows",
+   "grid",
+   "band",
+   "faq",
+   "form"
+  ],
+  "signature": "the GST invoice, written up and stamped paid, on the desk",
+  "waived": [
+   "47c",
+   "44c",
+   "77"
+  ],
+  "prompt": "RetailFlow retail POS/billing/inventory/GST software for India, redesign of index.html and pricing.html",
+  "date": "2026-11-20"
+ }
+]
