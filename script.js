@@ -154,12 +154,15 @@ if (billingToggle) {
   });
 }
 
-// Scroll reveal
-new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
-}, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' })
-  .observe && document.querySelectorAll('.rev').forEach(el =>
-    new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) entries[0].target.classList.add('on');
-    }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' }).observe(el)
-  );
+// Scroll reveal — visible by default; only hidden once `.js` is present (see the
+// inline bootstrap script at the top of <body>), so the page is complete with
+// scripting off (gate 62).
+const revealIO = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (e.isIntersecting) {
+      e.target.classList.add('is-in');
+      revealIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -10% 0px' });
+document.querySelectorAll('[data-reveal]').forEach((el) => revealIO.observe(el));
