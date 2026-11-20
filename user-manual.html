@@ -13,17 +13,17 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ground:#0D0B1E;
-    --surface:#171430;
-    --surface-2:#1F1C3D;
-    --border:#2B2750;
-    --text:#EEE9FF;
-    --muted:#9692C0;
-    --faint:#6f6a9c;
-    --dim:#4D4880;
-    --ghost:#3A3660;
-    --brand:#7C6FFF;
-    --brand-dim:rgba(124,111,255,0.12);
+    --ground:#0B1120;
+    --surface:#121A2B;
+    --surface-2:#1A2540;
+    --border:#223049;
+    --text:#E8ECF5;
+    --muted:#8D96AA;
+    --faint:#6B7485;
+    --dim:#5B6475;
+    --ghost:#2A3344;
+    --brand:#10B981;
+    --brand-dim:rgba(16,185,129,0.12);
     --accent:#F5A523;
     --accent-dim:rgba(245,165,35,0.10);
     --green:#4ADE80;
@@ -96,17 +96,17 @@
     background-image:
       repeating-linear-gradient(90deg,
         transparent 0px, transparent 3px,
-        rgba(124,111,255,0.05) 3px, rgba(124,111,255,0.05) 4px,
+        rgba(16,185,129,0.05) 3px, rgba(16,185,129,0.05) 4px,
         transparent 4px, transparent 8px,
-        rgba(124,111,255,0.035) 8px, rgba(124,111,255,0.035) 10px,
+        rgba(16,185,129,0.035) 8px, rgba(16,185,129,0.035) 10px,
         transparent 10px, transparent 16px,
-        rgba(124,111,255,0.05) 16px, rgba(124,111,255,0.05) 17px,
+        rgba(16,185,129,0.05) 16px, rgba(16,185,129,0.05) 17px,
         transparent 17px, transparent 24px
       );
   }
   .cover::after{
     content:""; position:absolute; right:-160px; top:-160px; width:520px; height:520px; border-radius:50%;
-    background:radial-gradient(ellipse at center, rgba(124,111,255,0.20) 0%, transparent 70%);
+    background:radial-gradient(ellipse at center, rgba(16,185,129,0.20) 0%, transparent 70%);
   }
   .cover .eyebrow{
     font-family:var(--mono); text-transform:uppercase; letter-spacing:.16em; font-size:11.5px;
@@ -246,7 +246,7 @@
   @media (max-width:900px){
     .mobile-topbar{
       display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:60;
-      background:rgba(13,11,30,0.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:10px 16px;
+      background:rgba(11,17,32,0.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:10px 16px;
     }
     .shell{position:relative;}
     .sidebar{
