@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"><title>RetailFlow</title><rect width="256" height="256" rx="57.6" fill="#F8F4F1"/><g transform="translate(28.65 29.21) scale(0.781)">
+  
+  <defs><clipPath id="u">
+    <path d="M44,62 H120 A10,10 0 0 1 130,72 V176 A10,10 0 0 1 120,186 H44 A10,10 0 0 1 34,176 V72 A10,10 0 0 1 44,62 Z" transform="rotate(-10 82.0 124.0)"/>
+    <path d="M90,64 H166 A10,10 0 0 1 176,74 V178 A10,10 0 0 1 166,188 H90 A10,10 0 0 1 80,178 V74 A10,10 0 0 1 90,64 Z" transform="rotate(0 128.0 126.0)"/>
+    <path d="M136,68 H212 A10,10 0 0 1 222,78 V182 A10,10 0 0 1 212,192 H136 A10,10 0 0 1 126,182 V78 A10,10 0 0 1 136,68 Z" transform="rotate(8 174.0 130.0)"/>
+  </clipPath></defs>
+  <g transform="rotate(-10 82.0 124.0)"><path d="M44,62 H120 A10,10 0 0 1 130,72 V176 A10,10 0 0 1 120,186 H44 A10,10 0 0 1 34,176 V72 A10,10 0 0 1 44,62 Z" fill="#D18A1C" stroke="#F8F4F1" stroke-width="10" stroke-linejoin="round"/>
+  </g>
+  <g transform="rotate(0 128.0 126.0)"><path d="M90,64 H166 A10,10 0 0 1 176,74 V178 A10,10 0 0 1 166,188 H90 A10,10 0 0 1 80,178 V74 A10,10 0 0 1 90,64 Z" fill="#33467E" stroke="#F8F4F1" stroke-width="10" stroke-linejoin="round"/>
+  </g>
+  <g transform="rotate(8 174.0 130.0)"><path d="M136,68 H212 A10,10 0 0 1 222,78 V182 A10,10 0 0 1 212,192 H136 A10,10 0 0 1 126,182 V78 A10,10 0 0 1 136,68 Z" fill="#BB3D31" stroke="#F8F4F1" stroke-width="10" stroke-linejoin="round"/>
+  </g>
+  <path clip-path="url(#u)" d="M36,128 C64,112 84,112 104,126 C124,140 142,142 164,128 C184,116 204,114 222,124" fill="none" stroke="#1D1614" stroke-width="16" stroke-linecap="round" stroke-dasharray="22 20" stroke-dashoffset="-6"/>
+</g></svg>

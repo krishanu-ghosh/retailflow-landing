@@ -18,7 +18,13 @@
 <meta name="twitter:title" content="RetailFlow — Business User Guide &amp; Product Manual">
 <meta name="twitter:description" content="The complete RetailFlow business user guide — every module, every flow, every permission, explained.">
 
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=2026112002">
+
+<link rel="apple-touch-icon" href="brand/web/apple-touch-icon.png">
+
+<link rel="manifest" href="brand/web/site.webmanifest">
 <meta name="theme-color" content="#0B1120">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,7 +83,8 @@
   .brand-logo{
     font-family:var(--mono); font-weight:800; font-size:17px; letter-spacing:-0.5px; color:var(--text);
   }
-  .brand-logo b{color:var(--brand); font-weight:800;}
+  .brand-logo{display:inline-block; background:#F8F4F1; border-radius:8px; padding:6px 10px 6px 6px; line-height:0;}
+  .brand-logo img{display:block; height:32px; width:auto;}
   .brand-logo:hover{text-decoration:none; opacity:.85;}
   .brand-sub{font-size:10.5px; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; margin-top:1px;}
   .sidebar nav a{
@@ -313,7 +320,7 @@
 <div class="mobile-topbar no-print">
   <button class="menu-toggle" id="navToggle" aria-label="Toggle table of contents" aria-expanded="false" aria-controls="guideNav">☰</button>
   <div class="brandmark" style="margin-bottom:0">
-    <a href="index.html" class="brand-logo">Retail<b>Flow</b></a>
+    <a href="index.html" class="brand-logo"><img src="brand/lockups/retailflow-horizontal.svg" alt="RetailFlow" width="108" height="32"></a>
     <div class="brand-sub">Business Guide</div>
   </div>
 </div>
@@ -322,7 +329,7 @@
 
   <aside class="sidebar no-print" id="guideNav">
     <div class="brandmark">
-      <a href="index.html" class="brand-logo">Retail<b>Flow</b></a>
+      <a href="index.html" class="brand-logo"><img src="brand/lockups/retailflow-horizontal.svg" alt="RetailFlow" width="108" height="32"></a>
       <div class="brand-sub">Business Guide</div>
     </div>
     <nav>
