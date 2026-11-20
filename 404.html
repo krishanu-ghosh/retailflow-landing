@@ -12,47 +12,65 @@
   <meta name="theme-color" content="#0B1120">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2026112002">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=2026112003">
   <script defer data-domain="retailflow.co.in" src="https://plausible.io/js/script.js"></script>
+  <style>.nf-code { font-family: var(--font-outlier); font-size: var(--text-sm); color: var(--color-accent-2); margin-bottom: var(--space-sm); }</style>
 </head>
 <body>
 
 <nav class="nav" id="nav">
-  <div class="wrap">
+  <div class="container">
     <div class="nav-inner">
       <a href="/" class="nav-logo"><img src="/brand/lockups/retailflow-horizontal.svg" alt="RetailFlow" width="155" height="46"></a>
     </div>
   </div>
 </nav>
 
-<main>
-<section class="hero">
-  <div class="wrap">
-    <p class="hero-eyebrow">// 404</p>
-    <h1 class="hero-hl">
-      <span class="ln">PAGE_<span class="kw">NOT_FOUND.</span></span>
-    </h1>
-    <p class="hero-sub">
-      The page you're looking for doesn't exist or may have moved.
-    </p>
-    <div class="hero-actions">
+<main id="main">
+<section class="section--s">
+  <div class="container hdr hdr--c" style="margin-bottom:0">
+    <p class="nf-code">404</p>
+    <h1>Page not found.</h1>
+    <p class="lead">The page you're looking for doesn't exist or may have moved.</p>
+    <div class="cta-actions">
       <a href="/" class="btn btn--primary">Back to home</a>
-      <a href="/business-guide.html" class="btn btn--ghost">Read the user guide</a>
+      <a href="/business-guide.html" class="btn btn--quiet">Read the user guide</a>
     </div>
   </div>
 </section>
 </main>
 
 <footer class="footer">
-  <div class="wrap">
-    <div class="footer-inner">
-      <a href="/" class="footer-logo"><img src="/brand/lockups/retailflow-horizontal.svg" alt="RetailFlow" width="270" height="80"></a>
-      <p class="footer-copy">Built for Indian retail.</p>
-      <ul class="footer-links">
-        <li><a href="/privacy.html">Privacy</a></li>
-        <li><a href="/terms.html">Terms</a></li>
-      </ul>
+  <div class="container">
+    <a href="/index.html" class="footer-logo"><img src="/brand/lockups/retailflow-horizontal.svg" alt="RetailFlow" width="270" height="80"></a>
+    <div class="footer-cols">
+      <div>
+        <div class="footer-col-title">Product</div>
+        <ul class="footer-links">
+          <li><a href="/index.html#features">Features</a></li>
+          <li><a href="/pricing.html">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Learn</div>
+        <ul class="footer-links">
+          <li><a href="/business-guide.html">User guide</a></li>
+          <li><a href="/index.html#contact">Contact us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Legal</div>
+        <ul class="footer-links">
+          <li><a href="/privacy.html">Privacy</a></li>
+          <li><a href="/terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <span>Built for Indian retail.</span>
+      <span>&copy; 2026 RetailFlow.</span>
     </div>
   </div>
 </footer>
