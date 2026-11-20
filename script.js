@@ -88,53 +88,27 @@ contactForm.addEventListener('submit', async (e) => {
 });
 }
 
-// Pricing: billing-cycle toggle (billing-toggle only exists on pricing.html)
-const billingToggle = document.querySelector('.billing-toggle');
-if (billingToggle) {
-  const TIER_PRICING = {
-    starter:   { monthly: 149, quarterly: 399,  half_yearly: 749,  annual: 1299 },
-    essential: { monthly: 229, quarterly: 599,  half_yearly: 1149, annual: 1999 },
-    pro:       { monthly: 399, quarterly: 1049, half_yearly: 1999, annual: 2999 },
-    premium:   { monthly: 649, quarterly: 1699, half_yearly: 2999, annual: 4999 },
-  };
-  const PERIOD_MONTHS = { monthly: 1, quarterly: 3, half_yearly: 6, annual: 12 };
-  const PERIOD_BILLED_LABEL = {
-    quarterly: '/ quarter',
-    half_yearly: '/ half-year',
-    annual: '/ year',
-  };
-  const inr = (n) => `₹${n.toLocaleString('en-IN')}`;
-  const tierCards = document.querySelectorAll('.tier-card[data-tier]');
-
-  function renderPeriod(period) {
-    tierCards.forEach((card) => {
-      const pricing = TIER_PRICING[card.dataset.tier];
-      if (!pricing) return; // Enterprise: static "Custom" pricing, nothing to compute
-
-      const price = pricing[period];
-      const months = PERIOD_MONTHS[period];
-      const effectiveMonthly = Math.round(price / months);
-
-      card.querySelector('.tier-price').textContent = inr(effectiveMonthly);
-      card.querySelector('.tier-billed-note').textContent =
-        period === 'monthly' ? 'billed monthly' : `${inr(price)} ${PERIOD_BILLED_LABEL[period]}`;
-
-      const saveEl = card.querySelector('.tier-save');
-      if (period === 'monthly') {
-        saveEl.classList.remove('show');
-      } else {
-        const pct = Math.round((1 - price / (pricing.monthly * months)) * 100);
-        saveEl.textContent = `Save ${pct}%`;
-        saveEl.classList.toggle('show', pct > 0);
-      }
-    });
-  }
-
-  billingToggle.addEventListener('click', (e) => {
-    const btn = e.target.closest('button[data-period]');
-    if (!btn) return;
-    billingToggle.querySelectorAll('button').forEach((b) => b.classList.toggle('on', b === btn));
-    renderPeriod(btn.dataset.period);
+// Show-all-features toggle (feat-toggle only exists on index.html)
+const featToggle = document.getElementById('feat-toggle');
+const featPanel  = document.getElementById('feat-more-panel');
+if (featToggle && featPanel) {
+  let open = false;
+  featToggle.addEventListener('click', () => {
+    open = !open;
+    featToggle.setAttribute('aria-expanded', String(open));
+    featToggle.querySelector('.feat-toggle-txt').textContent = open ? 'Show less' : 'Show all 48 features';
+    featToggle.classList.toggle('is-open', open);
+    featPanel.classList.toggle('open', open);
+    if (open) {
+      featPanel.style.maxHeight = featPanel.scrollHeight + 'px';
+      featPanel.querySelectorAll('.fmini').forEach(el => el.classList.add('on'));
+    } else {
+      featPanel.style.maxHeight = featPanel.scrollHeight + 'px';
+      requestAnimationFrame(() => { featPanel.style.maxHeight = '0px'; });
+    }
+  });
+  featPanel.addEventListener('transitionend', (e) => {
+    if (e.propertyName === 'max-height' && open) featPanel.style.maxHeight = 'none';
   });
 }
 
