@@ -112,6 +112,48 @@ if (featToggle && featPanel) {
   });
 }
 
+// Billing cycle toggle (pricing.html only)
+const billingToggle = document.querySelector('.billing-toggle');
+if (billingToggle) {
+  const periodMonths = { quarterly: 3, half_yearly: 6, annual: 12 };
+  const tierCards = document.querySelectorAll('.tier-card[data-monthly]');
+
+  function applyPeriod(period) {
+    tierCards.forEach(card => {
+      const monthly = Number(card.dataset.monthly);
+      const priceEl = card.querySelector('.tier-price');
+      const noteEl = card.querySelector('.tier-billed-note');
+      const saveEl = card.querySelector('.tier-save');
+
+      if (period === 'monthly') {
+        priceEl.textContent = '₹' + monthly.toLocaleString('en-IN');
+        noteEl.textContent = 'billed monthly';
+        saveEl.textContent = 'Save 0%';
+        return;
+      }
+
+      const months = periodMonths[period];
+      const total = Number(card.dataset[period]);
+      const perMonth = Math.round(total / months);
+      const fullPrice = monthly * months;
+      const savePct = Math.round((fullPrice - total) / fullPrice * 100);
+      const frequency = period === 'annual' ? 'annually' : `every ${months} months`;
+
+      priceEl.textContent = '₹' + perMonth.toLocaleString('en-IN');
+      noteEl.textContent = `₹${total.toLocaleString('en-IN')} billed ${frequency}`;
+      saveEl.textContent = `Save ${savePct}%`;
+    });
+  }
+
+  billingToggle.querySelectorAll('button[data-period]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      billingToggle.querySelectorAll('button[data-period]').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      applyPeriod(btn.dataset.period);
+    });
+  });
+}
+
 // Scroll reveal
 new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
