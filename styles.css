@@ -8,7 +8,7 @@
 /* Hallmark · waive 77 · the FAQ accordions hold a 72ch measure, both pages' closing band is the one-band-a-page the guard names, and the EAP card is a deliberate single offer, each with its own real rows, lines and actions · widening any of the three to ten columns would stretch the prose past the 45 to 75ch measure craft.md sets for running text, which is a worse fault than a narrow section */
 /* Hallmark · dismissed 59 · index.html runs 15 sections because the redesign keeps every real module, feature, role, security and trust fact the page already had; redesign.md keeps the content, and this is a content-rich product page, not a thin prompt padded toward a count */
 /* Hallmark · waive 44c · the measured 455px is the headline-and-lede text column alone · the signature invoice beside it fills 60%+ of the screen height and the figures row anchors the foot, so the hero's full content reaches the fold, confirmed against the rendered screenshot */
-/* Hallmark · dismissed F25 · the feature column is pinned sticky on scroll and the lede above the table already tells a phone visitor to scroll sideways for every column; restacking a 6-column plan grid into per-row blocks would cost the side-by-side plan comparison the table exists to show */
+/* Hallmark · answered F25 · nothing scrolls sideways (owner rule): below 48rem both compare tables restack. The 3-column spreadsheet table becomes labelled blocks; the 6-column plan table keeps a sticky plan-name strip under the nav with a 5-up value grid per feature, so the side-by-side comparison survives on a phone */
 /* Hallmark · finish-review: in-thread (no subagent in this harness run) · scrolled both full pages at 1440 screen by screen · ship: ink/paper/accent hold across every section, no card-in-a-card, no template punctuation left, the Coral stationery material (cotton stock, hairline rule, the pressed "Paid" stamp) carries every product demonstration consistently · keep this material intact and the Index section's two-column fact layout in any later edit */
 @import url("./tokens.css");
 @import url("./base.css");
@@ -463,3 +463,101 @@ hr.rule { border: none; border-top: var(--rule-hair) solid var(--color-rule); ma
 .js [data-reveal] { opacity: 0; transform: translateY(10px); transition: opacity var(--dur-long) var(--ease-out), transform var(--dur-long) var(--ease-out); transition-delay: calc(var(--i, 0) * 50ms); }
 .js [data-reveal].is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .js [data-reveal] { opacity: 1; transform: none; transition: none; } }
+
+/* ── MOBILE (no sideways scroll, thumb-sized targets) ───── */
+/* Compare tables: below 48rem nothing scrolls sideways — both tables restack */
+@media (max-width: 48rem) {
+  .compare-wrap { overflow: visible; }
+  .compare-table { min-width: 0; }
+  .compare-table, .compare-table tbody, .compare-table tr, .compare-table td { display: block; width: 100%; }
+  .compare-table td:first-child, .compare-table th:first-child { position: static; min-width: 0; background: none; }
+  .compare-table td { border-bottom: 0; padding: 0; }
+  .compare-table td:last-child:not(.cell-old):not(:first-child) { border-left: 0; padding-left: 0; }
+
+  /* spreadsheet vs RetailFlow: one labelled block per row */
+  .compare-table--vs thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .compare-table--vs tr { padding-block: var(--space-lg); border-bottom: var(--rule-hair) solid var(--color-rule); }
+  .compare-table--vs tbody tr:first-child { border-top: var(--rule-hair) solid var(--color-rule-2); }
+  .compare-table--vs td:first-child { font-family: var(--font-display); font-size: var(--text-title); margin-bottom: var(--space-sm); }
+  .compare-table--vs td[data-label] { padding-left: var(--space-md); }
+  .compare-table--vs td[data-label]::before { content: attr(data-label); display: block; margin-bottom: var(--space-3xs); font-size: var(--text-xs); font-weight: 600; color: var(--color-muted); }
+  .compare-table--vs .cell-old { border-left: 2px solid var(--color-rule-2); padding-left: var(--space-md); }
+  .compare-table--vs td:last-child:not(.cell-old):not(:first-child) { margin-top: var(--space-md); border-left: 2px solid var(--color-accent-2); padding-left: var(--space-md); }
+  .compare-table--vs td:last-child::before { color: var(--color-accent-2); }
+
+  /* plan table: sticky plan strip, then each feature over a 5-up value grid */
+  .compare-table--plans thead { display: block; position: sticky; top: 72px; z-index: var(--z-raised); background: var(--color-paper); border-bottom: var(--rule-hair) solid var(--color-rule-2); }
+  .compare-table--plans thead tr { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .compare-table--plans thead th { padding: var(--space-sm) 0; border: 0; font-size: var(--text-xs); text-align: center; overflow-wrap: anywhere; hyphens: auto; }
+  .compare-table--plans thead th:first-child { display: none; }
+  .compare-table--plans tbody tr:not(.grp) { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); row-gap: var(--space-2xs); padding-block: var(--space-sm); border-bottom: var(--rule-hair) solid var(--color-rule); }
+  .compare-table--plans tbody tr:not(.grp) td { text-align: center; font-size: var(--text-sm); }
+  .compare-table--plans tbody tr:not(.grp) td:first-child { grid-column: 1 / -1; text-align: left; font-size: var(--text-sm); }
+  .compare-table--plans tbody tr:not(.grp) td:last-child { border-left: 0; padding-left: 0; }
+  .compare-table--plans .grp td { padding: var(--space-lg) 0 var(--space-xs); border-bottom: var(--rule-hair) solid var(--color-rule-2); }
+  .compare-table--plans .grp td:first-child { background: none; }
+}
+
+@media (max-width: 40rem) {
+  /* hero: stage sits contained above the copy, actions go full width */
+  .hero { padding-block: var(--space-lg) var(--space-2xl); }
+  .hero-stage { min-height: 0; }
+  .desk-plate { position: relative; inset: auto; padding: var(--space-xl) var(--space-md); }
+  .doc { padding: var(--space-lg) var(--space-md); }
+  .card-peek { display: none; }
+  .hero-actions, .cta-actions { flex-direction: column; align-items: stretch; gap: var(--space-sm); }
+  .hero-actions .btn, .cta-actions .btn { width: 100%; }
+  .btn { white-space: normal; text-align: center; line-height: 1.25; padding-block: var(--space-sm); }
+  .figrow { margin-top: var(--space-2xl); }
+
+  /* sections */
+  .hdr { margin-bottom: var(--space-xl); }
+  .index-row { padding-left: var(--space-xl); padding-block: var(--space-lg); }
+  .index-row::before { top: var(--space-lg); }
+  .rf-val { font-size: clamp(1.5rem, 1rem + 3.2vw, 2.441rem); }
+  .rank-row { grid-template-columns: 5.5rem 1fr auto; gap: var(--space-sm); }
+  .order-card { padding: var(--space-sm) var(--space-md); }
+  .order-card > span:first-child { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--space-xs); min-width: 0; }
+  .order-amt { margin-left: 0; }
+  .lookup-card { padding: var(--space-lg); }
+  .trust-row { padding-block: var(--space-lg); }
+  .faq-q { padding: var(--space-md) 0; font-size: var(--text-lg); }
+  .gains-line { font-size: var(--text-md); }
+
+  /* pricing */
+  .billing-toggle { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .billing-toggle button { padding: 0 var(--space-xs); }
+  .tier-tagline, .tier-meta { min-height: 0; }
+  .tier-card { padding: var(--space-lg) var(--space-md); }
+  .fact-banner { display: block; }
+
+  /* footer: two-up columns, 44px link rows */
+  .footer { padding-block: var(--space-2xl) var(--space-xl); }
+  .footer-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg); margin-top: var(--space-xl); }
+  .footer-links { gap: 0; }
+  .footer-links a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; font-size: var(--text-md); }
+  .footer-legal { margin-top: var(--space-lg); }
+}
+@media (min-width: 25rem) and (max-width: 40rem) {
+  .billing-toggle { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* touch screens: inline nav/footer links and toggles get thumb-sized hit areas */
+@media (pointer: coarse) {
+  .nav-cta { min-height: 44px; }
+  .faq-q { min-height: 44px; }
+  .footer-links a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
+}
+@media (max-width: 48rem) {
+  /* "Unlimited" reads as ∞ in the 5-up grid; the word stays for screen readers */
+  .compare-table--plans tbody tr:not(.grp) td[data-unl] { font-size: 0; }
+  .compare-table--plans td[data-unl]::after { content: "∞"; font-size: var(--text-lg); line-height: 1; }
+}
+@media (max-width: 26rem) {
+  .compare-table--plans thead th[data-short] { font-size: 0; }
+  .compare-table--plans thead th[data-short]::after { content: attr(data-short); font-size: var(--text-xs); }
+}
+@media (max-width: 40rem) {
+  h1.hero-hl { font-size: clamp(2.25rem, 9vw + 0.25rem, 2.75rem); }
+  .hero-grid { gap: var(--space-xl); }
+}

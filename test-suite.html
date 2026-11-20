@@ -264,6 +264,33 @@
     .mini-stat{font-size:11.5px;}
     .mini-stat .mini-num{font-size:14px;}
   }
+  /* ---- Touch targets on phones / coarse pointers ---- */
+  .prereq label{display:flex; gap:8px; align-items:flex-start; flex:1; cursor:pointer;}
+  @media screen and (max-width:640px), screen and (pointer:coarse){
+    button, select, nav.jump a{min-height:44px;}
+    button, nav.jump a{display:inline-flex; align-items:center; justify-content:center; gap:4px;}
+    button[hidden]{display:none;}
+    .focus-section-btn, .copy-btn{padding:6px 12px;}
+    .copy-btn{margin:6px 0 0;}
+    nav.jump a{padding:8px 12px;}
+    nav.jump.open{max-height:2000px;}
+    .prereq li{padding:0;}
+    .prereq label{min-height:44px; align-items:center; padding:8px 0;}
+    .prereq input{width:20px; height:20px; margin:0; flex:none;}
+  }
+  /* ---- Phones: readable text, no iOS focus zoom, no sideways scroll ---- */
+  @media screen and (max-width:640px){
+    body{padding-bottom:96px; overflow-wrap:break-word;}
+    footer.bottom{padding:8px 12px calc(8px + env(safe-area-inset-bottom, 0px));}
+    footer.bottom .top-actions{width:100%; flex-wrap:nowrap;}
+    footer.bottom .top-actions button{flex:1 1 0; min-width:0; white-space:normal; line-height:1.25; padding:6px 10px;}
+    select, textarea, input[type="text"], textarea.notes{font-size:16px;}
+    .badge, .stat .lbl, .mini-stat, .focus-section-btn, .copy-btn, kbd, .focus-nav .kbd-hint{font-size:12px;}
+    .sample-data, .test-title, .test-pre, ol.steps, .expected, .heads-up, .badge.id{overflow-wrap:anywhere;}
+    .badge{white-space:normal;}
+    .focus-section-btn{width:auto; max-width:100%;}
+    .focus-nav{padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0px));}
+  }
 </style>
 </head>
 <body>
@@ -1334,8 +1361,10 @@ function renderPrereq(){
     });
     const span = document.createElement("span");
     span.textContent = label;
-    li.appendChild(cb);
-    li.appendChild(span);
+    const lab = document.createElement("label");
+    lab.appendChild(cb);
+    lab.appendChild(span);
+    li.appendChild(lab);
     ul.appendChild(li);
   });
 }

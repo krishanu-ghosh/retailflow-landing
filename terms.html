@@ -35,39 +35,42 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2026112002">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2026112003">
 
   <script defer data-domain="retailflow.co.in" src="https://plausible.io/js/script.js"></script>
 
   <style>
-    .legal { max-width: 720px; margin: 0 auto; }
-    .legal h2 { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--text); margin: 40px 0 12px; }
-    .legal h2:first-child { margin-top: 0; }
-    .legal p, .legal li { font-size: 15.5px; color: var(--muted); line-height: 1.75; }
-    .legal p { margin-bottom: 14px; }
-    .legal ul { padding-left: 20px; margin-bottom: 14px; }
-    .legal li { margin-bottom: 8px; }
-    .legal strong { color: var(--text); }
-    .legal .updated { font-family: var(--mono); font-size: 12.5px; color: var(--muted); opacity: 0.8; }
+    .legal { max-width: 68ch; margin-inline: auto; }
+    .legal h2 { font-size: var(--text-title); line-height: 1.2; margin: var(--space-xl) 0 var(--space-sm); }
+    .legal h2:first-of-type { margin-top: var(--space-lg); }
+    .legal p, .legal li { color: var(--color-ink-2); line-height: 1.7; overflow-wrap: break-word; }
+    .legal p { margin-bottom: var(--space-md); }
+    .legal ul { padding-left: 1.25em; margin: 0 0 var(--space-md); }
+    .legal li { margin-bottom: var(--space-xs); }
+    .legal strong { color: var(--color-ink); }
+    .legal a { color: var(--color-accent-2); }
+    .legal .updated { font-family: var(--font-outlier); font-size: var(--text-xs); color: var(--color-muted); }
   </style>
 </head>
 <body>
+<script>document.documentElement.classList.add('js');</script>
 
 <!-- ══ NAV ══════════════════════════════════════════════ -->
 <nav class="nav" id="nav">
-  <div class="wrap">
+  <div class="container">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo"><img src="brand/lockups/retailflow-horizontal.svg" alt="RetailFlow" width="155" height="46"></a>
       <ul class="nav-links" id="nav-menu">
         <li><a href="index.html#features">Features</a></li>
         <li><a href="pricing.html">Pricing</a></li>
-        <li><a href="business-guide.html">User Guide</a></li>
-        <li><a href="index.html#contact">Contact Us</a></li>
+        <li><a href="business-guide.html">User guide</a></li>
+        <li><a href="index.html#contact">Contact us</a></li>
         <li>
-          <a href="https://app.retailflow.co.in/" class="nav-gh" target="_blank" rel="noopener">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Open App
+          <a href="https://app.retailflow.co.in/" class="nav-cta" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open app
           </a>
         </li>
       </ul>
@@ -79,24 +82,23 @@
   </div>
 </nav>
 
-<main>
-<section class="section" style="padding-bottom:64px;">
-  <div class="wrap">
+<main id="main">
+<section class="section--s" style="padding-bottom:0;">
+  <div class="container">
     <div class="hdr hdr--c">
-      <p class="eyebrow rev">// legal</p>
-      <h1 class="sh rev rev-d1">Terms of Use</h1>
-      <p class="sd rev rev-d2" style="margin:0 auto;">Kept short and readable, because we're still in Early Access — not because it doesn't matter.</p>
+      <h1>Terms of Use</h1>
+      <p class="lead">Kept short and readable, because we're still in Early Access — not because it doesn't matter.</p>
     </div>
   </div>
 </section>
 
-<section class="section" style="padding-top:0;">
-  <div class="wrap">
+<section class="section--s">
+  <div class="container">
     <div class="legal">
       <p class="updated">Last updated: July 2026</p>
 
       <h2>Early Access Program</h2>
-      <p>RetailFlow is currently offered free of charge as part of an Early Access Program. Features, availability, and functionality may change as we continue building the product based on feedback from real retail businesses. We'll give Early Access members advance notice before introducing paid pricing, as described on our <a href="pricing.html" style="color:var(--brand);text-decoration:underline;">pricing page</a>.</p>
+      <p>RetailFlow is currently offered free of charge as part of an Early Access Program. Features, availability, and functionality may change as we continue building the product based on feedback from real retail businesses. We'll give Early Access members advance notice before introducing paid pricing, as described on our <a href="pricing.html">pricing page</a>.</p>
 
       <h2>Acceptable use</h2>
       <p>You may use RetailFlow — the website and the app at <strong>app.retailflow.co.in</strong> — to run and manage your own retail business. Please don't:</p>
@@ -107,7 +109,7 @@
       </ul>
 
       <h2>Your data</h2>
-      <p>The sales, inventory, customer, and financial records you create in RetailFlow belong to your business. We don't sell or share it with third parties. See our <a href="privacy.html" style="color:var(--brand);text-decoration:underline;">Privacy Policy</a> for details on what we collect through this website specifically.</p>
+      <p>The sales, inventory, customer, and financial records you create in RetailFlow belong to your business. We don't sell or share it with third parties. See our <a href="privacy.html">Privacy Policy</a> for details on what we collect through this website specifically.</p>
 
       <h2>No warranty during Early Access</h2>
       <p>As an Early Access product, RetailFlow is provided "as is," without warranty of any kind, express or implied. We work to keep the app reliable and your data safe, but we can't guarantee uninterrupted or error-free service while we're actively building and improving it.</p>
@@ -116,7 +118,7 @@
       <p>We may update these terms as the product evolves, particularly once paid pricing launches. We'll post the updated terms here with a new "last updated" date.</p>
 
       <h2>Questions</h2>
-      <p>If you have questions about these terms, <a href="index.html#contact" style="color:var(--brand);text-decoration:underline;">contact us</a> — we're happy to talk it through.</p>
+      <p>If you have questions about these terms, <a href="index.html#contact">contact us</a> — we're happy to talk it through.</p>
     </div>
   </div>
 </section>
@@ -124,18 +126,34 @@
 
 <!-- ══ FOOTER ════════════════════════════════════════════ -->
 <footer class="footer">
-  <div class="wrap">
-    <div class="footer-inner">
-      <a href="index.html" class="footer-logo"><img src="brand/lockups/retailflow-horizontal.svg" alt="RetailFlow" width="270" height="80"></a>
-      <p class="footer-copy">Built for Indian retail.</p>
-      <ul class="footer-links">
-        <li><a href="index.html#features">Features</a></li>
-        <li><a href="pricing.html">Pricing</a></li>
-        <li><a href="business-guide.html">User Guide</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="terms.html">Terms</a></li>
-        <li><a href="index.html#contact">Contact Us</a></li>
-      </ul>
+  <div class="container">
+    <a href="index.html" class="footer-logo"><img src="brand/lockups/retailflow-horizontal.svg" alt="RetailFlow" width="270" height="80"></a>
+    <div class="footer-cols">
+      <div>
+        <div class="footer-col-title">Product</div>
+        <ul class="footer-links">
+          <li><a href="index.html#features">Features</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Learn</div>
+        <ul class="footer-links">
+          <li><a href="business-guide.html">User guide</a></li>
+          <li><a href="index.html#contact">Contact us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Legal</div>
+        <ul class="footer-links">
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <span>Built for Indian retail.</span>
+      <span>&copy; 2026 RetailFlow.</span>
     </div>
   </div>
 </footer>

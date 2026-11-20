@@ -740,6 +740,59 @@
 
     footer.doc-foot { page-break-inside: avoid; }
   }
+  /* ---------- Touch targets: drawer TOC + coarse pointers ---------- */
+  @media screen and (max-width: 900px) {
+    nav.toc li a { display: flex; align-items: center; min-height: 44px; padding: 8px 0 8px 14px; }
+    nav.toc li a .toc-time { float: none; margin-left: auto; padding-left: 10px; }
+    nav.toc .toc-label, .toc-act, .toc-toggle { font-size: 12px; }
+    .toc-toggle { min-height: 44px; }
+    /* The floating tools bar would sit on top of the open drawer */
+    body:has(.toc-shell[open]) .tools-bar { display: none; }
+  }
+  @media screen and (max-width: 640px), screen and (pointer: coarse) {
+    .tool-btn, .tools-progress { min-height: 44px; min-width: 44px; padding: 8px 12px; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; }
+    .current-stage-btn .csb-check { width: 18px; height: 18px; font-size: 12px; }
+    .tool-btn[hidden], .tools-progress[hidden] { display: none; }
+
+    /* Keep the visual circles small but give each a 44px hit box */
+    .stage-check, .prep-check { width: 44px; height: 44px; border: 0; background: transparent !important; position: relative; }
+    .prep-check { position: absolute; top: 0; left: -10px; }
+    .stage-check::before, .prep-check::before {
+      content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: 26px; height: 26px; box-sizing: border-box; border-radius: 50%;
+      border: 1.5px solid var(--line-strong); background: transparent;
+    }
+    .stage-check[aria-pressed="true"]::before, .prep-check[aria-pressed="true"]::before { background: var(--success); border-color: var(--success); }
+    .stage-check:hover::before, .prep-check:hover::before { border-color: var(--success); }
+    .stage-check::after, .prep-check::after { position: relative; z-index: 1; font-size: 14px; }
+    .prep-list li { padding-left: 38px; min-height: 44px; }
+    .hook-copy { min-height: 32px; }
+  }
+
+  /* ---------- Phones: no sideways scroll, nothing under 12px ---------- */
+  @media screen and (max-width: 640px) {
+    .masthead { padding-top: 68px; }
+    .tools-bar { top: 8px; right: 8px; gap: 6px; }
+    .page, main.content { overflow-wrap: break-word; }
+    .act-summary-card .as-num, .callout .callout-label, .chip, .meta-chip, .current-stage-btn .csb-label, .gap-card .gap-frame::before, thead th, nav.toc .toc-time { font-size: 12px; }
+    .chip, .meta-chip, td.mono, td .mono, code { overflow-wrap: anywhere; }
+
+    /* Restack tables into label/value cards (labels copied from thead by script) */
+    .table-wrap { overflow-x: visible; border: 0; border-radius: 0; }
+    .table-wrap table, .table-wrap tbody, .table-wrap tr, .table-wrap td { display: block; width: 100%; min-width: 0; }
+    .table-wrap thead {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+      overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+    }
+    .table-wrap tr { border: 1px solid var(--line); border-radius: 4px; background: var(--bg-raised); margin: 0 0 8px; }
+    .table-wrap tbody td, .table-wrap tbody tr:last-child td { border-bottom: 1px solid var(--line); padding: 8px 12px; overflow-wrap: anywhere; }
+    .table-wrap tbody td:last-child { border-bottom: 0; }
+    .table-wrap tbody td:empty { display: none; }
+    .table-wrap td[data-label]::before {
+      content: attr(data-label); display: block; margin-bottom: 2px;
+      font-family: var(--font-mono); font-size: 12px; font-weight: 400; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint);
+    }
+  }
 </style>
 <script defer data-domain="retailflow.co.in" src="https://plausible.io/js/script.js"></script>
 </head>
@@ -1982,6 +2035,24 @@
       try { document.execCommand('copy'); done(); } catch (e) {}
       document.body.removeChild(ta);
     }
+  })();
+</script>
+<script>
+  /* Copy each column header into data-label on its cells so tables can restack on phones. */
+  (function(){
+    document.querySelectorAll('table').forEach(function(t){
+      var heads = Array.prototype.map.call(t.querySelectorAll('thead th'), function(th){ return th.textContent.replace(/\s+/g,' ').trim(); });
+      t.setAttribute('role','table');
+      t.querySelectorAll('thead, tbody').forEach(function(g){ g.setAttribute('role','rowgroup'); });
+      t.querySelectorAll('tr').forEach(function(tr){ tr.setAttribute('role','row'); });
+      t.querySelectorAll('thead th').forEach(function(th){ th.setAttribute('role','columnheader'); });
+      t.querySelectorAll('tbody tr').forEach(function(tr){
+        Array.prototype.forEach.call(tr.children, function(td, i){
+          td.setAttribute('role', 'cell');
+          if (heads[i] && !td.hasAttribute('data-label')) td.setAttribute('data-label', heads[i]);
+        });
+      });
+    });
   })();
 </script>
 </body>
