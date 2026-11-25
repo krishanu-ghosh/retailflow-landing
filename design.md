@@ -5,24 +5,24 @@ The locked system. Every Hallmark run reads this first and pages share it. Chang
 ## System
 - Genre: modern-minimal
 - Shape of the first page: composed (Index, Figures, Table, Split, Rows — built for a content-rich retail SaaS redesign, not a single catalog macrostructure)
-- Theme: Coral (dealt 1/3, seed retailflow-pos-billing-inventory-6f83)
-- Axes: light/grotesk-sans/warm · posture: restrained
+- Theme: **Midnight + brass** (since 2026-11-25; replaced Hallmark's Coral to give the site a premium, dark look). Coral was dealt 1/3, seed retailflow-pos-billing-inventory-6f83.
+- Axes: dark/grotesk-sans/warm · posture: restrained
 
 ## Tokens
 `tokens.css` is the source of truth. The roles:
 ```css
 :root {
-  --color-paper: oklch(97% 0.006 55);  --color-paper-2: oklch(94.5% 0.007 55);  --color-paper-3: oklch(91.5% 0.009 55);
-  --color-ink: oklch(21% 0.012 38);  --color-ink-2: oklch(29% 0.013 40);  --color-muted: oklch(47% 0.013 45);  --color-rule: oklch(87% 0.009 55);
-  --color-accent: oklch(74% 0.125 30);  --color-accent-ink: oklch(21% 0.012 38);  --color-focus: oklch(54% 0.17 30);
+  --color-paper: oklch(14.5% 0.014 265);  --color-paper-2: oklch(18% 0.016 265);  --color-paper-3: oklch(21.5% 0.018 265);
+  --color-ink: oklch(95% 0.008 80);  --color-ink-2: oklch(84% 0.012 78);  --color-muted: oklch(68% 0.016 260);  --color-rule: oklch(100% 0 0 / 0.08);
+  --color-accent: oklch(78% 0.115 78) /* brass */;  --color-accent-ink: oklch(17% 0.02 70);  --color-accent-2: oklch(81% 0.11 80);  --color-focus: oklch(84% 0.13 85);
   --font-display: "General Sans", ui-sans-serif, system-ui, sans-serif;  --font-body: var(--font-display);  --font-outlier: "Geist Mono", ui-monospace, monospace;
-  --radius-card: 8px;  --radius-pill: 999px;  --rule-hair: 1px;  --shadow-card: 0 1px 2px oklch(20% 0.01 35 / 0.05);
+  --radius-card: 14px;  --radius-stock: 12px;  --radius-pill: 999px;  --rule-hair: 1px;
 }
 ```
-The spacing scale, the type scale, the easings and the durations are the scaffold's and live in `tokens.css`. The material (cotton stock, felt desk, the pressed "Paid" stamp, letterpress cards) is Coral's own — see `references/themes/coral.md` in the Hallmark skill, and `styles.css`'s `.stock`, `.desk`, `.board`, `.stamp-paid` utilities.
+The spacing scale, the type scale, the easings and the durations are the scaffold's and live in `tokens.css`. The material: midnight surfaces with a faint brass bloom and grain; `.stock` is a dark glass panel; `.desk` is a brass spotlight with a faint ledger grid; `.board` is a lifted panel with a brass glow. The signature invoices (`.doc`, `.post-bill`, `.card-peek`) stay lit cotton paper, the one warm-white object on the dark page, and re-scope the ink/rule/muted tokens locally. Primary actions are brass (`.btn--primary`, `.btn--card`, `.form-submit`). Pages use the reversed logo `brand/lockups/retailflow-horizontal-reversed.svg`. The original Coral material is described — see `references/themes/coral.md` in the Hallmark skill, and `styles.css`'s `.stock`, `.desk`, `.board`, `.stamp-paid` utilities.
 
 ## Controls
-- Primary: `.btn--card` — cotton stock, `--radius-stock`, 48px tall, lift + shadow on hover. One per page.
+- Primary: `.btn--primary` / `.btn--card` — brass gradient with dark type, `--radius-stock`, 48px tall, lift + glow on hover.
 - Secondary: `.btn--quiet` — outline, same radius and height, no fill.
 - Nav action and the feature-list toggle are quiet/outline too — nav actions stay quieter than the hero's (craft.md § 9).
 
@@ -34,4 +34,4 @@ The spacing scale, the type scale, the easings and the durations are the scaffol
 
 ## Variants
 - `index.html`: hero posture Stage (the signature invoice fills the right column), nav edge-aligned, footer mast.
-- `pricing.html`: no Stage hero — a plain centred header (`pricing-hero`) leading straight into the EAP offer card; same nav, same footer, same Coral material throughout (tier cards use `.stock`/`.board` surfaces, the billing-cycle switcher uses the theme's `--press-groove`).
+- `pricing.html`: no Stage hero — a plain centred header (`pricing-hero`) leading straight into the EAP offer card; same nav, same footer, same Midnight + brass material throughout (tier cards use `.stock`/`.board` surfaces, the billing-cycle switcher uses the theme's `--press-groove`).

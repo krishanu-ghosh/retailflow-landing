@@ -31,14 +31,14 @@
   <link rel="apple-touch-icon" href="brand/web/apple-touch-icon.png">
 
   <link rel="manifest" href="brand/web/site.webmanifest">
-  <meta name="theme-color" content="#F5F1EB">
+  <meta name="theme-color" content="#0B0E14">
 
   <link rel="preconnect" href="https://api.fontshare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2026112501">
+  <link rel="stylesheet" href="styles.css?v=2026112506">
 
   <script type="application/ld+json">
   {
@@ -171,7 +171,7 @@
 <nav class="nav" id="nav">
   <div class="container">
     <div class="nav-inner">
-      <a href="#" class="nav-logo"><img src="brand/lockups/retailflow-horizontal.svg" alt="RetailFlow" width="155" height="46"></a>
+      <a href="#" class="nav-logo"><img src="brand/lockups/retailflow-horizontal-reversed.svg" alt="RetailFlow" width="155" height="46"></a>
       <ul class="nav-links" id="nav-menu">
         <li><a href="#features">Features</a></li>
         <li><a href="pricing.html">Pricing</a></li>
@@ -203,9 +203,9 @@
       <div class="hero-actions">
         <a href="https://app.retailflow.co.in/" class="btn btn--primary" target="_blank" rel="noopener">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Start free
+          Open RetailFlow
         </a>
-        <a href="#demo" class="btn btn--quiet">See the app</a>
+        <a href="#demo" class="btn btn--quiet">See how it works</a>
       </div>
       <p class="hero-note">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
@@ -334,12 +334,13 @@
         <button class="demo-tab" role="tab" id="dt-bill" aria-controls="dp-bill" aria-selected="true"><span class="demo-n">1</span> Billing counter</button>
         <button class="demo-tab" role="tab" id="dt-pay" aria-controls="dp-pay" aria-selected="false" tabindex="-1"><span class="demo-n">2</span> UPI checkout</button>
         <button class="demo-tab" role="tab" id="dt-stock" aria-controls="dp-stock" aria-selected="false" tabindex="-1"><span class="demo-n">3</span> Products &amp; stock</button>
+        <button class="demo-tab" role="tab" id="dt-dash" aria-controls="dp-dash" aria-selected="false" tabindex="-1"><span class="demo-n">4</span> Dashboard</button>
       </div>
 
       <div class="demo-panel" id="dp-bill" role="tabpanel" aria-labelledby="dt-bill">
         <figure class="shot-pair">
           <div class="shot-desk"><img src="shots/pos-desktop.webp" width="1600" height="1111" loading="lazy" decoding="async" alt="RetailFlow POS billing screen: a cart with besan sold by the kilo, copier paper, notebooks and pencils, each from its batch, with subtotal ₹339, GST ₹29.48 and total ₹368.48, and the Payment &amp; Complete (F4) button."></div>
-          <div class="shot-phone"><img src="shots/pos-phone.webp" width="780" height="1688" loading="lazy" decoding="async" alt="The same POS cart on a phone, with search, barcode scan and bottom navigation."></div>
+          <div class="shot-phone"><div class="iphone-screen"><img src="shots/pos-phone.webp" width="780" height="1688" loading="lazy" decoding="async" alt="The same POS cart on a phone, with search, barcode scan and bottom navigation."></div></div>
         </figure>
         <div class="demo-notes">
           <p>Search with <kbd>F1</kbd>, scan with a USB scanner or the phone camera, and check out with <kbd>F4</kbd>. Each line shows the batch it is sold from, so cost and expiry stay with the sale. Loose items like besan can be sold by the kilo or the gram.</p>
@@ -355,7 +356,7 @@
       <div class="demo-panel" id="dp-pay" role="tabpanel" aria-labelledby="dt-pay">
         <figure class="shot-pair">
           <div class="shot-desk"><img src="shots/pay-upi-desktop.webp" width="1600" height="1111" loading="lazy" decoding="async" alt="RetailFlow payment step for ₹368.48 with UPI selected, intra-state CGST and SGST chosen, and a UPI QR code generated for the exact amount."></div>
-          <div class="shot-phone"><img src="shots/pay-upi-phone.webp" width="780" height="1688" loading="lazy" decoding="async" alt="The UPI payment step on a phone, with Cash, UPI, Card and Bank Transfer options and the Complete sale button."></div>
+          <div class="shot-phone"><div class="iphone-screen" style="--sb:#fff"><img src="shots/pay-upi-phone.webp" width="780" height="1688" loading="lazy" decoding="async" alt="The UPI payment step on a phone, with Cash, UPI, Card and Bank Transfer options and the Complete sale button."></div></div>
         </figure>
         <div class="demo-notes">
           <p>Pick UPI and RetailFlow generates a QR for the exact bill amount, so the customer scans and pays without typing anything. The QR is blurred here because it carries the demo store’s real UPI ID.</p>
@@ -371,7 +372,7 @@
       <div class="demo-panel" id="dp-stock" role="tabpanel" aria-labelledby="dt-stock">
         <figure class="shot-pair">
           <div class="shot-desk"><img src="shots/products-desktop.webp" width="1600" height="1111" loading="lazy" decoding="async" alt="RetailFlow products list filtered to paper, showing stock, cost, selling price, margin, GST rate and status for each product, with filters for low stock, expiring soon and margin."></div>
-          <div class="shot-phone"><img src="shots/products-phone.webp" width="780" height="1688" loading="lazy" decoding="async" alt="The products list on a phone, with stock, cost to selling price, margin and GST on each card."></div>
+          <div class="shot-phone"><div class="iphone-screen"><img src="shots/products-phone.webp" width="780" height="1688" loading="lazy" decoding="async" alt="The products list on a phone, with stock, cost to selling price, margin and GST on each card."></div></div>
         </figure>
         <div class="demo-notes">
           <p>Every product shows stock, cost, selling price, margin and GST in one row. One tap filters to low stock, expiring soon or thin margins, and <b>All batches</b> lists every batch with its own cost and expiry.</p>
@@ -380,6 +381,22 @@
             <li>Bulk-edit price, GST, category or status across up to 500 products</li>
             <li>Saved views for the filters you use every day</li>
             <li>Scan a barcode on the phone to find any product on the shelf</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="demo-panel" id="dp-dash" role="tabpanel" aria-labelledby="dt-dash">
+        <figure class="shot-pair">
+          <div class="shot-desk"><img src="shots/dashboard-desktop.webp" width="1600" height="1111" loading="lazy" decoding="async" alt="RetailFlow dashboard on a desktop: today’s sales and profit, monthly revenue and profit, a revenue trend chart, cash position, receivables and payables, and low-stock, reorder and expiry alerts."></div>
+          <div class="shot-phone"><div class="iphone-screen"><img src="shots/dashboard-phone.webp" width="780" height="1688" loading="lazy" decoding="async" alt="The same dashboard on a phone, with today’s sales and profit at the top and the alerts below."></div></div>
+        </figure>
+        <div class="demo-notes">
+          <p>Open RetailFlow and the day is already summed up: what you sold, what you made on it, and what needs attention before the shop opens tomorrow. It refreshes on its own every 30 seconds, so the counter and the back office see the same numbers.</p>
+          <ul class="checks">
+            <li>Today’s and this month’s sales and profit, with a revenue trend you can widen or narrow</li>
+            <li>Cash position after clearing payables, plus who owes you most and whom you owe most</li>
+            <li>Low stock, reorder soon and expiring batches, each one tap from the list</li>
+            <li>Top customers and top category, per store or across every location</li>
           </ul>
         </div>
       </div>
@@ -951,13 +968,13 @@
 <!-- FOOTER (mast) -->
 <footer class="footer">
   <div class="container">
-    <a href="#" class="footer-logo"><img src="brand/lockups/retailflow-horizontal.svg" alt="RetailFlow" width="270" height="80"></a>
+    <a href="#" class="footer-logo"><img src="brand/lockups/retailflow-horizontal-reversed.svg" alt="RetailFlow" width="270" height="80"></a>
     <div class="footer-cols">
       <div>
         <div class="footer-col-title">Product</div>
         <ul class="footer-links">
           <li><a href="#features">Features</a></li>
-          <li><a href="#demo">See the app</a></li>
+          <li><a href="#demo">How it works</a></li>
           <li><a href="pricing.html">Pricing</a></li>
         </ul>
       </div>
