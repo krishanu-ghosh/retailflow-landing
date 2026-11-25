@@ -562,7 +562,9 @@ html:not(.js) .demo-tabs { display: none; }
 .demo-panel { display: grid; grid-template-columns: 7fr 5fr; gap: var(--space-2xl); align-items: start; }
 html:not(.js) .demo-panel + .demo-panel { margin-top: var(--space-3xl); }
 .demo-stage { display: flex; justify-content: center; }
+.demo-notes h3 { margin-bottom: var(--space-sm); }
 .demo-notes p { color: var(--color-ink-2); }
+.demo-notes p + p { margin-top: var(--space-sm); }
 .demo-notes .checks { margin-top: var(--space-lg); }
 @media (max-width: 60rem) { .demo-panel { grid-template-columns: 1fr; gap: var(--space-xl); } }
 
