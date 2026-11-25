@@ -440,7 +440,7 @@
       <div class="tagline">Multi-tenant inventory management, GST billing, accounting, and analytics for retail businesses — everything your team needs to run the shop floor, the back office, and the books from one screen.</div>
       <div class="meta-row">
         <div><b>Document version</b>1.0</div>
-        <div><b>Published</b>July 2026</div>
+        <div><b>Updated</b>November 2026</div>
         <div><b>Audience</b>Business owners, managers &amp; cashiers</div>
         <div><b>Format</b>Printable reference — use your browser's Print → Save as PDF (turn on "Background graphics" in the print dialog's "More settings" for full-colour output)</div>
       </div>
@@ -560,6 +560,10 @@
       <li><b>Top bar</b> — shows the current section's title and, on most list screens, search and filter controls.</li>
       <li><b>Main content area</b> — the screen itself: a dashboard, a table of records, or a form.</li>
       <li><b>Feedback</b> — a link at the bottom of the sidebar for sending a bug report, idea, or comment straight to the RetailFlow team — see <a href="#mod-feedback">Feedback &amp; Support</a>.</li>
+      <li><b>Location badge</b> — if your business has more than one location, the active location is always shown in the header; tap it to switch.</li>
+      <li><b>User menu</b> — your name in the corner opens your account options, including a <span class="field-label">Text size</span> setting (Extra small to Large) that scales the whole app for easier reading.</li>
+      <li><b>On phones</b> — a bottom navigation bar gives one-tap access to four of the sections you use most, with <span class="btn secondary">Menu</span> opening everything else. List rows can be swiped right to edit, or left to reveal Delete/Deactivate (only the actions you're allowed). Forms open full-screen with the title and Save button always in view.</li>
+      <li><b>Keyboard shortcuts</b> — press <kbd>?</kbd> anywhere (outside a text field) to see the full list. <kbd>/</kbd> jumps to the search box on any list page, and right-clicking a row (or <kbd>Shift</kbd>+<kbd>F10</kbd>) opens its actions menu.</li>
     </ul>
     <div class="callout note"><span class="callout-title">Note</span>If someone with a Manager or Cashier role signs in, their sidebar will show fewer items than an Owner's — this is expected and covered fully in <a href="#sec-5">Permissions &amp; Access Control</a>.</div>
 
@@ -588,7 +592,7 @@
 
     <h3 id="mod-pos" class="mod-title">3.2 &nbsp;Point of Sale (Billing) <span class="tag">Checkout screen</span></h3>
     <p><b>Module overview.</b> This is the till: the screen a cashier or owner uses to ring up a sale, from adding products to the cart through to taking payment and printing the invoice. It is the single most detailed screen in RetailFlow, and is designed to be usable entirely from the keyboard for speed at a busy counter.</p>
-    <p><b>UI tour.</b> The screen is split into a product-entry/search area and cart on the left, and a running bill summary on the right, with a Payment &amp; Complete panel that opens as a modal when checkout begins.</p>
+    <p><b>UI tour.</b> The screen is split into a product-entry/search area and cart on the left, and a running bill summary on the right, with a Payment &amp; Complete panel that opens as a modal when checkout begins. A three-step progress bar — <b>Cart</b>, <b>Review</b>, <b>Confirm payment</b> — sits at the top of the screen (and inside the payment panel) so the cashier always knows where the sale stands.</p>
     <p><b>Micro-features:</b></p>
     <ul class="feature-list">
       <li><b>Product search</b> — type a name or SKU to find a product (keyboard shortcut <kbd>F1</kbd> jumps focus to the search box).</li>
@@ -609,11 +613,15 @@
       <li><b>Generate UPI QR code</b> — shows a scannable QR for the exact amount due, if your business has a UPI ID configured.</li>
       <li><b>"No change" (convert change to credit)</b> — instead of handing back cash change, add it to the customer's store credit.</li>
       <li><b>Print Invoice toggle</b> — choose whether to auto-open the printable invoice after completing the sale (defaults to your Settings preference).</li>
+      <li><b>Cart survives a refresh</b> — the in-progress cart is saved in the browser, so reloading the page or a dropped connection doesn't lose the sale. Signing out or switching user still clears it.</li>
+      <li><b>Hold on sign-out</b> — signing out with items in the cart asks first, and offers <span class="btn secondary">Hold &amp; sign out</span> so the sale can be resumed later from Held sales.</li>
+      <li><b>Quantity jump</b> — after picking a product from search, the cursor moves straight to that line's quantity with the value selected; <kbd>Enter</kbd>, <kbd>Tab</kbd>, or <kbd>Esc</kbd> returns to search.</li>
+      <li><b>Remembered payment method</b> — the payment method you last completed a sale with is pre-selected for your next sale.</li>
     </ul>
 
     <h3 id="mod-sales" class="mod-title">3.3 &nbsp;Sales Records &amp; Invoices <span class="tag">History</span></h3>
     <p><b>Module overview.</b> Where every past sale lives, searchable and reviewable, with tools to reprint, void, or refund a transaction after the fact.</p>
-    <p><b>UI tour.</b> A searchable, date-filterable table listing Invoice number, Customer, Date, Total, Paid, Balance, and Status. Clicking a row's <span class="btn secondary">Details</span> opens the Sale detail drawer.</p>
+    <p><b>UI tour.</b> A searchable, date-filterable table listing Invoice number, Customer, Cashier, Date, Total, Paid, Balance, and Status. Clicking a row's <span class="btn secondary">Details</span> opens the Sale detail drawer.</p>
     <p><b>Micro-features:</b></p>
     <ul class="feature-list">
       <li><b>Search by invoice number.</b></li>
@@ -622,8 +630,11 @@
       <li><b>View sale details</b> — line items, subtotal/discount/tax/total, payments received, balance, and warranty details. Any line that auto-split across batches lists each batch and the quantity drawn from it.</li>
       <li><b>Record a payment against an invoice</b> — collect money toward this specific invoice's balance directly from the Sale detail drawer (shown whenever the invoice is active and still has a balance due), without having to go to the customer's own page.</li>
       <li><b>Print invoice</b> — regenerate the printable PDF at any time.</li>
-      <li><b>Void a sale</b> — reverse a sale entirely, restoring stock, within the business's configured void window.</li>
-      <li><b>Refund a sale</b> — issue a partial or full refund, either as cash from the register or as store credit, within the configured refund window.</li>
+      <li><b>See who billed it</b> — the Cashier column and the drawer's "Billed by" line show the staff member who rang up the sale.</li>
+      <li><b>Activity history</b> — the drawer's Activity section lists who created, voided, or refunded the sale, and when.</li>
+      <li><b>Saved views</b> — save a combination of search and filters you use often and reapply it in one click (saved in this browser only).</li>
+      <li><b>Void a sale</b> — reverse a sale entirely, restoring stock, within the business's configured void window. A reason is required, and for a customer-linked sale you choose whether the amount paid goes back as cash or onto their credit balance.</li>
+      <li><b>Refund a sale</b> — issue a partial or full refund, either as cash from the register or as store credit, within the configured refund window. A reason is required.</li>
     </ul>
 
     <h3 id="mod-products" class="mod-title">3.4 &nbsp;Product Catalog <span class="tag">Catalog</span></h3>
@@ -633,6 +644,9 @@
     <ul class="feature-list">
       <li><b>Search products</b> by name or SKU.</li>
       <li><b>Filter by category.</b></li>
+      <li><b>Quick filters</b> — one tap for Low stock, Out of stock, Ordered (on an open purchase order), Expiring soon, Expired, high or low margin, Added in last 30 days, or Inactive. "Expiring soon" uses your expiry warning window and only counts batches that still have stock.</li>
+      <li><b>Sort and filter by margin</b> — for users allowed to see profit, a margin column, margin sorts, and min/max margin filters.</li>
+      <li><b>Saved views</b> — save the filters and sort you use often and reapply them in one click.</li>
       <li><b>A–Z index</b> to jump straight to products starting with a given letter.</li>
       <li><b>Barcode lookup</b> — type a barcode or scan one with your camera to jump straight to that product.</li>
       <li><b>Create a new product</b>, including an opening stock batch and a product photo.</li>
@@ -640,7 +654,13 @@
       <li><b>Add, replace, or remove a product photo</b> at any time from the edit form.</li>
       <li><b>View a product's batches</b> — every lot of stock currently or previously held for this product.</li>
       <li><b>Adjust stock</b> — a manual correction (e.g. for damage or a miscount) outside of a sale or purchase.</li>
-      <li><b>Deactivate / Reactivate a product</b> — hide a discontinued product from the till without deleting its history.</li>
+      <li><b>Deactivate / Reactivate a product</b> — hide a discontinued product from the till without deleting its history, optionally recording a reason (such as Discontinued or Seasonal) and a note. An <span class="btn secondary">Undo</span> button appears right after, instead of an "Are you sure?" prompt.</li>
+      <li><b>Duplicate a product</b> — start a new product pre-filled from an existing one; RetailFlow suggests a barcode and checks it isn't already in use.</li>
+      <li><b>Bulk actions</b> — tick several products (up to 500) to adjust prices, set the GST rate, set minimum stock, change category, adjust stock, print labels, or deactivate/reactivate them together. Field changes are previewed before anything is applied, including the price the customer will pay before and after.</li>
+      <li><b>Import from a spreadsheet</b> — upload a CSV or Excel file to add new products, update existing ones, or both. A preview shows what will change before you apply it, and the downloadable template offers your own categories as dropdowns.</li>
+      <li><b>Price + GST preview</b> — under every selling-price field, a line shows "price + GST = customer pays", rounded the same way as the bill.</li>
+      <li><b>Activity history</b> — the product drawer's Activity section lists who created or edited the product, changed its price, adjusted its stock, or deactivated it.</li>
+      <li><b>Edit-conflict notice</b> — if a teammate changed the same product while you had it open, your save still goes through, and a warning tells you who changed it so you can double-check.</li>
       <li><b>Inline category creation</b> — add a new category without leaving the product form.</li>
     </ul>
 
@@ -650,7 +670,7 @@
     <p><b>Micro-features:</b></p>
     <ul class="feature-list">
       <li><b>Search batches</b> by product name, batch number, or barcode.</li>
-      <li><b>Filter by status</b> — Active, Depleted (fully sold), or Inactive (manually hidden).</li>
+      <li><b>Filter by status</b> — Active, Depleted (fully sold), or Inactive (manually hidden). A batch becomes Depleted automatically the moment its stock reaches zero, and returns to Active if stock comes back (for example after a void). Depleted batches are never flagged as expiring or expired.</li>
       <li><b>Edit a batch</b> — change its cost price, selling price, or barcode.</li>
       <li><b>Deactivate a batch</b> — hide it from the billing screen (e.g. stock found to be damaged) without deleting its history.</li>
       <li><b>Reactivate a batch</b> — bring a previously deactivated batch back into sellable stock.</li>
@@ -689,6 +709,9 @@
       <li><b>Search purchase orders</b> by PO number, and filter by date range.</li>
       <li><b>Create a new purchase order</b> — pick a supplier (or create one inline), set the order date and the supplier's own invoice number, and add line items with quantity, unit cost, tax %, and an overall discount.</li>
       <li><b>Receive goods</b> — record delivery of some or all of an order's line items, each becoming a new stock batch.</li>
+      <li><b>Compare suppliers while you order</b> — under each line, RetailFlow shows the last price another supplier charged you for the same item. If another supplier would have been cheaper for this order, a banner offers <span class="btn secondary">Switch to &lt;supplier&gt;</span>, which re-prices the lines at that supplier's last costs.</li>
+      <li><b>Remembered supplier</b> — a new purchase order starts with the supplier you last saved an order for, and each product remembers which suppliers have delivered it.</li>
+      <li><b>Activity history</b> — the purchase drawer's Activity section lists who created, received, returned, cancelled, or closed the order short.</li>
       <li><b>Track price variance</b> — if the delivered unit cost differs from what was ordered, RetailFlow tracks the difference automatically.</li>
       <li><b>Append to an existing batch</b> — when a second delivery against the same PO matches an already-created batch's cost, add to it instead of creating a new batch.</li>
       <li><b>Close short</b> — write off the value of items that were ordered but will never be delivered.</li>
@@ -763,14 +786,18 @@
 
     <h3 id="mod-reports" class="mod-title">3.13 &nbsp;Reports &amp; Analytics <span class="tag">Business intelligence</span></h3>
     <p><b>Module overview.</b> A deeper analytical companion to the Dashboard, organized into focused tabs for sales performance, inventory health, customer/supplier rankings, and full financial statements — plus one-click exports for spreadsheet analysis.</p>
-    <p><b>UI tour.</b> Five tabs: <b>Overview</b>, <b>Inventory</b>, <b>Rankings</b>, <b>Financial</b>, and <b>Exports</b>. Most tabs offer a period selector; some are gated by permission (Inventory and Exports need Inventory-reports access, Financial needs Profit-reports access).</p>
+    <p><b>UI tour.</b> Nine tabs: <b>Overview</b>, <b>Inventory</b>, <b>Rankings</b>, <b>Sales</b>, <b>Purchase</b>, <b>Financial</b>, <b>Tax</b>, <b>Aging</b>, and <b>Exports</b>. Most tabs offer a period selector; some are gated by permission (Inventory and Exports need Inventory-reports access, Financial and Tax need Profit-reports access, Purchase needs access to purchases, and Aging shows customer and/or supplier balances depending on what you can view).</p>
     <p><b>Micro-features:</b></p>
     <ul class="feature-list">
       <li><b>Overview tab</b> — revenue, profit, order count, average order value, and growth versus the previous period, plus a Revenue &amp; Profit by Category chart.</li>
-      <li><b>Inventory tab</b> — low-stock list, reorder suggestions, dead-stock list (items not selling), and total inventory valuation.</li>
-      <li><b>Rankings tab</b> — top customers, top suppliers, ABC analysis (classifying products by contribution to revenue), fast-moving products, and a per-product sales-by-day breakdown with its own date-range picker.</li>
+      <li><b>Inventory tab</b> — low-stock list, reorder suggestions, dead-stock list (items not selling), expiring &amp; expired batches, and total inventory valuation.</li>
+      <li><b>Rankings tab</b> — top customers, top suppliers, ABC analysis (classifying products by contribution to revenue), and fast-moving products.</li>
+      <li><b>Sales tab</b> — products sold by day, with its own date-range picker.</li>
+      <li><b>Purchase tab</b> — products delivered by suppliers over the chosen period.</li>
       <li><b>Financial tab</b> — a profit &amp; loss statement (revenue, cost of goods sold, gross profit, expenses, net profit), current cash position, and outstanding receivable/payable.</li>
-      <li><b>Exports tab</b> — download CSV/Excel files for ten report types: Low stock, Reorder, Dead stock, Fast-moving, Slow-moving, Inventory valuation, ABC analysis, Category performance, Top customers, and Top suppliers.</li>
+      <li><b>Tax tab</b> — output tax on sales and input tax on purchases, taxable values, and a GST breakdown by rate.</li>
+      <li><b>Aging tab</b> — what customers owe you (receivables) and what you owe suppliers (payables), grouped by how many days overdue, as of today. Customers holding credit and suppliers you've paid in advance are flagged rather than netted off.</li>
+      <li><b>Exports tab</b> — download CSV/Excel files: Low stock, Reorder, Dead stock, Expiring &amp; expired batches, Fast-moving, Slow-moving, Inventory valuation, ABC analysis, Sales, Category performance, Top customers, Top suppliers, Tax summary, and HSN-wise summary (GSTR-1), plus a Tally export.</li>
     </ul>
 
     <h3 id="mod-users" class="mod-title">3.14 &nbsp;Staff &amp; User Management <span class="tag">Team accounts</span></h3>
@@ -796,6 +823,7 @@
       <li><b>Read entries</b> — every row shows exactly which user performed which action on which record, from where.</li>
     </ul>
     <div class="callout note"><span class="callout-title">Note</span>This is separate from Stock Counts (§3.12), which reconcile physical inventory. The Audit Log tracks <i>actions</i> across the whole system — sales voided, users deactivated, products created, and so on.</div>
+    <div class="callout note"><span class="callout-title">Activity on each record</span>You don't need the Audit Log page to see the history of a single sale, purchase, or product: each one's detail drawer has its own <b>Activity</b> section, visible to anyone who can open that record, on every plan. Void and refund reasons appear there too.</div>
 
     <h3 id="mod-settings" class="mod-title">3.16 &nbsp;Settings <span class="tag">Configuration</span></h3>
     <p><b>Module overview.</b> Where a business reviews its own details and tunes the rules RetailFlow uses for stock alerts, void/refund time limits, and invoice printing, plus manages personal password security.</p>
@@ -955,6 +983,21 @@
       <p><b>System response:</b> On success, a confirmation toast shows the new invoice number and outcome. If Print Invoice was ticked, the printable invoice PDF opens automatically in a new tab and its print dialog opens after a short delay. If "No change" was used, the change amount is posted as a customer credit payment in the background. The cart clears, ready for the next sale.</p>
     </div>
 
+    <h4 class="flow-title">Signing out with a sale in progress</h4>
+    <div class="flow">
+      <ol>
+        <li>With items in the cart, choose <span class="btn secondary">Sign out</span> from the user menu.</li>
+        <li>A <i>"Sale in progress"</i> dialog shows how many items are in the cart. Choose <span class="btn">Hold &amp; sign out</span> to park the sale, <span class="btn danger">Discard &amp; sign out</span> to throw it away, or <span class="btn secondary">Cancel</span> to stay.</li>
+      </ol>
+      <p><b>System response:</b> A held sale is saved to <b>Held sales</b> and can be resumed after signing back in. With an empty cart, sign-out happens straight away with no prompt. Refreshing the page never clears the cart; only signing out or switching user does.</p>
+    </div>
+
+    <h4 class="flow-title">Viewing keyboard shortcuts</h4>
+    <div class="flow">
+      <ol><li>Press <kbd>?</kbd> while not typing in a field.</li></ol>
+      <p><b>System response:</b> A list opens showing every shortcut: <kbd>F1</kbd> product search, <kbd>F4</kbd> (or <kbd>F3</kbd>) Payment &amp; Complete, <kbd>Enter</kbd> in a quantity field to apply and return to search, <kbd>Esc</kbd> to close the payment screen or scanner, plus the app-wide <kbd>/</kbd>, <kbd>Enter</kbd>, and <kbd>Shift</kbd>+<kbd>F10</kbd> list shortcuts.</p>
+    </div>
+
     <h3 id="flow-sales" class="mod-title">4.3 &nbsp;Sales Record &amp; Invoice Flows</h3>
 
     <h4 class="flow-title">Finding a past sale</h4>
@@ -1004,11 +1047,13 @@
       <div class="flow-meta"><span class="badge perm">Requires: sales.cancel</span></div>
       <ol>
         <li>Open the sale's detail drawer.</li>
-        <li>Click <span class="btn danger">Void</span>.</li>
-        <li>Confirm the action.</li>
+        <li>Click <span class="btn danger">Void</span>. A <i>"Void sale?"</i> dialog shows the invoice, its total, and any amount to hand back.</li>
+        <li>If the sale is linked to a customer and money was paid, choose what happens to it: <span class="field-label">Pay cash from register</span> (the default) or <span class="field-label">Add to customer's credit balance</span>. Walk-in sales are always paid back in cash.</li>
+        <li>Under <span class="field-label">Why is this sale being voided?</span>, pick a reason: Wrong item, Customer request, Wrong price or quantity, Duplicate bill, Damaged or defective, System error, or Other. A comment is optional, except for Other, where you must describe the reason.</li>
+        <li>Confirm the void. The confirm button stays disabled until a reason is chosen.</li>
       </ol>
       <p><b>Validation:</b> The button is disabled once the business's configured void window (a number of days plus hours; the default is 12 hours) has passed since the sale, with a tooltip reading <i>"Void window has expired."</i> A sale that isn't in a voidable status shows <i>"sale cannot be voided in its current status."</i></p>
-      <p><b>System response:</b> The sale is reversed — stock sold in it is returned to inventory, and its status updates. This is recorded in the Audit Log.</p>
+      <p><b>System response:</b> The sale is reversed — stock sold in it is returned to inventory, its status updates, and the amount paid is either logged as cash paid out or added to the customer's credit. The void and its reason appear in the sale's Activity section and the Audit Log.</p>
     </div>
 
     <h4 class="flow-title">Refunding a sale</h4>
@@ -1018,6 +1063,7 @@
         <li>Open the sale's detail drawer and click <span class="btn danger">Refund</span>.</li>
         <li>The modal shows the linked customer's current balance context: whether they owe money, already hold a credit balance, or have no outstanding balance.</li>
         <li>Choose a <b>Refund method</b>: <span class="field-label">Add to customer's credit balance</span> or <span class="field-label">Pay cash from register</span>. (If no customer is linked to the sale, cash is the only option.)</li>
+        <li>Under <span class="field-label">Why is this being refunded?</span>, pick a reason from the same list as for voids (Other requires a description).</li>
         <li>Confirm the refund.</li>
       </ol>
       <p><b>Validation:</b> Disabled after the business's configured refund window (default 7 days) has elapsed, with a tooltip reading <i>"Refund window has expired."</i> A sale not in a refundable status shows <i>"sale cannot be refunded in its current status."</i></p>
@@ -1033,8 +1079,10 @@
         <li>Go to <b>Products</b> in the sidebar.</li>
         <li>Type into the search box to filter by name or SKU, and/or pick a category from the filter dropdown.</li>
         <li>Use the A–Z index bar to jump to products starting with a specific letter, or click it again to collapse it.</li>
+        <li>Optionally tap a quick filter (Low stock, Out of stock, Ordered, Expiring soon, Expired, margin, Added in last 30 days, Inactive).</li>
+        <li>To keep this combination, open <span class="field-label">Saved views</span> and choose <span class="btn secondary">Save view</span>, then give it a name.</li>
       </ol>
-      <p><b>System response:</b> The list filters live as you type or select.</p>
+      <p><b>System response:</b> The list filters live as you type or select. A saved view appears in the Saved views menu for you on this page; it's stored in this browser only, so it won't follow you to another device.</p>
     </div>
 
     <h4 class="flow-title">Looking up a product by barcode</h4>
@@ -1086,11 +1134,11 @@
       <ol>
         <li>On a product row, click <span class="btn secondary">Stock</span> → <span class="btn secondary">Adjust</span> (or the equivalent action from the product's Batches view).</li>
         <li>Enter a signed <span class="field-label">Quantity</span> — a positive number to add stock (e.g. found extra stock), or a negative number to remove it (e.g. damage or a correction).</li>
-        <li>Optionally add a <span class="field-label">Note</span> explaining the reason.</li>
+        <li>Enter a <span class="field-label">Reason</span> (required) explaining the change.</li>
         <li>Click <span class="btn">Save</span>.</li>
       </ol>
       <p><b>Validation:</b> The quantity cannot be zero — <i>"Enter a non-zero quantity."</i></p>
-      <p><b>System response:</b> A stock-adjustment movement is written against the relevant batch, and the product's current stock reflects it immediately. The adjustment appears in the Audit Log.</p>
+      <p><b>System response:</b> A stock-adjustment movement is written against the relevant batch, and the product's current stock reflects it immediately. A toast offers <span class="btn secondary">Undo</span>, which posts the opposite adjustment (labelled "Undo: &lt;your reason&gt;"). The adjustment appears in the product's Activity section and the Audit Log.</p>
     </div>
 
     <h4 class="flow-title">Deactivating / reactivating a product</h4>
@@ -1098,8 +1146,45 @@
       <div class="flow-meta"><span class="badge perm">Requires: products.delete</span></div>
       <ol>
         <li>Click <span class="btn secondary">Deactivate</span> on a product row (or <span class="btn secondary">Reactivate</span> on an already-deactivated one).</li>
+        <li>When deactivating, optionally pick a <span class="field-label">Reason</span> (such as Discontinued or Seasonal / off-season) and add a <span class="field-label">Note</span>.</li>
       </ol>
-      <p><b>System response:</b> A deactivated product disappears from the billing screen's search and can no longer be sold, but its full sales/purchase history is preserved and it can be reactivated at any time.</p>
+      <p><b>System response:</b> A deactivated product disappears from the billing screen's search and can no longer be sold, but its full sales/purchase history is preserved and it can be reactivated at any time. A toast offers <span class="btn secondary">Undo</span> to reactivate it straight away; the deactivation stays in the product's history either way.</p>
+    </div>
+
+    <h4 class="flow-title">Changing many products at once</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: products.update (stock: inventory.adjust; deactivate/reactivate: products.delete)</span></div>
+      <ol>
+        <li>On the Products list, tick the products you want to change (up to 500). A bulk-actions bar appears.</li>
+        <li>Choose an action: <b>Price</b> (adjust selling or cost price by a percentage or fixed amount, with optional rounding to the nearest ₹1, ₹0.50, or ₹x.99), <b>Stock</b>, <b>Labels</b>, <b>Deactivate</b> / <b>Reactivate</b>, or, under more bulk edits, <b>Set GST %</b>, <b>Set minimum stock</b>, or <b>Change category</b>.</li>
+        <li>Fill in the change and click <span class="btn">Preview</span>. Each product shows its value before and after, including what the customer will pay for price or GST changes.</li>
+        <li>Apply the change.</li>
+      </ol>
+      <p><b>Validation:</b> If any of the products changed after you previewed, RetailFlow stops with <i>"Some products changed since the preview — review and apply again."</i> Bulk stock changes need a reason.</p>
+      <p><b>System response:</b> All field changes apply together in one step, each recorded in that product's history. Bulk stock changes post one adjustment per product and can be undone from the toast.</p>
+    </div>
+
+    <h4 class="flow-title">Duplicating a product</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: products.create</span></div>
+      <ol>
+        <li>Open a product row's actions menu and choose <span class="btn secondary">Duplicate</span>.</li>
+        <li>A new-product form opens pre-filled from the original. Change the name and anything else that differs, and accept or change the suggested barcode.</li>
+        <li>Click <span class="btn">Save</span>.</li>
+      </ol>
+      <p><b>System response:</b> A new, separate product is created; the original is untouched.</p>
+    </div>
+
+    <h4 class="flow-title">Importing or updating products from a spreadsheet</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: products.create</span></div>
+      <ol>
+        <li>Open the Products import tab and download the template if you need one. Its Category and Subcategory columns offer your existing categories as dropdowns, and you can also type a new name.</li>
+        <li>Under <span class="field-label">What should this import do?</span>, choose <span class="field-label">Add new products only</span>, <span class="field-label">Update existing products and add new ones</span>, or <span class="field-label">Update existing products only</span>.</li>
+        <li>Upload the file and review the preview, which lists what will be added or changed and any row errors.</li>
+        <li>Apply the import.</li>
+      </ol>
+      <p><b>System response:</b> Nothing changes until you apply. Rows with errors are reported by row number so you can fix the file and upload again.</p>
     </div>
 
     <h3 id="flow-batches" class="mod-title">4.5 &nbsp;Batch Flows</h3>
@@ -1174,7 +1259,8 @@
         <li>Choose a <span class="field-label">Supplier</span> from the list, or click "+ New" to create one inline.</li>
         <li>Set the <span class="field-label">Purchase date</span> and optionally enter the supplier's own <span class="field-label">Invoice #</span>.</li>
         <li>Add products to the order — search and select, or create a new product inline if it doesn't exist yet.</li>
-        <li>For each line, enter <span class="field-label">Qty</span>, <span class="field-label">Unit cost</span>, and <span class="field-label">Tax %</span>.</li>
+        <li>For each line, enter <span class="field-label">Qty</span>, <span class="field-label">Unit cost</span>, and <span class="field-label">Tax %</span>. If another supplier has delivered the same item before, a hint under the line shows their last price (highlighted when it's cheaper).</li>
+        <li>If another supplier would have been cheaper overall, a banner names them and the approximate saving; click <span class="btn secondary">Switch to &lt;supplier&gt;</span> to move the order to them and re-price the lines at their last costs.</li>
         <li>Optionally enter an overall <span class="field-label">Discount</span> (₹) and <span class="field-label">Notes</span>.</li>
         <li>Review the live Subtotal / Tax / Total, then click <span class="btn">Save</span>.</li>
       </ol>
@@ -1425,7 +1511,7 @@
     <div class="flow">
       <div class="flow-meta"><span class="badge perm">Requires: reports.inventory</span></div>
       <ol><li>Click the <b>Inventory</b> tab.</li></ol>
-      <p><b>System response:</b> Shows low-stock items, reorder suggestions (based on your Lead time and Safety stock settings), dead-stock items (based on your Dead stock setting), and total inventory valuation.</p>
+      <p><b>System response:</b> Shows low-stock items, reorder suggestions (based on your Lead time and Safety stock settings), dead-stock items (based on your Dead stock setting), batches that are expiring or already expired (sold-out batches are left out), and total inventory valuation.</p>
     </div>
 
     <h4 class="flow-title">Viewing the Rankings tab</h4>
@@ -1437,7 +1523,7 @@
     <h4 class="flow-title">Viewing products sold by day</h4>
     <div class="flow">
       <ol>
-        <li>On the <b>Rankings</b> tab, scroll to the <b>Products sold by day</b> card.</li>
+        <li>Click the <b>Sales</b> tab to open the <b>Products sold by day</b> card.</li>
         <li>Use its date-range picker to choose a single day (defaults to today) or a multi-day range.</li>
       </ol>
       <p><b>System response:</b> Lists each product's quantity sold and revenue for the selected day; choosing a multi-day range adds a Date column and breaks the totals out per day.</p>
@@ -1450,12 +1536,32 @@
       <p><b>System response:</b> Shows a full profit &amp; loss statement (revenue, cost of goods sold, gross profit, expenses, net profit), current cash position, and outstanding receivable/payable, generally reflecting the current month for the live figures.</p>
     </div>
 
+    <h4 class="flow-title">Viewing products delivered</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: purchases.view</span></div>
+      <ol><li>Click the <b>Purchase</b> tab and choose a period.</li></ol>
+      <p><b>System response:</b> Lists the products your suppliers delivered in that period, with quantities and values.</p>
+    </div>
+
+    <h4 class="flow-title">Viewing the Tax tab</h4>
+    <div class="flow">
+      <div class="flow-meta"><span class="badge perm">Requires: reports.profit</span></div>
+      <ol><li>Click the <b>Tax</b> tab and choose a period.</li></ol>
+      <p><b>System response:</b> Shows output tax collected on sales, input tax paid on purchases, the taxable value of each, and a GST breakdown by rate.</p>
+    </div>
+
+    <h4 class="flow-title">Viewing the Aging tab</h4>
+    <div class="flow">
+      <ol><li>Click the <b>Aging</b> tab.</li></ol>
+      <p><b>System response:</b> Shows <b>Receivables (customers)</b> and <b>Payables (suppliers)</b> grouped by how many days overdue they are. It always reflects balances as of now, so there is no period selector. A customer holding credit is flagged "Credit balance" and a supplier you've paid ahead is flagged "Advance paid", instead of being netted into the totals. You see the customer side with sales access and the supplier side with purchases access.</p>
+    </div>
+
     <h4 class="flow-title">Exporting a report</h4>
     <div class="flow">
       <div class="flow-meta"><span class="badge perm">Requires: reports.inventory</span></div>
       <ol>
         <li>Click the <b>Exports</b> tab.</li>
-        <li>Click the download button (CSV or Excel) next to the report you need: Low stock, Reorder, Dead stock, Fast-moving, Slow-moving, Inventory valuation, ABC analysis, Category performance, Top customers, or Top suppliers.</li>
+        <li>Click the download button (CSV or Excel) next to the report you need: Low stock, Reorder, Dead stock, Expiring &amp; expired batches, Fast-moving, Slow-moving, Inventory valuation, ABC analysis, Sales, Category performance, Top customers, Top suppliers, Tax summary, or HSN-wise summary (GSTR-1). Use the Tally export to download data for Tally.</li>
       </ol>
       <p><b>System response:</b> The file downloads to your device immediately, ready to open in a spreadsheet application.</p>
     </div>
@@ -1675,6 +1781,8 @@
         <tr><td><i>"sku already in use"</i> / <i>"barcode already in use"</i></td><td>Another product already has that exact SKU or barcode.</td><td>Check the existing product (search by that SKU/barcode) — either reuse it or choose a different, unique value.</td></tr>
         <tr><td><i>"category name already exists"</i></td><td>A category with that exact name is already in your list.</td><td>Select the existing category instead of creating a duplicate.</td></tr>
         <tr><td><i>"Enter a non-zero quantity"</i> on a stock adjustment</td><td>The adjustment field was left at zero.</td><td>Enter a positive number to add stock, or a negative number to remove it.</td></tr>
+        <tr><td><i>"&lt;Name&gt; also changed this product …"</i> after saving</td><td>A teammate saved changes to the same product (or customer) while you had it open. Your save went through and replaced theirs where you both edited the same fields.</td><td>Open the record again and check it's right; its Activity section shows exactly what the other person changed.</td></tr>
+        <tr><td><i>"Some products changed since the preview — review and apply again"</i></td><td>During a bulk action, one or more selected products were edited after you clicked Preview.</td><td>Click Preview again to see the current values, then apply.</td></tr>
       </tbody>
     </table>
     </div>
@@ -1745,7 +1853,7 @@
     </div>
 
     <footer class="doc-footer page-pad">
-      <div>RetailFlow — Business User Guide &amp; Product Manual · Version 1.0 · July 2026</div>
+      <div>RetailFlow — Business User Guide &amp; Product Manual · Version 1.1 · November 2026</div>
       <div style="margin-top:4px;">This guide describes the RetailFlow application as configured for standard use; your business's specific settings (thresholds, limits, and enabled features) may vary slightly from the defaults shown here.</div>
     </footer>
 

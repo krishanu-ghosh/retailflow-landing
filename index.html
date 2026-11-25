@@ -50,7 +50,7 @@
         "name": "RetailFlow",
         "url": "https://retailflow.co.in/",
         "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web, Android",
+        "operatingSystem": "Web",
         "description": "Retail management software for Indian businesses, with built-in GST e-invoicing, multi-store inventory, an online storefront, accounting, and analytics.",
         "audience": {
           "@type": "Audience",
@@ -75,14 +75,16 @@
           "Accounting & Bank Reconciliation",
           "Staff, Payroll & Role-Based Access",
           "Suppliers & Purchases",
-          "Cashbook & Accounting",
+          "Supplier Price Comparison",
           "Scan Anywhere",
           "Batch & Expiry Tracking",
-          "Bulk Product Import",
+          "Bulk Product Import & Bulk Edits",
           "Purchase Returns & Supplier Ledger",
           "Credit Settlement",
           "Cashbook & Expense Tracking",
           "Refund Request Workflow",
+          "Void & Refund Reasons",
+          "Activity History on Every Record",
           "Offline-Friendly Access"
         ]
       },
@@ -268,15 +270,15 @@
       <div class="index-row">
         <div>
           <h3 class="index-name">POS &amp; billing</h3>
-          <p class="index-desc">Scan barcodes, build the cart, apply per-item or bill-level discounts, and take payment, cash, UPI, card, or split, with a live UPI QR code for the exact amount due. Park a sale and recall it later, process partial refunds, and hand off a GST invoice on paper or straight to WhatsApp. Keyboard-first: F1 to search, F4 to checkout.</p>
-          <div class="index-facts"><span>Barcode scan</span><span>Multi-payment</span><span>UPI payments</span><span>Held sales</span><span>Partial refunds</span><span>Refund workflow</span></div>
+          <p class="index-desc">Scan barcodes, build the cart, apply per-item or bill-level discounts, and take payment, cash, UPI, card, or split, with a live UPI QR code for the exact amount due. Park a sale and recall it later, process partial refunds, and hand off a GST invoice on paper or straight to WhatsApp. A Cart → Review → Confirm payment stepper keeps every sale on track, and the cart survives a refresh. Keyboard-first: F1 to search, F4 to checkout, ? for every shortcut.</p>
+          <div class="index-facts"><span>Barcode scan</span><span>Multi-payment</span><span>UPI payments</span><span>Held sales</span><span>Partial refunds</span><span>Void &amp; refund reasons</span></div>
         </div>
       </div>
       <div class="index-row">
         <div>
           <h3 class="index-name">Smart inventory</h3>
-          <p class="index-desc">Real-time stock levels that update with every sale and purchase, tracked batch by batch so profit stays accurate even when a supplier’s price changes mid-shelf-life. Automated low-stock alerts, reorder suggestions, dead stock reports, ABC analysis, and print-ready barcode labels.</p>
-          <div class="index-facts"><span>Per-batch costing</span><span>Reorder alerts</span><span>ABC analysis</span><span>Stock audit</span><span>Batch &amp; expiry</span></div>
+          <p class="index-desc">Real-time stock levels that update with every sale and purchase, tracked batch by batch so profit stays accurate even when a supplier’s price changes mid-shelf-life. Automated low-stock alerts, reorder suggestions, one-tap “expiring soon” and “expired” filters, dead stock reports, ABC analysis, and print-ready barcode labels. Edit hundreds of products at once, with a preview before anything changes.</p>
+          <div class="index-facts"><span>Per-batch costing</span><span>Reorder alerts</span><span>Expiry filters</span><span>Bulk edits</span><span>Stock audit</span><span>Batch &amp; expiry</span></div>
         </div>
       </div>
       <div class="index-row">
@@ -324,15 +326,15 @@
       <div class="index-row">
         <div>
           <h3 class="index-name">Staff, payroll &amp; access</h3>
-          <p class="index-desc">Owner, Manager, and Cashier roles with 26 granular permissions, or build a custom role for how your team actually works. Track attendance and weekly-offs, issue salary advances, and run payroll weekly, biweekly, or monthly.</p>
+          <p class="index-desc">Owner, Manager, and Cashier roles with 60 granular permissions, or build a custom role for how your team actually works. Track attendance and weekly-offs, issue salary advances, and run payroll weekly, biweekly, or monthly.</p>
           <div class="index-facts"><span>Custom roles</span><span>Attendance</span><span>Payroll runs</span></div>
         </div>
       </div>
       <div class="index-row">
         <div>
           <h3 class="index-name">Suppliers &amp; purchases</h3>
-          <p class="index-desc">Manage supplier contacts, raise purchase orders, and track payables, including partial deliveries and orders you need to close out short. Your outstanding balance with every supplier is always current, no manual reconciliation.</p>
-          <div class="index-facts"><span>Purchase orders</span><span>Partial delivery</span><span>Supplier ledger</span><span>Purchase returns</span></div>
+          <p class="index-desc">Manage supplier contacts, raise purchase orders, and track payables, including partial deliveries and orders you need to close out short. While you build an order, RetailFlow shows when another supplier last sold you the same item for less, and switches the order over in one tap. Your outstanding balance with every supplier is always current, no manual reconciliation.</p>
+          <div class="index-facts"><span>Purchase orders</span><span>Supplier price compare</span><span>Partial delivery</span><span>Supplier ledger</span><span>Purchase returns</span></div>
         </div>
       </div>
       <div class="index-row">
@@ -353,7 +355,7 @@
 
     <div class="feat-more" id="feat-more">
       <button class="feat-toggle" id="feat-toggle" aria-expanded="false" aria-controls="feat-more-panel">
-        <span class="feat-toggle-txt">Show all 48 features</span>
+        <span class="feat-toggle-txt">Show all 63 features</span>
         <svg class="feat-toggle-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
 
@@ -369,6 +371,11 @@
               <div class="fmini"><div class="fmini-t">Recently-sold quick add</div><p class="fmini-d">Jump back into fast-moving items without searching.</p></div>
               <div class="fmini"><div class="fmini-t">Per-sale profit view</div><p class="fmini-d">See the margin on every invoice, not just the total.</p></div>
               <div class="fmini"><div class="fmini-t">Refund request workflow</div><p class="fmini-d">Cashiers raise refund requests; managers approve or decline.</p></div>
+              <div class="fmini"><div class="fmini-t">Cart survives a refresh</div><p class="fmini-d">Reload the page mid-sale and the cart is still there.</p></div>
+              <div class="fmini"><div class="fmini-t">Hold on sign-out</div><p class="fmini-d">Signing out mid-sale offers to hold it, so nothing is lost.</p></div>
+              <div class="fmini"><div class="fmini-t">Void &amp; refund reasons</div><p class="fmini-d">Every void or refund records why, from a preset list or a note.</p></div>
+              <div class="fmini"><div class="fmini-t">Cash or credit on void</div><p class="fmini-d">Pay a voided sale back from the till or onto the customer’s credit.</p></div>
+              <div class="fmini"><div class="fmini-t">Cashier on every sale</div><p class="fmini-d">See who billed each sale, right in the sales list.</p></div>
             </div>
           </div>
 
@@ -381,6 +388,11 @@
               <div class="fmini"><div class="fmini-t">Product images</div><p class="fmini-d">Photos hosted and auto-compressed, no storage to manage.</p></div>
               <div class="fmini"><div class="fmini-t">Multi-level units</div><p class="fmini-d">Base, pack, and case, each with its own price.</p></div>
               <div class="fmini"><div class="fmini-t">Batch price sync</div><p class="fmini-d">Editing a batch’s cost keeps the product’s price in sync.</p></div>
+              <div class="fmini"><div class="fmini-t">Bulk edits with preview</div><p class="fmini-d">Change category, price, GST, or status on up to 500 products at once.</p></div>
+              <div class="fmini"><div class="fmini-t">Import updates, safely</div><p class="fmini-d">Re-upload to update existing products, with a dry-run preview first.</p></div>
+              <div class="fmini"><div class="fmini-t">Margin at a glance</div><p class="fmini-d">Filter and sort your catalogue by margin.</p></div>
+              <div class="fmini"><div class="fmini-t">Price + GST preview</div><p class="fmini-d">See what the customer actually pays while you set a price.</p></div>
+              <div class="fmini"><div class="fmini-t">Duplicate a product</div><p class="fmini-d">Start a new item from an existing one, barcode clash checked.</p></div>
             </div>
           </div>
 
@@ -392,6 +404,9 @@
               <div class="fmini"><div class="fmini-t">Shrinkage report</div><p class="fmini-d">Loss surfaced automatically from your stock audits.</p></div>
               <div class="fmini"><div class="fmini-t">Manual stock adjustments</div><p class="fmini-d">Correct counts with a reason, logged to the audit trail.</p></div>
               <div class="fmini"><div class="fmini-t">Expiry warnings at checkout</div><p class="fmini-d">Cashiers see expiry flags right in the cart, not after.</p></div>
+              <div class="fmini"><div class="fmini-t">Expiring &amp; expired filters</div><p class="fmini-d">One tap lists every product with stock about to expire.</p></div>
+              <div class="fmini"><div class="fmini-t">Sold-out batches step aside</div><p class="fmini-d">Empty batches are marked depleted and never flagged as expiring.</p></div>
+              <div class="fmini"><div class="fmini-t">Undo stock adjustments</div><p class="fmini-d">Made a wrong correction? Undo it from the toast.</p></div>
             </div>
           </div>
 
@@ -404,6 +419,8 @@
               <div class="fmini"><div class="fmini-t">Supplier payments &amp; refunds ledger</div><p class="fmini-d">Every rupee paid or refunded, tracked per supplier.</p></div>
               <div class="fmini"><div class="fmini-t">Short-delivery close-out</div><p class="fmini-d">Close an under-delivered order and track the write-off.</p></div>
               <div class="fmini"><div class="fmini-t">Per-batch costing on receipt</div><p class="fmini-d">Landed cost recorded batch by batch as stock arrives.</p></div>
+              <div class="fmini"><div class="fmini-t">Cheaper-supplier hint</div><p class="fmini-d">See who last sold you the same item for less, and switch in one tap.</p></div>
+              <div class="fmini"><div class="fmini-t">Preferred supplier per product</div><p class="fmini-d">Each product remembers its suppliers and pre-fills the next order.</p></div>
             </div>
           </div>
 
@@ -414,6 +431,7 @@
               <div class="fmini"><div class="fmini-t">Combined settlement invoice</div><p class="fmini-d">One printable invoice across multiple settled bills.</p></div>
               <div class="fmini"><div class="fmini-t">Blended cash + credit</div><p class="fmini-d">Split a single sale across cash and store credit.</p></div>
               <div class="fmini"><div class="fmini-t">Top customers report</div><p class="fmini-d">Ranked by revenue and order count.</p></div>
+              <div class="fmini"><div class="fmini-t">Coupons expire on time</div><p class="fmini-d">Coupons switch off automatically once their end date passes.</p></div>
             </div>
           </div>
 
@@ -431,13 +449,27 @@
           <div class="feat-cat">
             <h4 class="feat-cat-title">Reports, team &amp; trust</h4>
             <div class="feat-mini-list">
-              <div class="fmini"><div class="fmini-t">Unified reports dashboard</div><p class="fmini-d">Overview, inventory, rankings, sales, purchases, financial, tax, eight tabs, one screen.</p></div>
+              <div class="fmini"><div class="fmini-t">Unified reports dashboard</div><p class="fmini-d">Overview, inventory, rankings, sales, purchases, financial, tax, aging, and exports, nine tabs, one screen.</p></div>
+              <div class="fmini"><div class="fmini-t">Activity history on every record</div><p class="fmini-d">Each sale, purchase, and product shows who created, edited, or voided it.</p></div>
+              <div class="fmini"><div class="fmini-t">Edit-conflict notice</div><p class="fmini-d">Warns you when a teammate changed the same record while you were editing.</p></div>
               <div class="fmini"><div class="fmini-t">Profit &amp; category analytics</div><p class="fmini-d">Margins and category performance, visualized.</p></div>
               <div class="fmini"><div class="fmini-t">Per-product sales drill-down</div><p class="fmini-d">Day-by-day sales history for any product.</p></div>
               <div class="fmini"><div class="fmini-t">Cashier refund override</div><p class="fmini-d">Grant individual cashiers refund rights without full manager access.</p></div>
               <div class="fmini"><div class="fmini-t">Login lockout &amp; password rules</div><p class="fmini-d">Accounts lock after repeated failed attempts.</p></div>
               <div class="fmini"><div class="fmini-t">Offline-friendly</div><p class="fmini-d">Clear banners when the network drops, so nothing silently fails.</p></div>
               <div class="fmini"><div class="fmini-t">Dark &amp; light theme</div><p class="fmini-d">Switch instantly, preference remembered.</p></div>
+            </div>
+          </div>
+
+          <div class="feat-cat">
+            <h4 class="feat-cat-title">Everyday speed</h4>
+            <div class="feat-mini-list">
+              <div class="fmini"><div class="fmini-t">Saved views</div><p class="fmini-d">Save the filters you use daily on products, sales, and purchases.</p></div>
+              <div class="fmini"><div class="fmini-t">Keyboard everywhere</div><p class="fmini-d">“/” to search any list, right-click or Shift+F10 for row actions, ? for the full list.</p></div>
+              <div class="fmini"><div class="fmini-t">Undo, not “Are you sure?”</div><p class="fmini-d">Reversible actions happen at once, with an Undo button to take them back.</p></div>
+              <div class="fmini"><div class="fmini-t">Remembers your last choice</div><p class="fmini-d">Last payment method at the counter and last supplier on a new order.</p></div>
+              <div class="fmini"><div class="fmini-t">Built for phones</div><p class="fmini-d">Bottom navigation, swipe to edit or delete, and full-screen forms.</p></div>
+              <div class="fmini"><div class="fmini-t">Adjustable text size</div><p class="fmini-d">Make the whole app easier to read on any screen.</p></div>
             </div>
           </div>
 
@@ -468,8 +500,8 @@
           <tr><td>GST billing</td><td data-label="The spreadsheet way" class="cell-old">Calculate tax by hand or with fragile formulas. Format the invoice yourself. Hope the rate hasn’t changed.</td><td data-label="With RetailFlow">Set the GST rate once per product. Every invoice is auto-calculated, formatted, and printer-ready in seconds.</td></tr>
           <tr><td>Customer credit</td><td data-label="The spreadsheet way" class="cell-old">A separate ledger tab per customer. Balances drift, rows get deleted, and reconciliation eats your evening.</td><td data-label="With RetailFlow">Built-in ledger per customer, current outstanding, full transaction history, and printable statements. Always current.</td></tr>
           <tr><td>Reports</td><td data-label="The spreadsheet way" class="cell-old">SUMIF formulas and pivot tables that break when you rename a column. Monthly P&amp;L is a half-day job.</td><td data-label="With RetailFlow">Revenue, P&amp;L, top products, category breakdown, live charts, no formulas. Your full financials in one click.</td></tr>
-          <tr><td>Multi-user</td><td data-label="The spreadsheet way" class="cell-old">Shared over WhatsApp or email. Two people edit and one overwrites the other, no access control, no audit trail.</td><td data-label="With RetailFlow">Owner, Manager, and Cashier roles. Each person has their own login, 26 granular permissions and a full audit trail.</td></tr>
-          <tr><td>Mobile</td><td data-label="The spreadsheet way" class="cell-old">Pinch-zooming a 30-column sheet on your phone. Every lookup is a frustrating exercise.</td><td data-label="With RetailFlow">Purpose-built mobile UI. Scan barcodes with your phone camera, look up any product, and check stock from anywhere.</td></tr>
+          <tr><td>Multi-user</td><td data-label="The spreadsheet way" class="cell-old">Shared over WhatsApp or email. Two people edit and one overwrites the other, no access control, no audit trail.</td><td data-label="With RetailFlow">Owner, Manager, and Cashier roles. Each person has their own login, 60 granular permissions, and every record shows who changed it and when.</td></tr>
+          <tr><td>Mobile</td><td data-label="The spreadsheet way" class="cell-old">Pinch-zooming a 30-column sheet on your phone. Every lookup is a frustrating exercise.</td><td data-label="With RetailFlow">Purpose-built mobile UI with bottom navigation and swipe actions. Scan barcodes with your phone camera, look up any product, and check stock from anywhere.</td></tr>
           <tr><td>Multi-store</td><td data-label="The spreadsheet way" class="cell-old">A separate workbook per outlet, emailed around. No one has a combined view until someone manually merges them.</td><td data-label="With RetailFlow">One login, every location. Stock per store updates in real time, and transfers between them are tracked end-to-end.</td></tr>
         </tbody>
       </table>
@@ -493,7 +525,7 @@
         <li>Shows stock level, price, MRP, category, and supplier in one view</li>
         <li>Reorder warnings surface instantly if you’re below minimum stock</li>
         <li>Same scan works at billing, add to cart directly from the result</li>
-        <li>Connects over your business’s WiFi, any device on the same network</li>
+        <li>Works over mobile data or your shop’s Wi-Fi, on any phone your staff already carry</li>
       </ul>
     </div>
     <div class="split-media" data-reveal>
@@ -518,16 +550,17 @@
   <div class="container split split--reverse">
     <div data-reveal>
       <h2>Close a sale in under 30 seconds.</h2>
-      <p>Open the billing screen, scan or search products, and hand the customer their receipt. Keyboard-first, F1 to search, F4 to checkout. Camera and USB barcode scanners work out of the box on any device.</p>
+      <p>Open the billing screen, scan or search products, and hand the customer their receipt. A three-step Cart → Review → Confirm payment flow keeps every sale clear, and the cart survives a page refresh. Keyboard-first, F1 to search, F4 to checkout, ? for every shortcut. Camera and USB barcode scanners work out of the box on any device.</p>
       <ul class="checks">
-        <li>Camera and USB barcode scanner, 10 formats including EAN, UPC, Code128</li>
+        <li>Camera and USB barcode scanner, 10 formats including EAN, UPC, Code128, and QR</li>
         <li>Cash, UPI, card, bank transfer, and credit, split across payment methods</li>
         <li>Live UPI QR code generated for the exact amount due</li>
         <li>Discounts in rupees or percentage, per order or per line</li>
         <li>Warranty months recorded and printed on the customer invoice</li>
         <li>Credit sales with per-customer outstanding balance</li>
         <li>GST-compliant invoice, printable on any printer, or sent straight to WhatsApp</li>
-        <li>Void and refund with full audit trail, within configurable time windows</li>
+        <li>Void and refund within configurable time windows, each with a recorded reason, paid back as cash or store credit</li>
+        <li>Every sale shows the cashier who billed it</li>
       </ul>
     </div>
     <div class="split-media" data-reveal>
@@ -557,6 +590,8 @@
         <li>Real-time stock levels, updated on every sale and purchase receipt</li>
         <li>Per-batch cost and selling price, accurate profit even as supplier prices change</li>
         <li>Configurable minimum stock, lead time, and reorder quantity</li>
+        <li>“Expiring soon” and “Expired” filters, sold-out batches never flagged</li>
+        <li>Bulk-edit price, GST, category, or status across up to 500 products, previewed first</li>
         <li>Physical stock audit with discrepancy reconciliation</li>
         <li>ABC analysis, identify your highest-value products</li>
         <li>Dead stock report for slow-moving items eating shelf space</li>
@@ -583,7 +618,7 @@
   <div class="container">
     <div class="hdr" data-reveal>
       <h2>Numbers that tell you what to do next.</h2>
-      <p class="lead">Five report tabs cover everything from today’s revenue to your full profit-and-loss. Revenue trends, category performance, top customers, dead stock, all built in, no third-party BI tool required.</p>
+      <p class="lead">Nine report tabs cover everything from today’s revenue to your full profit-and-loss. Revenue trends, category performance, top customers, dead stock, all built in, no third-party BI tool required.</p>
     </div>
     <div class="report-figs" data-reveal>
       <div><div class="rf-lbl">Revenue (30 days)</div><div class="rf-val">₹2.4L</div><div class="rf-chg">up 14% vs last month</div></div>
@@ -636,7 +671,7 @@
   <div class="container">
     <div class="hdr hdr--c" data-reveal>
       <h2>The right access for every person in your business.</h2>
-      <p class="lead">26 granular permissions, custom roles, and payroll. Add your team and control exactly what each person can see and do, with no IT department required.</p>
+      <p class="lead">60 granular permissions, custom roles, and payroll. Add your team and control exactly what each person can see and do, with no IT department required.</p>
     </div>
     <div class="roles-grid" data-reveal>
       <div class="role-card">
@@ -689,8 +724,9 @@
       <h2>Your data belongs to your business.</h2>
       <p>Every transaction, every login, every settings change is logged against the user who made it. Role-based access keeps sensitive numbers away from the wrong eyes, and your data stays private, with no background telemetry or third-party data sharing.</p>
       <ul class="checks">
-        <li>Full audit trail on every sale, void, refund, and inventory adjustment</li>
-        <li>26 granular permissions, plus custom roles, control exactly who sees what</li>
+        <li>Every sale, purchase, and product carries its own activity history, on every plan</li>
+        <li>Voids and refunds record a reason, so every reversal can be explained</li>
+        <li>60 granular permissions, plus custom roles, control exactly who sees what</li>
         <li>Each staff member has their own login, no shared passwords</li>
         <li>Financial reports visible only to the Owner role by default</li>
         <li>No background telemetry or usage data sent to third parties</li>
@@ -701,7 +737,7 @@
       <div class="ledger">
         <div class="ledger-row"><span>Sale #INV-2851, paid</span><span class="ledger-status st-ok">Priya, 2 min ago</span></div>
         <div class="ledger-row"><span>Stock adjusted, Safety Gloves L</span><span class="ledger-status st-ok">Suresh, 1 hr ago</span></div>
-        <div class="ledger-row"><span>Void #INV-2839, billing error</span><span class="ledger-status st-low">Suresh, 3 hr ago</span></div>
+        <div class="ledger-row"><span>Void #INV-2839, reason: billing error</span><span class="ledger-status st-low">Suresh, 3 hr ago</span></div>
         <div class="ledger-row"><span>New session, Chrome, Android</span><span class="ledger-status st-ok">Ravi, 09:22</span></div>
         <div class="ledger-row"><span>GST rate updated, Power Tools, 18% to 12%</span><span class="ledger-status st-ok">Owner, 09:05</span></div>
       </div>
@@ -879,6 +915,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=2026112001"></script>
+<script src="script.js?v=2026112501"></script>
 </body>
 </html>

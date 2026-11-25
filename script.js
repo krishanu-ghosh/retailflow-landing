@@ -83,7 +83,7 @@ contactForm.addEventListener('submit', async (e) => {
     cfStatus.textContent = 'Something went wrong. Please try again or reach out directly.';
   } finally {
     cfSubmit.disabled = false;
-    cfSubmit.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
+    cfSubmit.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send message';
   }
 });
 }
@@ -93,10 +93,14 @@ const featToggle = document.getElementById('feat-toggle');
 const featPanel  = document.getElementById('feat-more-panel');
 if (featToggle && featPanel) {
   let open = false;
+  const featTxt = featToggle.querySelector('.feat-toggle-txt');
+  // Count from the panel itself so the label can't drift from the list.
+  const closedLabel = `Show all ${featPanel.querySelectorAll('.fmini').length} features`;
+  featTxt.textContent = closedLabel;
   featToggle.addEventListener('click', () => {
     open = !open;
     featToggle.setAttribute('aria-expanded', String(open));
-    featToggle.querySelector('.feat-toggle-txt').textContent = open ? 'Show less' : 'Show all 48 features';
+    featTxt.textContent = open ? 'Show less' : closedLabel;
     featToggle.classList.toggle('is-open', open);
     featPanel.classList.toggle('open', open);
     if (open) {
