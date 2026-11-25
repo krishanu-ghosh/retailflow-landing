@@ -138,6 +138,28 @@ body::before {
   .nav-links a:not(.nav-cta) { display: block; padding: var(--space-md) 0; font-size: var(--text-md); border-bottom: 1px solid var(--color-rule); }
   .nav-links li:last-child { padding-top: var(--space-sm); }
   .nav-cta { width: 100%; justify-content: center; min-height: 48px; }
+  /* in the open menu, "Open app" is the main action: same brass as the hero's primary button */
+  .nav-links .nav-cta {
+    border: 0; color: var(--color-accent-ink); font-weight: 600;
+    background-color: var(--color-accent);
+    background-image: linear-gradient(180deg, oklch(86% 0.1 85), var(--color-accent) 55%, var(--color-brass-deep));
+    box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.45), 0 0 0 1px oklch(55% 0.1 70 / 0.6), 0 12px 28px -10px color-mix(in oklab, var(--color-accent) 60%, transparent);
+  }
+  .nav-links .nav-cta:hover, .nav-links .nav-cta:active { background-color: var(--color-accent); border-color: transparent; filter: brightness(1.05); }
+
+  /* menu open: dim and blur the page under the nav. A tap on the scrim lands on <body>,
+     which script.js's outside-tap handler already treats as "close the menu". */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: calc(var(--z-sticky-nav) - 1);
+    background: oklch(6% 0.01 265 / 0.55);
+    -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity var(--dur-short) var(--ease-out), visibility 0s var(--dur-short);
+  }
+  body:has(.nav.open)::after {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transition: opacity var(--dur-short) var(--ease-out), visibility 0s;
+  }
 }
 
 /* ── HERO (Stage) ────────────────────────────────────────── */
