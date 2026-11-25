@@ -448,6 +448,69 @@ hr.rule { border: none; border-top: var(--rule-hair) solid var(--color-rule); ma
 @media (max-width: 70rem) { .tiers-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .tier-card { border-top: var(--rule-hair) solid var(--color-rule); } .tier-card--highlight { border-top: none; } }
 @media (max-width: 40rem) { .tiers-grid { grid-template-columns: 1fr; } }
 
+/* ── ONE SYSTEM (one bill, posted everywhere) ───────────── */
+.post-map { display: grid; grid-template-columns: 5fr 7fr; gap: var(--space-2xl); align-items: center; }
+.post-bill { padding: var(--space-xl) var(--space-lg); max-width: 400px; width: 100%; justify-self: end; transform: rotate(-1deg); }
+.post-list { list-style: none; margin: 0; padding: 0; border-top: var(--rule-hair) solid var(--color-rule); position: relative; }
+.post-row { display: grid; grid-template-columns: 7rem 1fr; gap: var(--space-md); padding: var(--space-md) 0; border-bottom: var(--rule-hair) solid var(--color-rule); }
+.post-k { font-weight: 600; color: var(--color-accent-2); position: relative; padding-left: var(--space-md); }
+.post-k::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 6px; height: 6px; border-radius: 50%; background: var(--color-accent-2); }
+.post-v { color: var(--color-ink-2); font-size: var(--text-sm); }
+.post-note { margin: var(--space-xl) auto 0; max-width: 64ch; text-align: center; color: var(--color-muted); font-size: var(--text-sm); }
+@media (max-width: 60rem) {
+  .post-map { grid-template-columns: 1fr; gap: var(--space-xl); }
+  .post-bill { justify-self: center; transform: none; }
+}
+@media (max-width: 40rem) { .post-row { grid-template-columns: 1fr; gap: var(--space-2xs); } }
+
+/* ── BUILT FOR (ICP) ─────────────────────────────────────── */
+.icp-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-xl); }
+.icp { padding-top: var(--space-lg); border-top: 2px solid var(--color-accent-2); }
+.icp-name { font-size: var(--text-title); }
+.icp-pain { margin-top: var(--space-sm); color: var(--color-ink-2); font-size: var(--text-sm); }
+.icp-uses { list-style: none; margin: var(--space-md) 0 0; padding: 0; }
+.icp-uses li { display: flex; gap: var(--space-xs); padding: var(--space-2xs) 0; border-bottom: var(--rule-hair) solid var(--color-rule); font-size: var(--text-sm); }
+.icp-uses li:last-child { border-bottom: 0; }
+.icp-uses li::before { content: "—"; flex-shrink: 0; color: var(--color-accent-2); }
+.icp-note { margin: var(--space-2xl) auto 0; max-width: 70ch; text-align: center; color: var(--color-ink-2); font-size: var(--text-sm); }
+@media (max-width: 70rem) { .icp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 40rem) { .icp-grid { grid-template-columns: 1fr; gap: var(--space-lg); } }
+
+/* ── DEMO (interactive product proof) ────────────────────── */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+kbd { font-family: var(--font-outlier); font-size: 0.75em; padding: 0.1em 0.45em; border-radius: 4px; border: 1px solid var(--color-rule-2); background: var(--color-paper); color: var(--color-ink-2); box-shadow: inset 0 -1px 0 var(--color-rule-2); }
+.btn--primary kbd { background: transparent; color: inherit; border-color: color-mix(in oklab, currentColor 45%, transparent); box-shadow: none; }
+.demo-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-3xs); width: fit-content; max-width: 100%; margin: 0 auto var(--space-2xl); padding: var(--space-3xs); border-radius: var(--radius-stock); background: var(--color-paper-2); box-shadow: var(--press-groove); }
+html:not(.js) .demo-tabs { display: none; }
+.demo-tab { display: inline-flex; align-items: center; gap: var(--space-xs); min-height: 44px; padding: 0 var(--space-md); border: 0; border-radius: calc(var(--radius-stock) - 2px); background: transparent; color: var(--color-muted); font: 500 var(--text-sm)/1 var(--font-body); cursor: pointer; white-space: nowrap; transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out); }
+.demo-tab:hover { color: var(--color-ink); }
+.demo-tab[aria-selected="true"] { background: var(--color-paper); color: var(--color-ink); box-shadow: var(--press-groove); }
+.demo-tab:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.demo-n { font-family: var(--font-outlier); font-size: var(--text-xs); color: var(--color-accent-2); }
+.demo-panel { display: grid; grid-template-columns: 7fr 5fr; gap: var(--space-2xl); align-items: start; }
+html:not(.js) .demo-panel + .demo-panel { margin-top: var(--space-3xl); }
+.demo-stage { display: flex; justify-content: center; }
+.demo-notes p { color: var(--color-ink-2); }
+.demo-notes .checks { margin-top: var(--space-lg); }
+@media (max-width: 60rem) { .demo-panel { grid-template-columns: 1fr; gap: var(--space-xl); } }
+
+/* screenshots: desktop frame with the phone overlapping its corner */
+.demo-panel { grid-template-columns: 8fr 4fr; align-items: center; }
+.shot-pair { position: relative; margin: 0; padding: 0 0 var(--space-2xl); }
+.shot-desk { border-radius: var(--radius-card); overflow: hidden; background: var(--color-paper-2); box-shadow: 0 0 0 1px var(--color-rule), var(--cast-stock-lift); margin-right: 14%; }
+.shot-desk img, .shot-phone img { display: block; width: 100%; height: auto; }
+.shot-phone { position: absolute; right: 0; bottom: 0; width: 27%; padding: 6px; border-radius: 26px; background: var(--color-board); box-shadow: var(--cast-stock-lift); }
+.shot-phone img { border-radius: 20px; }
+@media (max-width: 60rem) { .demo-panel { grid-template-columns: 1fr; } }
+@media (max-width: 40rem) {
+  .demo-tabs { width: 100%; display: grid; grid-template-columns: 1fr; }
+  html:not(.js) .demo-tabs { display: none; }
+  /* on a phone the desktop shot is unreadable; show the phone screen on its own */
+  .shot-pair { padding: 0; }
+  .shot-desk { display: none; }
+  .shot-phone { position: static; width: min(72%, 300px); margin-inline: auto; }
+}
+
 /* ── FOOTER (mast) ───────────────────────────────────────── */
 .footer { border-top: var(--rule-hair) solid var(--color-rule); padding-block: var(--space-3xl) var(--space-2xl); }
 .footer-logo { display: inline-block; line-height: 0; }

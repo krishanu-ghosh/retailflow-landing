@@ -158,6 +158,31 @@ if (billingToggle) {
   });
 }
 
+// ── Screenshot tabs (index.html only) ───────────────────────────────────────
+// With scripting off every panel shows stacked; with it, one tab at a time.
+const demo = document.getElementById('demo');
+if (demo) {
+  const tabs = [...demo.querySelectorAll('.demo-tab')];
+  const panels = tabs.map(t => document.getElementById(t.getAttribute('aria-controls')));
+  const showTab = (i, focus) => {
+    tabs.forEach((t, j) => {
+      const on = i === j;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      panels[j].hidden = !on;
+    });
+    if (focus) tabs[i].focus();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => showTab(i));
+    t.addEventListener('keydown', (e) => {
+      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (d) { e.preventDefault(); showTab((i + d + tabs.length) % tabs.length, true); }
+    });
+  });
+  showTab(0);
+}
+
 // Scroll reveal — visible by default; only hidden once `.js` is present (see the
 // inline bootstrap script at the top of <body>), so the page is complete with
 // scripting off (gate 62).
