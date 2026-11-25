@@ -194,4 +194,13 @@ const revealIO = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.08, rootMargin: '0px 0px -10% 0px' });
-document.querySelectorAll('[data-reveal]').forEach((el) => revealIO.observe(el));
+// The hero is above the fold, so it fades in on load rather than waiting on the
+// observer: on phones .hero-copy is taller than the space left under the invoice,
+// never reaches the 8% threshold, and sat blank until the page was scrolled.
+const heroReveals = document.querySelectorAll('.hero [data-reveal]');
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  heroReveals.forEach((el) => el.classList.add('is-in'));
+}));
+document.querySelectorAll('[data-reveal]').forEach((el) => {
+  if (!el.closest('.hero')) revealIO.observe(el);
+});
